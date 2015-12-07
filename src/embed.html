@@ -1,0 +1,34 @@
+<div class="expand">
+    <tabset class="ngDialogTab tab-stacked" vertical="true">
+        <tab ng-repeat="tab in tabs">
+
+            <ul class="list-group-action">
+                <li class="list-group-item">
+                    {{tab.title}}
+                    <button class="circle btn btn-info fa fa-chevron-right fa-2x pull-right" ng-click="loadDashboard(tab.content)"></button>
+                    <span class="show-menu">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </span>
+                    <ul class="list-group-submenu">
+                        <li class="list-group-submenu-item success"><span class="glyphicon glyphicon-remove"></span></li>
+                        <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-ok"></span></li>
+                    </ul>
+                </li>
+            </ul>
+
+
+
+
+        </tab>
+
+
+        <tab ng-repeat="tab in config.content" class="btn {{tab.styleClass}}">
+            <tab-heading>{{tab.title}}</tab-heading>
+            <div ng-bind-html="tab.content"></div>
+        </tab>
+    </tabset>
+</div>
+
+
+<!-- 
+<div style="margin: 12px auto 6px auto; font-family: Helvetica,Arial,Sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; display: block;"><a href="https://casetext.com/case/wands-in-re">IN RE WANDS</a> on <a href="https://casetext.com">Casetext</a></div><div style="margin: 0 auto 12px auto; padding: 0; border: 1px solid #f8f8f8;"><iframe src="//casetext.com/case/wands-in-re?embed" width="100%" height="500px" style="border: 0; margin: 0;" frameborder=0></iframe></div> -->

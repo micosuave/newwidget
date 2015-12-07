@@ -1,0 +1,31 @@
+{
+  "name": "adf-widget-testwidget",
+  "version": "0.1.0",
+  "main": "dist/adf-widget-testwidget.js",
+  "ignore": [
+    "bower.json",
+    ".bowerrc",
+    ".jshintrc",
+    ".gitignore",
+    "gulpfile.js",
+    "node_modules",
+    "package.json",
+    "components",
+    "src"
+  ],
+  "keywords": [
+    "dashboard",
+    "widget",
+    "adf",
+    "adf-widget"
+  ],
+  "description": "just a simple test of widget generator",
+  "dependencies": {
+    "angular-dashboard-framework": "0.8.0",
+    "angular-pdf-viewer": "~0.2.8",
+    "angular-ui-router": "~0.2.15"
+  },
+  "devDependencies": {
+    "angular-local-storage": "0.1.5"
+  }
+}

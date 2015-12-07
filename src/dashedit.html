@@ -1,0 +1,57 @@
+<div class="card-fancy card-rounded card-thick">
+    <div class="card-header">
+        <button type="button" class="close" ng-click="closeDialog()" aria-hidden="true"> &times;</button>
+        <h4 class="modal-title"> Edit Page</h4> </div>
+    <div class="card card-block">
+
+
+
+        <form role="form">
+            <div class="form-group">
+                <label for="dtitle">Title</label>
+                <input type="text" ng-model="config.title" placeholder="Title">
+            </div>
+            <div class="form-group">
+                <label> Structure</label>
+                <div class="card-columns">
+                    <div class="radio card {{key}}" ng-repeat=" (key, structure) in structures ">
+                        <label>
+                            <input type="radio" value="{{key}}" ng-model="model.structure" ng-change=" changeStructure(key, structure)"> {{key}} </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group row">
+                    <label>Collapsible?</label>
+                    <input type="checkbox" ng-model="dashboard.collapsible" />
+                </div>
+
+                <div class="form-group row">
+                    <label>Maxizable?</label>
+                    <input type="checkbox" ng-model="dashboard.maximizable" />
+                </div>
+
+                <div class="form-group row">
+                    <label>Protected?</label>
+                    <input type="checkbox" ng-model="dashboard.enableConfirmDelete" />
+                </div>
+            </div>
+            <!-- <div class="form-group row">
+                <label>Collapsible?</label>
+                <input type="checkbox" ng-model="dashboard.collapsible" />
+            </div> -->
+
+            <select ng-model="dashboard.styleClass" ng-options="class.value as class.label for class in ROARCLASSES" class="form-control" placeholder="Select Style..."></select>
+        </form>
+        <adf-dashboard name="{{dashboard.title}}" structure="{{dashboard.structure}}" collapsible="{{dashboard.collapsible}}" maximizable="{{dashboard.maximizable}}" enable-confirm-delete="{{dashboard.enableConfirmDelete}}" class="{{dashboard.styleClass}}" frameless="{{dashboard.frameless}}"
+        continuous-edit-mode="false" adf-model="dashboard.model" />
+
+
+
+
+
+    </div>
+    <div class="card-footer">
+        <button type="button" class=" btn btn-primary card-link" ng-click="closeDialog()"> Close</button>
+    </div>
+</div>
