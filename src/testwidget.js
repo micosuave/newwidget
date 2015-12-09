@@ -9,7 +9,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 description: 'Prototype LLP Platform App',
                 controller: 'PhdTocWidgetCtrl',
                 templateUrl: '{widgetsPath}/testwidget/src/view.html',
-                frameless: false,
+                frameless: true,
                 reload: true,
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/edit.html',
@@ -25,7 +25,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
                     $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
                 }],
-                frameless: false,
+                frameless: true,
                 edit: {
                     template: '<div class="card"><label for="content">Enter embed code</label><textarea name="content" class="form-control" ng-model="config.content"></textarea></div>',
                     immediate: true,
@@ -34,7 +34,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             }).widget('dash', {
                 title: 'board',
                 template: ' <adf-dashboard name="{{dashboard.title}}" structure="{{dashboard.structure}}" collapsible="{{dashboard.collapsible}}" maximizable="{{dashboard.maximizable}}" enable-confirm-delete="{{dashboard.enableConfirmDelete}}" class="{{dashboard.styleClass}}" frameless="{{dashboard.frameless}}" title-template-url="{{dashboard.titleTemplateUrl}}" continuous-edit-mode="false" adf-model="dashboard.model" />',
-                frameless: false,
+                frameless: true,
                 reload: false,
                 styleClass: 'info panel panel-info',
                 controller: ['config', '$firebaseObject', 'FIREBASE_URL', '$scope', function(config, $firebaseObject, FIREBASE_URL, $scope) {
@@ -94,7 +94,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
                 }],
                 styleClass: 'success card card-success',
-                frameless: false,
+                frameless: true,
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/editembed.html',
                     controller: ['config', '$scope', 'ROARCLASSES', function(config, $scope, ROARCLASSES) {
