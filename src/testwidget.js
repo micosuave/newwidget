@@ -232,34 +232,40 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //$scope.notecards = notes;
             var blanksection = {
                 title: 'Section Title',
-                content: 'Section content',
-                children: new Array()
+                content: 'Section content'
+               
             };
             $scope.newtopsection = function() {
                 if (angular.isUndefined(draft.content)) {
-                    var sections = new Array();
+                    var sections = [];
                     angular.extend(draft, {
                         content: sections
                     });
                     draft.content.push(blanksection);
-                    draft.$save();
+                    //draft.$save();
                 } else {
                     draft.content.push(blanksection);
-                    draft.$save();
+                    //draft.$save();
                 }
             };
             $scope.newsubsection = function(section) {
-                var model = section.$nodeScope.$modelValue;
+              var model = section.$nodeScope.$modelValue;
+              debugger;
                 if (angular.isUndefined(model.children)) {
-                    var sections = new Array();
+                    var sections = [];
+                    debugger;
                     angular.extend(model, {
                         children: sections
+                        
                     });
+                    debugger;
                     model.children.push(blanksection);
-                    draft.$save();
+                    debugger;
+                    //draft.$save();
                 } else {
                     model.children.push(blanksection);
-                    draft.$save();
+                    debugger;
+                    //draft.$save();
                 }
             };
             $scope.editcard = function($scope) {
