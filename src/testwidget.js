@@ -230,10 +230,13 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //draft.$bindTo($scope, 'draft');
             //var notes = ROARsnippets(matterId);
             //$scope.notecards = notes;
-            var blanksection = {
-                title: 'Section Title',
-                content: 'Section content'
-               
+            
+
+            var Section = function(){
+              var section = this;
+                section.title = 'Section Title';
+                section.content = 'Section content';
+               return section;
             };
             $scope.newtopsection = function() {
                 if (angular.isUndefined(draft.content)) {
@@ -241,10 +244,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     angular.extend(draft, {
                         content: sections
                     });
-                    draft.content.push(blanksection);
+                    draft.content.push(new Section());
                     //draft.$save();
                 } else {
-                    draft.content.push(blanksection);
+                    draft.content.push(new Section());
                     //draft.$save();
                 }
             };
@@ -259,11 +262,11 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         
                     });
                     debugger;
-                    model.children.push(blanksection);
+                    model.children.push(new Section());
                     debugger;
                     //draft.$save();
                 } else {
-                    model.children.push(blanksection);
+                    model.children.push(new Section());
                     debugger;
                     //draft.$save();
                 }
