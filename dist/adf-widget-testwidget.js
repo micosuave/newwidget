@@ -17,7 +17,42 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     modalSize: 'lg',
                     controller: 'PhdTocWidgetCtrl',
                     reload: true
-                }
+                },
+                resolve: {
+                    config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL",
+                      function (config, $firebaseArray, $rootScope, FIREBASE_URL) {
+                        if (config.id) {
+                          return config;
+                        } else {
+                          var a = $firebaseArray(new Firebase(FIREBASE_URL + 'content/'));
+                          var b = {};
+                          a.$add({
+                            'name': 'draft'
+                          }).then(function (ref) {
+                            var id = ref.key();
+                            ref.update({
+                              id: id,
+                              //projectid: $rootScope.$stateParams.pId || 'projectid',
+                              //matterId: $rootScope.$stateParams.matterId || 'matterId',
+                              //groupId: $rootScope.$stateParams.groupId || 'groupId',
+                              //author: $rootScope.authData.uid || 'userid',
+                              ispublished: false,
+                              content_type: 'document',
+                              templateUrl: '{widgetsPath}/getphd/src/view.html',
+                              timestamp: Firebase.ServerValue.TIMESTAMP
+                            });
+                            config.id = id;
+                            
+
+                            return config;
+                          });
+                          return config;
+
+
+                        }
+                      }
+                    ]
+                  }
             }).widget('uiView', {
                 title: 'EmbedViewer',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
@@ -237,4 +272,4 @@ $templateCache.put("{widgetsPath}/testwidget/src/editembed.html","<div class=car
 $templateCache.put("{widgetsPath}/testwidget/src/embed.html","<div class=expand><tabset class=\"ngDialogTab tab-stacked\" vertical=true><tab ng-repeat=\"tab in tabs\"><ul class=list-group-action><li class=list-group-item>{{tab.title}} <button class=\"circle btn btn-info fa fa-chevron-right fa-2x pull-right\" ng-click=loadDashboard(tab.content)></button> <span class=show-menu><span class=\"glyphicon glyphicon-chevron-right\"></span></span><ul class=list-group-submenu><li class=\"list-group-submenu-item success\"><span class=\"glyphicon glyphicon-remove\"></span></li><li class=\"list-group-submenu-item danger\"><span class=\"glyphicon glyphicon-ok\"></span></li></ul></li></ul></tab><tab ng-repeat=\"tab in config.content\" class=\"btn {{tab.styleClass}}\"><tab-heading>{{tab.title}}</tab-heading><div ng-bind-html=tab.content></div></tab></tabset></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/sidebar.html","<div class={{config.styleClass}} ng-controller=\"EmbedCtrl as em\"><tabset class=\"{{config.styleClass || \'alert alert-danger\'}}\"></tabset></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/title.html","<h3 class=card-title><a title=\"toggle widget frame\" ng-click=\"frameless = !frameless\"><i class=\"fa fa-ge\" ng-class=\"{\'fa-ge\': (frameless == true),\'fa-alert\':(frameless == false)}\"></i></a> {{title}} <span class=pull-right><a title=\"reload widget content\" ng-if=widget.reload ng-click=reload()><i class=\"fa fa-refresh\"></i></a> <a title=\"change widget location\" class=adf-move ng-if=editMode><i class=\"glyphicon glyphicon-move\"></i></a> <a title=\"collapse widget\" ng-show=\"options.collapsible && !widgetState.isCollapsed\" ng-click=\"widgetState.isCollapsed = !widgetState.isCollapsed\"><i class=\"glyphicon glyphicon-minus\"></i></a> <a title=\"expand widget\" ng-show=\"options.collapsible && widgetState.isCollapsed\" ng-click=\"widgetState.isCollapsed = !widgetState.isCollapsed\"><i class=\"glyphicon glyphicon-plus\"></i></a> <a title=\"edit widget configuration\" ng-click=edit() ng-if=editMode><i class=\"glyphicon glyphicon-cog\"></i></a> <a title=\"fullscreen widget\" ng-click=openFullScreen() ng-show=options.maximizable><i class=\"glyphicon glyphicon-fullscreen\"></i></a> <a title=\"remove widget\" ng-click=remove() ng-if=editMode><i class=\"glyphicon glyphicon-remove\"></i></a></span></h3>");
-$templateCache.put("{widgetsPath}/testwidget/src/view.html","<div ng-include=\"\'llp_core/modules/lionlawlabs/partial/drafter/drafter.html\'\" style=min-height:350px;></div><iframe src=/upload ,style=\"border:0px inset #444;padding:2px;box-shadow:inset 0 0 25px rgba(0,0,0,0.5);height:75px;\"></iframe>");}]);})(window);
+$templateCache.put("{widgetsPath}/testwidget/src/view.html","<div class=\"panel flex-item\" style=\"margin: 0.5rem;padding: 0.2rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;\" ffbase={{config.id}}><textarea id=iframeElement ckeditor=ckdefault ng-model=item.digest ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 1000, \'blur\': 0} }\"></textarea></div>");}]);})(window);

@@ -16,7 +16,42 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     modalSize: 'lg',
                     controller: 'PhdTocWidgetCtrl',
                     reload: true
-                }
+                },
+                resolve: {
+                    config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL",
+                      function (config, $firebaseArray, $rootScope, FIREBASE_URL) {
+                        if (config.id) {
+                          return config;
+                        } else {
+                          var a = $firebaseArray(new Firebase(FIREBASE_URL + 'content/'));
+                          var b = {};
+                          a.$add({
+                            'name': 'draft'
+                          }).then(function (ref) {
+                            var id = ref.key();
+                            ref.update({
+                              id: id,
+                              //projectid: $rootScope.$stateParams.pId || 'projectid',
+                              //matterId: $rootScope.$stateParams.matterId || 'matterId',
+                              //groupId: $rootScope.$stateParams.groupId || 'groupId',
+                              //author: $rootScope.authData.uid || 'userid',
+                              ispublished: false,
+                              content_type: 'document',
+                              templateUrl: '{widgetsPath}/getphd/src/view.html',
+                              timestamp: Firebase.ServerValue.TIMESTAMP
+                            });
+                            config.id = id;
+                            
+
+                            return config;
+                          });
+                          return config;
+
+
+                        }
+                      }
+                    ]
+                  }
             }).widget('uiView', {
                 title: 'EmbedViewer',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',

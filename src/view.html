@@ -1,2 +1,7 @@
-<div ng-include="'llp_core/modules/lionlawlabs/partial/drafter/drafter.html'" style="min-height:350px;"></div>
- <iframe src='/upload',style='border:0px inset #444;padding:2px;box-shadow:inset 0 0 25px rgba(0,0,0,0.5);height:75px;'></iframe> 
+<div class="panel flex-item" style="margin: 0.5rem;padding: 0.2rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;" ffbase="{{config.id}}">
+                            <!-- <textarea ui-tinymce="tinyMceOptions" mentio mentio-typed-text="typedTerm" 
+                            mentio-items="simplePeople | filter:label:typedTerm" ng-model='foo'
+                            mentio-iframe-element="iframeElement"></textarea> -->
+                            <textarea id="iframeElement" ckeditor="ckdefault" ng-model="item.digest" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"></textarea>
+
+                        </div>
