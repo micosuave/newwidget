@@ -5,6 +5,6 @@
                             <textarea id="iframeElement" ckeditor="ckdefault" ng-model="item.digest" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"></textarea>
 
                         </div>
-<div class="card" >
+
   <iframe srcdoc="{{item.digest | trustAsHTML}}" style="width:100%;" class="card card-rounded"></iframe>
-</div>
+  <ng-annotate-text text="item.digest" class="card card-rounded"></ng-annotate-text>
