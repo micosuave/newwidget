@@ -151,117 +151,118 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
             });
 
-    }]).controller('PhdTocWidgetCtrl', ["$scope", "config", "$stateParams", "PROJECT", "PROJECTDRAFTS", "PROJECTDRAFT", "ngDialog",
-        function($scope, config, $stateParams, PROJECT, PROJECTDRAFTS, PROJECTDRAFT, ngDialog) {
+    }]).controller('PhdTocWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin",
+        function($scope, config, ckdefault, ckmin) {
             $scope.size = 'lg';
 
-            if (!config.draftid) {
-                config.draftid = '';
-            } else {
-                var draft = PROJECTDRAFT(config.draftid);
-                $scope.draft = draft;
-            }
+            // if (!config.draftid) {
+            //     config.draftid = '';
+            // } else {
+            //     var draft = PROJECTDRAFT(config.draftid);
+            //     $scope.draft = draft;
+            // }
             $scope.config = config;
+            $scope.ckdefault = ckdefault;
+            $scope.ckmin = ckmin;
+            // $scope.configured = function() {
+            //     return $scope.config.content !== '';
+            // };
 
-            $scope.configured = function() {
-                return $scope.config.content !== '';
-            };
+            // $scope.notConfigured = function() {
+            //     return $scope.config.content === '';
+            // };
+            // var projectId = $stateParams.pId;
 
-            $scope.notConfigured = function() {
-                return $scope.config.content === '';
-            };
-            var projectId = $stateParams.pId;
+            // var matterId = $stateParams.matterId;
+            // var project = PROJECT(projectId);
+            // $scope.project = project;
+            // var drafts = PROJECTDRAFTS(projectId);
+            // $scope.drafts = drafts;
 
-            var matterId = $stateParams.matterId;
-            var project = PROJECT(projectId);
-            $scope.project = project;
-            var drafts = PROJECTDRAFTS(projectId);
-            $scope.drafts = drafts;
-
-            $scope.loaddraft = function(draftId) {
-                var draft = PROJECTDRAFT(draftId);
-                $scope.draft = draft;
-            };
-
-
-            //draft.$bindTo($scope, 'draft');
-            //var notes = ROARsnippets(matterId);
-            //$scope.notecards = notes;
-            var blanksection = {
-                title: 'Section Title',
-                content: 'Section content',
-                children: new Array()
-            };
-            $scope.newtopsection = function() {
-                if (angular.isUndefined(draft.content)) {
-                    var sections = new Array();
-                    angular.extend(draft, {
-                        content: sections
-                    });
-                    draft.content.push(blanksection);
-                    draft.$save();
-                } else {
-                    draft.content.push(blanksection);
-                    draft.$save();
-                }
-            };
-            $scope.newsubsection = function(section) {
-                var model = section.$nodeScope.$modelValue;
-                if (angular.isUndefined(model.children)) {
-                    var sections = new Array();
-                    angular.extend(model, {
-                        children: sections
-                    });
-                    model.children.push(blanksection);
-                    draft.$save();
-                } else {
-                    model.children.push(blanksection);
-                    draft.$save();
-                }
-            };
-            $scope.editcard = function($scope) {
-                var model = $scope.$nodeScope.$modelValue;
-                model.isActive = true;
-                draft.$save();
-                ngDialog.open({
-                    template: 'sectionedit.html',
-                    scope: $scope,
-                    controller: 'PhdTocWidgetCtrl',
-                    appendTo: '#tableofcontents',
-                    //plain: true,
-                    showClose: false,
-                    closeByEscape: true,
-                    closeByDocument: true,
-                    className: 'ngdialog-theme-card',
-                    overlay: false
+            // $scope.loaddraft = function(draftId) {
+            //     var draft = PROJECTDRAFT(draftId);
+            //     $scope.draft = draft;
+            // };
 
 
-                });
+            // //draft.$bindTo($scope, 'draft');
+            // //var notes = ROARsnippets(matterId);
+            // //$scope.notecards = notes;
+            // var blanksection = {
+            //     title: 'Section Title',
+            //     content: 'Section content',
+            //     children: new Array()
+            // };
+            // $scope.newtopsection = function() {
+            //     if (angular.isUndefined(draft.content)) {
+            //         var sections = new Array();
+            //         angular.extend(draft, {
+            //             content: sections
+            //         });
+            //         draft.content.push(blanksection);
+            //         draft.$save();
+            //     } else {
+            //         draft.content.push(blanksection);
+            //         draft.$save();
+            //     }
+            // };
+            // $scope.newsubsection = function(section) {
+            //     var model = section.$nodeScope.$modelValue;
+            //     if (angular.isUndefined(model.children)) {
+            //         var sections = new Array();
+            //         angular.extend(model, {
+            //             children: sections
+            //         });
+            //         model.children.push(blanksection);
+            //         draft.$save();
+            //     } else {
+            //         model.children.push(blanksection);
+            //         draft.$save();
+            //     }
+            // };
+            // $scope.editcard = function($scope) {
+            //     var model = $scope.$nodeScope.$modelValue;
+            //     model.isActive = true;
+            //     draft.$save();
+            //     ngDialog.open({
+            //         template: 'sectionedit.html',
+            //         scope: $scope,
+            //         controller: 'PhdTocWidgetCtrl',
+            //         appendTo: '#tableofcontents',
+            //         //plain: true,
+            //         showClose: false,
+            //         closeByEscape: true,
+            //         closeByDocument: true,
+            //         className: 'ngdialog-theme-card',
+            //         overlay: false
 
-            };
-            $scope.deactivate = function($scope) {
-                $scope.$nodeScope.$modelValue.section.isActive = false;
-                draft.$save();
-                alertify.log("<img src='img/lexlab.svg'>");
-            };
-            $scope.savedraft = function($scope) {
-                $scope.$nodeScope.$modelValue.section.isActive = false;
-                draft.$save();
-                alertify.log("<img src='img/lexlab.svg'>");
-            };
-            var contentarray = new Array();
-            var newdrafttpl = {
-                name: 'New Draft',
-                content: contentarray
-            };
-            $scope.newdraft = function() {
-                projectdrafts.$add(newdrafttpl).then(function(ref) {
-                    var id = ref.key();
-                    ref.update({
-                        id: id
-                    });
-                });
-            };
+
+            //     });
+
+            // };
+            // $scope.deactivate = function($scope) {
+            //     $scope.$nodeScope.$modelValue.section.isActive = false;
+            //     draft.$save();
+            //     alertify.log("<img src='img/lexlab.svg'>");
+            // };
+            // $scope.savedraft = function($scope) {
+            //     $scope.$nodeScope.$modelValue.section.isActive = false;
+            //     draft.$save();
+            //     alertify.log("<img src='img/lexlab.svg'>");
+            // };
+            // var contentarray = new Array();
+            // var newdrafttpl = {
+            //     name: 'New Draft',
+            //     content: contentarray
+            // };
+            // $scope.newdraft = function() {
+            //     projectdrafts.$add(newdrafttpl).then(function(ref) {
+            //         var id = ref.key();
+            //         ref.update({
+            //             id: id
+            //         });
+            //     });
+            // };
         }
     ]);
 
@@ -272,4 +273,4 @@ $templateCache.put("{widgetsPath}/testwidget/src/editembed.html","<div class=car
 $templateCache.put("{widgetsPath}/testwidget/src/embed.html","<div class=expand><tabset class=\"ngDialogTab tab-stacked\" vertical=true><tab ng-repeat=\"tab in tabs\"><ul class=list-group-action><li class=list-group-item>{{tab.title}} <button class=\"circle btn btn-info fa fa-chevron-right fa-2x pull-right\" ng-click=loadDashboard(tab.content)></button> <span class=show-menu><span class=\"glyphicon glyphicon-chevron-right\"></span></span><ul class=list-group-submenu><li class=\"list-group-submenu-item success\"><span class=\"glyphicon glyphicon-remove\"></span></li><li class=\"list-group-submenu-item danger\"><span class=\"glyphicon glyphicon-ok\"></span></li></ul></li></ul></tab><tab ng-repeat=\"tab in config.content\" class=\"btn {{tab.styleClass}}\"><tab-heading>{{tab.title}}</tab-heading><div ng-bind-html=tab.content></div></tab></tabset></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/sidebar.html","<div class={{config.styleClass}} ng-controller=\"EmbedCtrl as em\"><tabset class=\"{{config.styleClass || \'alert alert-danger\'}}\"></tabset></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/title.html","<h3 class=card-title><a title=\"toggle widget frame\" ng-click=\"frameless = !frameless\"><i class=\"fa fa-ge\" ng-class=\"{\'fa-ge\': (frameless == true),\'fa-alert\':(frameless == false)}\"></i></a> {{title}} <span class=pull-right><a title=\"reload widget content\" ng-if=widget.reload ng-click=reload()><i class=\"fa fa-refresh\"></i></a> <a title=\"change widget location\" class=adf-move ng-if=editMode><i class=\"glyphicon glyphicon-move\"></i></a> <a title=\"collapse widget\" ng-show=\"options.collapsible && !widgetState.isCollapsed\" ng-click=\"widgetState.isCollapsed = !widgetState.isCollapsed\"><i class=\"glyphicon glyphicon-minus\"></i></a> <a title=\"expand widget\" ng-show=\"options.collapsible && widgetState.isCollapsed\" ng-click=\"widgetState.isCollapsed = !widgetState.isCollapsed\"><i class=\"glyphicon glyphicon-plus\"></i></a> <a title=\"edit widget configuration\" ng-click=edit() ng-if=editMode><i class=\"glyphicon glyphicon-cog\"></i></a> <a title=\"fullscreen widget\" ng-click=openFullScreen() ng-show=options.maximizable><i class=\"glyphicon glyphicon-fullscreen\"></i></a> <a title=\"remove widget\" ng-click=remove() ng-if=editMode><i class=\"glyphicon glyphicon-remove\"></i></a></span></h3>");
-$templateCache.put("{widgetsPath}/testwidget/src/view.html","<div class=\"panel flex-item\" style=\"margin: 0.5rem;padding: 0.2rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;\" ffbase={{config.id}}><textarea id=iframeElement ckeditor=ckdefault ng-model=item.digest ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 1000, \'blur\': 0} }\"></textarea></div>");}]);})(window);
+$templateCache.put("{widgetsPath}/testwidget/src/view.html","<div class=card style=\"margin: 0.5rem;padding: 0.2rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;\" ffbase={{config.id}}><textarea id=iframeElement ckeditor=ckdefault ng-model=item.digest ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 1000, \'blur\': 0} }\"></textarea></div><div class=card ffbase={{config.id}}><iframe srcdoc=\"{{item.digest | trustAsHTML}}\"></iframe></div>");}]);})(window);
