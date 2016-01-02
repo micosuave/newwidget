@@ -1,5 +1,33 @@
 (function(window, undefined) {'use strict';
 
+angular.module('adf.widget.iframe', ['adf.provider'])
+  .config(["dashboardProvider", function(dashboardProvider){
+    dashboardProvider
+      .widget('iframe', {
+        title: 'iframe',
+        description: 'Embed an external page into the dashboard',
+        templateUrl: '{widgetsPath}/iframe/src/view.html',
+        controller: 'iframeController',
+        controllerAs: 'iframe',
+        frameless: true,
+        edit: {
+          templateUrl: '{widgetsPath}/iframe/src/edit.html'
+        },
+        config: {
+          height: '420px'
+        }
+      });
+  }])
+  .controller('iframeController', ["$sce", "config", function($sce, config){
+    if (config.url){
+      this.url = $sce.trustAsResourceUrl(config.url);
+    }
+  }]);
+
+angular.module("adf.widget.iframe").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/iframe/src/edit.html","<form role=form><div class=form-group><label for=url>URL</label> <input type=url class=form-control id=url ng-model=config.url placeholder=http://www.example.com></div><div class=form-group><label for=url>Height</label> <input type=text class=form-control id=url ng-model=config.height></div></form>");
+$templateCache.put("{widgetsPath}/iframe/src/view.html","<div><div class=\"alert alert-info\" ng-if=!config.url>Please insert a url in the widget configuration</div><iframe ng-if=iframe.url class=adf-iframe style=\"height: {{config.height}};width:100%;\" src={{iframe.url}}></iframe></div>");}]);
+
+
 
 angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.tree', 'ui.router', 'ngDialog'])
     .config(["dashboardProvider", function(dashboardProvider) {
@@ -151,8 +179,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
             });
 
-    }]).controller('PhdTocWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin",
-        function($scope, config, ckdefault, ckmin) {
+    }]).controller('PhdTocWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin","Collection","$controller","$rootScope",
+        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope) {
             $scope.size = 'lg';
 
             // if (!config.draftid) {
@@ -161,9 +189,24 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //     var draft = PROJECTDRAFT(config.draftid);
             //     $scope.draft = draft;
             // }
+            
             $scope.config = config;
             $scope.ckdefault = ckdefault;
             $scope.ckmin = ckmin;
+            var pj = {
+              editable: editable()
+            };
+            function editable() {
+              if ($rootScope.$state.includes('projectdashboard')) {
+                return true;
+              }
+              if ($rootScope.$state.includes('roartheatre')) {
+                return false;
+              }
+            };
+            $scope.pj = pj;
+            var item = Collection(config.id);
+            item.$bindTo($scope, 'item');
             // $scope.configured = function() {
             //     return $scope.config.content !== '';
             // };
@@ -273,4 +316,4 @@ $templateCache.put("{widgetsPath}/testwidget/src/editembed.html","<div class=car
 $templateCache.put("{widgetsPath}/testwidget/src/embed.html","<div class=expand><tabset class=\"ngDialogTab tab-stacked\" vertical=true><tab ng-repeat=\"tab in tabs\"><ul class=list-group-action><li class=list-group-item>{{tab.title}} <button class=\"circle btn btn-info fa fa-chevron-right fa-2x pull-right\" ng-click=loadDashboard(tab.content)></button> <span class=show-menu><span class=\"glyphicon glyphicon-chevron-right\"></span></span><ul class=list-group-submenu><li class=\"list-group-submenu-item success\"><span class=\"glyphicon glyphicon-remove\"></span></li><li class=\"list-group-submenu-item danger\"><span class=\"glyphicon glyphicon-ok\"></span></li></ul></li></ul></tab><tab ng-repeat=\"tab in config.content\" class=\"btn {{tab.styleClass}}\"><tab-heading>{{tab.title}}</tab-heading><div ng-bind-html=tab.content></div></tab></tabset></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/sidebar.html","<div class={{config.styleClass}} ng-controller=\"EmbedCtrl as em\"><tabset class=\"{{config.styleClass || \'alert alert-danger\'}}\"></tabset></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/title.html","<h3 class=card-title><a title=\"toggle widget frame\" ng-click=\"frameless = !frameless\"><i class=\"fa fa-ge\" ng-class=\"{\'fa-ge\': (frameless == true),\'fa-alert\':(frameless == false)}\"></i></a> {{title}} <span class=pull-right><a title=\"reload widget content\" ng-if=widget.reload ng-click=reload()><i class=\"fa fa-refresh\"></i></a> <a title=\"change widget location\" class=adf-move ng-if=editMode><i class=\"glyphicon glyphicon-move\"></i></a> <a title=\"collapse widget\" ng-show=\"options.collapsible && !widgetState.isCollapsed\" ng-click=\"widgetState.isCollapsed = !widgetState.isCollapsed\"><i class=\"glyphicon glyphicon-minus\"></i></a> <a title=\"expand widget\" ng-show=\"options.collapsible && widgetState.isCollapsed\" ng-click=\"widgetState.isCollapsed = !widgetState.isCollapsed\"><i class=\"glyphicon glyphicon-plus\"></i></a> <a title=\"edit widget configuration\" ng-click=edit() ng-if=editMode><i class=\"glyphicon glyphicon-cog\"></i></a> <a title=\"fullscreen widget\" ng-click=openFullScreen() ng-show=options.maximizable><i class=\"glyphicon glyphicon-fullscreen\"></i></a> <a title=\"remove widget\" ng-click=remove() ng-if=editMode><i class=\"glyphicon glyphicon-remove\"></i></a></span></h3>");
-$templateCache.put("{widgetsPath}/testwidget/src/view.html","<div class=card style=\"margin: 0.5rem;padding: 0.2rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;\" ffbase={{config.id}}><textarea id=iframeElement ckeditor=ckdefault ng-model=item.digest ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 1000, \'blur\': 0} }\"></textarea></div><div class=card ffbase={{config.id}}><iframe srcdoc=\"{{item.digest | trustAsHTML}}\"></iframe></div>");}]);})(window);
+$templateCache.put("{widgetsPath}/testwidget/src/view.html","<div class=card style=\"margin: 0.5rem;padding: 0.2rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;\" ng-if=pj.editable><textarea id=iframeElement ckeditor=ckdefault ng-model=item.digest ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 1000, \'blur\': 0} }\"></textarea></div><div class=card><iframe srcdoc=\"{{item.digest | trustAsHTML}}\" style=width:100%; class=\"card card-rounded\"></iframe></div>");}]);})(window);
