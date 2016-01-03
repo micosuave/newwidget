@@ -24,14 +24,14 @@ angular.module('adf.widget.iframe', ['adf.provider'])
   }]);
 
 angular.module("adf.widget.iframe").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/iframe/src/edit.html","<form role=form><div class=form-group><label for=url>URL</label> <input type=url class=form-control id=url ng-model=config.url placeholder=http://www.example.com></div><div class=form-group><label for=url>Height</label> <input type=text class=form-control id=url ng-model=config.height></div></form>");
-$templateCache.put("{widgetsPath}/iframe/src/view.html","<div class=\"expand\"><div class=\"alert alert-info\" ng-if=!config.url>Please insert a url in the widget configuration</div><iframe ng-if=iframe.url class=\"adf-iframe expand\" style=\"min-height:500px;height: {{config.height}};width:100%;\" src={{iframe.url}} seamless allowfullscreen></iframe></div>");}]);
+$templateCache.put("{widgetsPath}/iframe/src/view.html","<div><div class=\"alert alert-info\" ng-if=!config.url>Please insert a url in the widget configuration</div><iframe ng-if=iframe.url class=\"adf-iframe\" style=\"min-height:500px;height: {{config.height}};width:100%;\" src={{iframe.url}} seamless allowfullscreen></iframe></div>");}]);
 
 
 
 angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.tree', 'ui.router', 'ngDialog'])
     .config(function(dashboardProvider) {
         dashboardProvider
-            .widget('testwidget', {
+            .widget('tocwidget', {
                 title: 'PhD-ToC-Widget',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'Prototype LLP Platform App',
@@ -43,6 +43,55 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     templateUrl: '{widgetsPath}/testwidget/src/edit.html',
                     modalSize: 'lg',
                     controller: 'PhdTocWidgetCtrl',
+                    reload: true
+                },
+                resolve: {
+                    config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL",
+                      function (config, $firebaseArray, $rootScope, FIREBASE_URL) {
+                        if (config.id) {
+                          return config;
+                        } else {
+                          var a = $firebaseArray(new Firebase(FIREBASE_URL + 'content/'));
+                          var b = {};
+                          a.$add({
+                            'name': 'draft'
+                          }).then(function (ref) {
+                            var id = ref.key();
+                            ref.update({
+                              id: id,
+                              //projectid: $rootScope.$stateParams.pId || 'projectid',
+                              //matterId: $rootScope.$stateParams.matterId || 'matterId',
+                              //groupId: $rootScope.$stateParams.groupId || 'groupId',
+                              //author: $rootScope.authData.uid || 'userid',
+                              ispublished: false,
+                              content_type: 'document',
+                              templateUrl: '{widgetsPath}/getphd/src/view.html',
+                              timestamp: Firebase.ServerValue.TIMESTAMP
+                            });
+                            config.id = id;
+                            
+
+                            return config;
+                          });
+                          return config;
+
+
+                        }
+                      }
+                    ]
+                  }
+            }).widget('ckwidget', {
+                title: 'CKeditor-Widget',
+                titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
+                description: 'CKeditor text editor',
+                controller: 'CKEWidgetCtrl',
+                templateUrl: '{widgetsPath}/testwidget/src/ckeditor.html',
+                frameless: true,
+                reload: true,
+                edit: {
+                    templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
+                    modalSize: 'lg',
+                    controller: 'CKEWidgetCtrl',
                     reload: true
                 },
                 resolve: {
@@ -253,21 +302,158 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             };
             $scope.newsubsection = function(section) {
               var model = section.$nodeScope.$modelValue;
-              debugger;
+            
                 if (angular.isUndefined(model.children)) {
                     var sections = [];
-                    debugger;
+                   
                     angular.extend(model, {
                         children: sections
                         
                     });
-                    debugger;
+                   
                     model.children.push(new Section());
-                    debugger;
+                 
                     //draft.$save();
                 } else {
                     model.children.push(new Section());
-                    debugger;
+                   
+                    //draft.$save();
+                }
+            };
+            $scope.editcard = function($scope) {
+                var model = $scope.$nodeScope.$modelValue;
+                model.isActive = true;
+                draft.$save();
+                ngDialog.open({
+                    template: 'sectionedit.html',
+                    scope: $scope,
+                    controller: 'PhdTocWidgetCtrl',
+                    appendTo: '#tableofcontents',
+                    //plain: true,
+                    showClose: false,
+                    closeByEscape: true,
+                    closeByDocument: true,
+                    className: 'ngdialog-theme-card',
+                    overlay: false
+
+
+                });
+
+            };
+            $scope.deactivate = function($scope) {
+                $scope.$nodeScope.$modelValue.section.isActive = false;
+                draft.$save();
+                alertify.log("<img src='img/lexlab.svg'>");
+            };
+            $scope.savedraft = function($scope) {
+                $scope.$nodeScope.$modelValue.section.isActive = false;
+                draft.$save();
+                alertify.log("<img src='img/lexlab.svg'>");
+            };
+            var contentarray = new Array();
+            var newdrafttpl = {
+                name: 'New Draft',
+                content: contentarray
+            };
+            $scope.newdraft = function() {
+                projectdrafts.$add(newdrafttpl).then(function(ref) {
+                    var id = ref.key();
+                    ref.update({
+                        id: id
+                    });
+                });
+            };
+        }
+    ]).controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin","Collection","$controller","$rootScope",
+        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope) {
+            $scope.size = 'lg';
+
+            // if (!config.draftid) {
+            //     config.draftid = '';
+            // } else {
+            //     var draft = PROJECTDRAFT(config.draftid);
+            //     $scope.draft = draft;
+            // }
+            
+            $scope.config = config;
+            $scope.ckdefault = ckdefault;
+            $scope.ckmin = ckmin;
+            var pj = {
+              editable: editable()
+            };
+            function editable() {
+              if ($rootScope.$state.includes('projectdashboard')) {
+                return true;
+              }
+              if ($rootScope.$state.includes('roartheatre')) {
+                return false;
+              }
+            };
+            $scope.pj = pj;
+            var draft = Collection(config.id);
+            draft.$bindTo($scope, 'draft');
+            // $scope.configured = function() {
+            //     return $scope.config.content !== '';
+            // };
+
+            // $scope.notConfigured = function() {
+            //     return $scope.config.content === '';
+            // };
+            // var projectId = $stateParams.pId;
+
+            // var matterId = $stateParams.matterId;
+            // var project = PROJECT(projectId);
+            // $scope.project = project;
+            // var drafts = PROJECTDRAFTS(projectId);
+            // $scope.drafts = drafts;
+
+            // $scope.loaddraft = function(draftId) {
+            //     var draft = PROJECTDRAFT(draftId);
+            //     $scope.draft = draft;
+            // };
+
+
+            //draft.$bindTo($scope, 'draft');
+            //var notes = ROARsnippets(matterId);
+            //$scope.notecards = notes;
+            
+
+            var Section = function(){
+              var section = this;
+                section.title = 'Section Title';
+                section.content = 'Section content';
+               return section;
+            };
+            $scope.newtopsection = function() {
+                if (angular.isUndefined(draft.content)) {
+                    var sections = [];
+                    angular.extend(draft, {
+                        content: sections
+                    });
+                    draft.content.push(new Section());
+                    //draft.$save();
+                } else {
+                    draft.content.push(new Section());
+                    //draft.$save();
+                }
+            };
+            $scope.newsubsection = function(section) {
+              var model = section.$nodeScope.$modelValue;
+            
+                if (angular.isUndefined(model.children)) {
+                    var sections = [];
+                   
+                    angular.extend(model, {
+                        children: sections
+                        
+                    });
+                   
+                    model.children.push(new Section());
+                 
+                    //draft.$save();
+                } else {
+                    model.children.push(new Section());
+                   
                     //draft.$save();
                 }
             };

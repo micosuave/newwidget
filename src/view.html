@@ -1,13 +1,4 @@
-<div class="card" style="margin: 0.5rem;padding: 0.2rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;" ng-if="pj.editable">
-                            <!-- <textarea ui-tinymce="tinyMceOptions" mentio mentio-typed-text="typedTerm" 
-                            mentio-items="simplePeople | filter:label:typedTerm" ng-model='foo'
-                            mentio-iframe-element="iframeElement"></textarea> -->
-                            <textarea id="iframeElement" ckeditor="ckdefault" ng-model="item.digest" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"></textarea>
 
-                        </div>
-
-  <iframe srcdoc="{{item.digest | trustAsHTML}}" style="width:100%;" class="card card-rounded"></iframe>
-  <ng-annotate-text text="item.digest" class="card card-rounded"></ng-annotate-text>
   <div id="tableofcontents" class="card card-default">
                 <div class="card-header">
                     <h4 class="card-title" e-form="nameform" editable-text="draft.name" buttons="no" onaftersave="draft.$save();">{{draft.name}}<span class="fa fa-edit showonhover" ng-click="nameform.$show()"></span><small class="pull-right"><button class="fa fa-send btn btn-success" ng-click="publish(draft)"></button></small> <small class="pull-right"><button class="fa fa-plus btn btn-warning" ng-click="newtopsection()"></button><button id="nav-toggle" title="Show Navigation" class="fa fa-download btn btn-info " ng-click="showNav = !showNav"></button></small></h4>
@@ -24,10 +15,10 @@
             <script type="text/ng-template" id="nodes_renderer1.html">
     <div ui-tree-handle class="tree-node tree-node-content">
         <div class="tree-node-content row" style="position:relative;">
-            <button class="btn btn-success btn-xs " data-nodrag ng-click="toggle(this)" ng-if="node.children && node.children.length > 0" style="position:absolute;top:1rem;left:0rem;"><span class="fa" ng-class="{'fa-chevron-right': collapsed, 'fa-chevron-down': !collapsed}"></span></button>
-            <input type="text" ng-model="node.title" ng-change="draft.$save();" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" style="padding-left: 1rem;color:#444;">
-            <button class="btn btn-danger btn-xs showonhover" data-nodrag ng-click="remove(this);draft.$save();"><span class="fa fa-close "></span></button>
-            <button class="btn btn-primary btn-xs " data-nodrag ng-click="newsubsection(this)" style="position:absolute;right:0.5rem;top:1rem;"><span class="fa fa-plus "></span></button>
+            <a class="btn " data-nodrag ng-click="toggle(this)" ng-if="node.children && node.children.length > 0" style="position:absolute;top:1rem;left:0rem;"><span class="fa text-primary" ng-class="{'fa-chevron-right': collapsed, 'fa-chevron-down': !collapsed}"></span></a>
+            <input type="text" ng-model="node.title" ng-change="draft.$save();" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" style="padding: 0.5rem;color:#444;">
+            <a class="btn showonhover" data-nodrag ng-click="remove(this);draft.$save();"><span class="fa fa-close text-danger "></span></a>
+            <a class="btn " data-nodrag ng-click="newsubsection(this)" style="position:absolute;right:0.5rem;top:1rem;"><span class="fa fa-plus text-success"></span></a>
 
         </div>
     </div>
