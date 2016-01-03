@@ -320,49 +320,49 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     //draft.$save();
                 }
             };
-            $scope.editcard = function($scope) {
-                var model = $scope.$nodeScope.$modelValue;
-                model.isActive = true;
-                draft.$save();
-                ngDialog.open({
-                    template: 'sectionedit.html',
-                    scope: $scope,
-                    controller: 'PhdTocWidgetCtrl',
-                    appendTo: '#tableofcontents',
-                    //plain: true,
-                    showClose: false,
-                    closeByEscape: true,
-                    closeByDocument: true,
-                    className: 'ngdialog-theme-card',
-                    overlay: false
+            // $scope.editcard = function($scope) {
+            //     var model = $scope.$nodeScope.$modelValue;
+            //     model.isActive = true;
+            //     draft.$save();
+            //     ngDialog.open({
+            //         template: 'sectionedit.html',
+            //         scope: $scope,
+            //         controller: 'PhdTocWidgetCtrl',
+            //         appendTo: '#tableofcontents',
+            //         //plain: true,
+            //         showClose: false,
+            //         closeByEscape: true,
+            //         closeByDocument: true,
+            //         className: 'ngdialog-theme-card',
+            //         overlay: false
 
 
-                });
+            //     });
 
-            };
-            $scope.deactivate = function($scope) {
-                $scope.$nodeScope.$modelValue.section.isActive = false;
-                draft.$save();
-                alertify.log("<img src='img/lexlab.svg'>");
-            };
-            $scope.savedraft = function($scope) {
-                $scope.$nodeScope.$modelValue.section.isActive = false;
-                draft.$save();
-                alertify.log("<img src='img/lexlab.svg'>");
-            };
-            var contentarray = new Array();
-            var newdrafttpl = {
-                name: 'New Draft',
-                content: contentarray
-            };
-            $scope.newdraft = function() {
-                projectdrafts.$add(newdrafttpl).then(function(ref) {
-                    var id = ref.key();
-                    ref.update({
-                        id: id
-                    });
-                });
-            };
+            // };
+            // $scope.deactivate = function($scope) {
+            //     $scope.$nodeScope.$modelValue.section.isActive = false;
+            //     draft.$save();
+            //     alertify.log("<img src='img/lexlab.svg'>");
+            // };
+            // $scope.savedraft = function($scope) {
+            //     $scope.$nodeScope.$modelValue.section.isActive = false;
+            //     draft.$save();
+            //     alertify.log("<img src='img/lexlab.svg'>");
+            // };
+            // var contentarray = new Array();
+            // var newdrafttpl = {
+            //     name: 'New Draft',
+            //     content: contentarray
+            // };
+            // $scope.newdraft = function() {
+            //     projectdrafts.$add(newdrafttpl).then(function(ref) {
+            //         var id = ref.key();
+            //         ref.update({
+            //             id: id
+            //         });
+            //     });
+            // };
         }
     ]).controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin","Collection","$controller","$rootScope",
         function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope) {
@@ -457,7 +457,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     //draft.$save();
                 }
             };
-            $scope.editcard = function($scope) {
+         /*   $scope.editcard = function($scope) {
                 var model = $scope.$nodeScope.$modelValue;
                 model.isActive = true;
                 draft.$save();
@@ -491,14 +491,14 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             var newdrafttpl = {
                 name: 'New Draft',
                 content: contentarray
-            };
-            $scope.newdraft = function() {
-                projectdrafts.$add(newdrafttpl).then(function(ref) {
-                    var id = ref.key();
-                    ref.update({
-                        id: id
-                    });
-                });
-            };
+            };*/
+            // $scope.newdraft = function() {
+            //     projectdrafts.$add(newdrafttpl).then(function(ref) {
+            //         var id = ref.key();
+            //         ref.update({
+            //             id: id
+            //         });
+            //     });
+            // };
         }
     ]);
