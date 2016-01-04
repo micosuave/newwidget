@@ -2,9 +2,9 @@
                             <!-- <textarea ui-tinymce="tinyMceOptions" mentio mentio-typed-text="typedTerm" 
                             mentio-items="simplePeople | filter:label:typedTerm" ng-model='foo'
                             mentio-iframe-element="iframeElement"></textarea> -->
-                            <textarea id="iframeElement" ckeditor="ckdefault" ng-model="item.digest" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"></textarea>
+                            <textarea id="iframeElement" ckeditor="ckdefault" ng-model="draft.digest" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"></textarea>
 
                         </div>
 
-  <iframe srcdoc="{{item.digest | trustAsHTML}}" style="width:100%;" class="card card-rounded"></iframe>
-  <ng-annotate-text text="item.digest" class="card card-rounded"></ng-annotate-text>
+  <iframe srcdoc="{{draft.digest | trustAsHTML}}" style="width:100%;" class="card card-rounded"></iframe>
+  <ng-annotate-text text="draft.digest" class="card card-rounded"></ng-annotate-text>

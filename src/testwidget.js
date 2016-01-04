@@ -270,10 +270,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             // var drafts = PROJECTDRAFTS(projectId);
             // $scope.drafts = drafts;
 
-            // $scope.loaddraft = function(draftId) {
-            //     var draft = PROJECTDRAFT(draftId);
-            //     $scope.draft = draft;
-            // };
+            $scope.loaddraft = function(draftId) {
+                var draft = PROJECTDRAFT(draftId);
+                draft.$bindTo($scope, 'draft');
+            };
 
 
             //draft.$bindTo($scope, 'draft');
@@ -407,10 +407,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             // var drafts = PROJECTDRAFTS(projectId);
             // $scope.drafts = drafts;
 
-            // $scope.loaddraft = function(draftId) {
-            //     var draft = PROJECTDRAFT(draftId);
-            //     $scope.draft = draft;
-            // };
+            $scope.loaddraft = function(draftId) {
+                var draft = Collection(draftId);
+                draft.$bindTo($scope, 'draft');
+            };
 
 
             //draft.$bindTo($scope, 'draft');

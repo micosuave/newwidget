@@ -271,10 +271,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             // var drafts = PROJECTDRAFTS(projectId);
             // $scope.drafts = drafts;
 
-            // $scope.loaddraft = function(draftId) {
-            //     var draft = PROJECTDRAFT(draftId);
-            //     $scope.draft = draft;
-            // };
+            $scope.loaddraft = function(draftId) {
+                var draft = PROJECTDRAFT(draftId);
+                draft.$bindTo($scope, 'draft');
+            };
 
 
             //draft.$bindTo($scope, 'draft');
@@ -408,10 +408,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             // var drafts = PROJECTDRAFTS(projectId);
             // $scope.drafts = drafts;
 
-            // $scope.loaddraft = function(draftId) {
-            //     var draft = PROJECTDRAFT(draftId);
-            //     $scope.draft = draft;
-            // };
+            $scope.loaddraft = function(draftId) {
+                var draft = Collection(draftId);
+                draft.$bindTo($scope, 'draft');
+            };
 
 
             //draft.$bindTo($scope, 'draft');
@@ -505,10 +505,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     ]);
 
 angular.module("adf.widget.testwidget").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/testwidget/src/boilerplate.html","<!DOCTYPE html><html><head><title>{{draft.title}}</title></head><body>{{}}</body></html>");
-$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin: 0.5rem;padding: 0.2rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;\" ng-if=pj.editable><textarea id=iframeElement ckeditor=ckdefault ng-model=item.digest ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 1000, \'blur\': 0} }\"></textarea></div><iframe srcdoc=\"{{item.digest | trustAsHTML}}\" style=width:100%; class=\"card card-rounded\"></iframe><ng-annotate-text text=item.digest class=\"card card-rounded\"></ng-annotate-text>");
+$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin: 0.5rem;padding: 0.2rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;\" ng-if=pj.editable><textarea id=iframeElement ckeditor=ckdefault ng-model=draft.digest ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 1000, \'blur\': 0} }\"></textarea></div><iframe srcdoc=\"{{draft.digest | trustAsHTML}}\" style=width:100%; class=\"card card-rounded\"></iframe><ng-annotate-text text=draft.digest class=\"card card-rounded\"></ng-annotate-text>");
 $templateCache.put("{widgetsPath}/testwidget/src/dashedit.html","<div class=\"card-fancy card-rounded card-thick\"><div class=card-header><button type=button class=close ng-click=closeDialog() aria-hidden=true>&times;</button><h4 class=modal-title>Edit Page</h4></div><div class=\"card card-block\"><form role=form><div class=form-group><label for=dtitle>Title</label> <input type=text ng-model=config.title placeholder=Title></div><div class=form-group><label>Structure</label><div class=card-columns><div class=\"radio card {{key}}\" ng-repeat=\"(key, structure) in structures\"><label><input type=radio value={{key}} ng-model=model.structure ng-change=\"changeStructure(key, structure)\"> {{key}}</label></div></div></div><div class=row><div class=\"form-group row\"><label>Collapsible?</label> <input type=checkbox ng-model=dashboard.collapsible></div><div class=\"form-group row\"><label>Maxizable?</label> <input type=checkbox ng-model=dashboard.maximizable></div><div class=\"form-group row\"><label>Protected?</label> <input type=checkbox ng-model=dashboard.enableConfirmDelete></div></div><select ng-model=dashboard.styleClass ng-options=\"class.value as class.label for class in ROARCLASSES\" class=form-control placeholder=\"Select Style...\"></select></form><adf-dashboard name={{dashboard.title}} structure={{dashboard.structure}} collapsible={{dashboard.collapsible}} maximizable={{dashboard.maximizable}} enable-confirm-delete={{dashboard.enableConfirmDelete}} class={{dashboard.styleClass}} frameless={{dashboard.frameless}} continuous-edit-mode=false adf-model=dashboard.model></adf-dashboard></div><div class=card-footer><button type=button class=\"btn btn-primary card-link\" ng-click=closeDialog()>Close</button></div></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/edit.html","<form role=form><div class=form-group><label for=draftid>Draft</label><select ng-model=config.draftid ng-change=loaddraft(config.draftid) ng-options=\"draft.$id as draft.name for draft in drafts\" class=form-control id=draftid placeholder=\"Select Draft...\"></select></div><a class=\"card fa fa-file\" ng-repeat=\"draft in drafts\" ng-click=\"config.draftid = draft.$id\">{{draft.name}}</a> <button class=\"dashed-outline fa fa-4x fa-plus\" ng-click=newdraft()></button></form>");
-$templateCache.put("{widgetsPath}/testwidget/src/editckeditor.html","");
+$templateCache.put("{widgetsPath}/testwidget/src/editckeditor.html","<form role=form><div class=form-group><label for=draftid>Draft</label><select ng-model=config.draftid ng-change=loaddraft(config.draftid) ng-options=\"draft.$id as draft.name for draft in drafts\" class=form-control id=draftid placeholder=\"Select Draft...\"></select></div><a class=\"card fa fa-file\" ng-repeat=\"draft in drafts\" ng-click=\"config.draftid = draft.$id\">{{draft.name}}</a> <button class=\"dashed-outline fa fa-4x fa-plus\" ng-click=newdraft()></button></form>");
 $templateCache.put("{widgetsPath}/testwidget/src/editembed.html","<div class=card><button ng-click=push(newtab) class=\"btn btn-info fa fa-plus\"></button> <label for=tabname>Enter Title</label> <input type=text ng-model=newtab.title><select ng-model=newtab.styleClass ng-options=\"class.value as class.label for class in ROARCLASSES\"></select><label for=content>Enter embed code</label> <textarea name=content class=form-control ng-model=newtab.content></textarea></div><div style=\"overflow: scroll;\"><h4>Edit existing sections:</h4><div class=card ng-repeat=\"tab in config.content track by $index\"><label for=tabname>Edit Title</label> <input type=text name=tabname ng-model=tab.title> <label for=content>Edit Embed Code</label> <textarea name=content class=form-control ng-model=tab.content></textarea></div></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/embed.html","<div class=expand><tabset class=\"ngDialogTab tab-stacked\" vertical=true><tab ng-repeat=\"tab in tabs\"><ul class=list-group-action><li class=list-group-item>{{tab.title}} <button class=\"circle btn btn-info fa fa-chevron-right fa-2x pull-right\" ng-click=loadDashboard(tab.content)></button> <span class=show-menu><span class=\"glyphicon glyphicon-chevron-right\"></span></span><ul class=list-group-submenu><li class=\"list-group-submenu-item success\"><span class=\"glyphicon glyphicon-remove\"></span></li><li class=\"list-group-submenu-item danger\"><span class=\"glyphicon glyphicon-ok\"></span></li></ul></li></ul></tab><tab ng-repeat=\"tab in config.content\" class=\"btn {{tab.styleClass}}\"><tab-heading>{{tab.title}}</tab-heading><div ng-bind-html=tab.content></div></tab></tabset></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/sidebar.html","<div class={{config.styleClass}} ng-controller=\"EmbedCtrl as em\"><tabset class=\"{{config.styleClass || \'alert alert-danger\'}}\"></tabset></div>");
