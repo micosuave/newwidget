@@ -36,6 +36,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'Prototype LLP Platform App',
                 controller: 'PhdTocWidgetCtrl',
+                controllerAs: 'toc',
                 templateUrl: '{widgetsPath}/testwidget/src/view.html',
                 frameless: true,
                 reload: true,
@@ -55,6 +56,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                           var b = {};
                           a.$add({
                             'name': 'draft'
+                            
                           }).then(function (ref) {
                             var id = ref.key();
                             ref.update({
@@ -82,10 +84,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                   }
             }).widget('ckwidget', {
                 title: 'CKeditor-Widget',
-                titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
+                titleTemplateUrl: '/newwidget/src/ckeditor.html',
                 description: 'CKeditor text editor',
                 controller: 'CKEWidgetCtrl',
-                templateUrl: '{widgetsPath}/testwidget/src/ckeditor.html',
+                templateUrl: '/newwidget/src/ckeditor.html',
                 frameless: true,
                 reload: true,
                 edit: {
@@ -104,6 +106,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                           var b = {};
                           a.$add({
                             'name': 'draft'
+                            
                           }).then(function (ref) {
                             var id = ref.key();
                             ref.update({
@@ -237,14 +240,15 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //     var draft = PROJECTDRAFT(config.draftid);
             //     $scope.draft = draft;
             // }
-            
+            var toc = this;
             $scope.config = config;
             $scope.ckdefault = ckdefault;
             $scope.ckmin = ckmin;
-            var pj = {
-              editable: editable()
-            };
-            function editable() {
+            toc.edit = edit;
+            // var pj = {
+            //   editable: editable()
+            // };
+            function edit() {
               if ($rootScope.$state.includes('projectdashboard')) {
                 return true;
               }
@@ -252,9 +256,9 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 return false;
               }
             };
-            $scope.pj = pj;
-            var draft = Collection(config.id);
-            draft.$bindTo($scope, 'draft');
+            //$scope.pj = pj;
+            toc.draft = Collection(config.id);
+            toc.draft.$bindTo($scope, 'draft');
             // $scope.configured = function() {
             //     return $scope.config.content !== '';
             // };
@@ -287,20 +291,20 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 section.content = 'Section content';
                return section;
             };
-            $scope.newtopsection = function() {
-                if (angular.isUndefined(draft.content)) {
+            toc.newtopsection = function() {
+                if (angular.isUndefined($scope.draft.content)) {
                     var sections = [];
-                    angular.extend(draft, {
+                    angular.extend($scope.draft, {
                         content: sections
                     });
-                    draft.content.push(new Section());
+                    $scope.draft.content.push(new Section());
                     //draft.$save();
                 } else {
-                    draft.content.push(new Section());
+                    $scope.draft.content.push(new Section());
                     //draft.$save();
                 }
             };
-            $scope.newsubsection = function(section) {
+            toc.newsubsection = function(section) {
               var model = section.$nodeScope.$modelValue;
             
                 if (angular.isUndefined(model.children)) {

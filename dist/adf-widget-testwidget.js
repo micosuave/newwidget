@@ -37,6 +37,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'Prototype LLP Platform App',
                 controller: 'PhdTocWidgetCtrl',
+                controllerAs: 'toc',
                 templateUrl: '{widgetsPath}/testwidget/src/view.html',
                 frameless: true,
                 reload: true,
@@ -56,6 +57,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                           var b = {};
                           a.$add({
                             'name': 'draft'
+                            
                           }).then(function (ref) {
                             var id = ref.key();
                             ref.update({
@@ -83,10 +85,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                   }
             }).widget('ckwidget', {
                 title: 'CKeditor-Widget',
-                titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
+                titleTemplateUrl: '/newwidget/src/ckeditor.html',
                 description: 'CKeditor text editor',
                 controller: 'CKEWidgetCtrl',
-                templateUrl: '{widgetsPath}/testwidget/src/ckeditor.html',
+                templateUrl: '/newwidget/src/ckeditor.html',
                 frameless: true,
                 reload: true,
                 edit: {
@@ -105,6 +107,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                           var b = {};
                           a.$add({
                             'name': 'draft'
+                            
                           }).then(function (ref) {
                             var id = ref.key();
                             ref.update({
@@ -238,14 +241,15 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //     var draft = PROJECTDRAFT(config.draftid);
             //     $scope.draft = draft;
             // }
-            
+            var toc = this;
             $scope.config = config;
             $scope.ckdefault = ckdefault;
             $scope.ckmin = ckmin;
-            var pj = {
-              editable: editable()
-            };
-            function editable() {
+            toc.edit = edit;
+            // var pj = {
+            //   editable: editable()
+            // };
+            function edit() {
               if ($rootScope.$state.includes('projectdashboard')) {
                 return true;
               }
@@ -253,9 +257,9 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 return false;
               }
             };
-            $scope.pj = pj;
-            var draft = Collection(config.id);
-            draft.$bindTo($scope, 'draft');
+            //$scope.pj = pj;
+            toc.draft = Collection(config.id);
+            toc.draft.$bindTo($scope, 'draft');
             // $scope.configured = function() {
             //     return $scope.config.content !== '';
             // };
@@ -288,20 +292,20 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 section.content = 'Section content';
                return section;
             };
-            $scope.newtopsection = function() {
-                if (angular.isUndefined(draft.content)) {
+            toc.newtopsection = function() {
+                if (angular.isUndefined($scope.draft.content)) {
                     var sections = [];
-                    angular.extend(draft, {
+                    angular.extend($scope.draft, {
                         content: sections
                     });
-                    draft.content.push(new Section());
+                    $scope.draft.content.push(new Section());
                     //draft.$save();
                 } else {
-                    draft.content.push(new Section());
+                    $scope.draft.content.push(new Section());
                     //draft.$save();
                 }
             };
-            $scope.newsubsection = function(section) {
+            toc.newsubsection = function(section) {
               var model = section.$nodeScope.$modelValue;
             
                 if (angular.isUndefined(model.children)) {
@@ -513,4 +517,4 @@ $templateCache.put("{widgetsPath}/testwidget/src/editembed.html","<div class=car
 $templateCache.put("{widgetsPath}/testwidget/src/embed.html","<div class=expand><tabset class=\"ngDialogTab tab-stacked\" vertical=true><tab ng-repeat=\"tab in tabs\"><ul class=list-group-action><li class=list-group-item>{{tab.title}} <button class=\"circle btn btn-info fa fa-chevron-right fa-2x pull-right\" ng-click=loadDashboard(tab.content)></button> <span class=show-menu><span class=\"glyphicon glyphicon-chevron-right\"></span></span><ul class=list-group-submenu><li class=\"list-group-submenu-item success\"><span class=\"glyphicon glyphicon-remove\"></span></li><li class=\"list-group-submenu-item danger\"><span class=\"glyphicon glyphicon-ok\"></span></li></ul></li></ul></tab><tab ng-repeat=\"tab in config.content\" class=\"btn {{tab.styleClass}}\"><tab-heading>{{tab.title}}</tab-heading><div ng-bind-html=tab.content></div></tab></tabset></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/sidebar.html","<div class={{config.styleClass}} ng-controller=\"EmbedCtrl as em\"><tabset class=\"{{config.styleClass || \'alert alert-danger\'}}\"></tabset></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/title.html","<h3 class=card-title><a title=\"toggle widget frame\" ng-click=\"frameless = !frameless\"><i class=\"fa fa-ge\" ng-class=\"{\'fa-ge\': (frameless == true),\'fa-alert\':(frameless == false)}\"></i></a> {{title}} <span class=pull-right><a title=\"reload widget content\" ng-if=widget.reload ng-click=reload()><i class=\"fa fa-refresh\"></i></a> <a title=\"change widget location\" class=adf-move ng-if=editMode><i class=\"glyphicon glyphicon-move\"></i></a> <a title=\"collapse widget\" ng-show=\"options.collapsible && !widgetState.isCollapsed\" ng-click=\"widgetState.isCollapsed = !widgetState.isCollapsed\"><i class=\"glyphicon glyphicon-minus\"></i></a> <a title=\"expand widget\" ng-show=\"options.collapsible && widgetState.isCollapsed\" ng-click=\"widgetState.isCollapsed = !widgetState.isCollapsed\"><i class=\"glyphicon glyphicon-plus\"></i></a> <a title=\"edit widget configuration\" ng-click=edit() ng-if=editMode><i class=\"glyphicon glyphicon-cog\"></i></a> <a title=\"fullscreen widget\" ng-click=openFullScreen() ng-show=options.maximizable><i class=\"glyphicon glyphicon-fullscreen\"></i></a> <a title=\"remove widget\" ng-click=remove() ng-if=editMode><i class=\"glyphicon glyphicon-remove\"></i></a></span></h3>");
-$templateCache.put("{widgetsPath}/testwidget/src/view.html","<div id=tableofcontents class=\"card card-default\"><div class=card-header><h4 class=card-title e-form=nameform editable-text=draft.name buttons=no onaftersave=draft.$save();>{{draft.name}}<span class=\"fa fa-edit showonhover\" ng-click=nameform.$show()></span><small class=pull-right><button class=\"fa fa-send btn btn-success\" ng-click=publish(draft)></button></small> <small class=pull-right><button class=\"fa fa-plus btn btn-warning\" ng-click=newtopsection()></button><button id=nav-toggle title=\"Show Navigation\" class=\"fa fa-download btn btn-info\" ng-click=\"showNav = !showNav\"></button></small></h4></div><div class=card-text><div ui-tree><ol ui-tree-nodes max-depth=6 ng-model=draft.content><li ui-tree-node ng-repeat=\"node in draft.content\" ng-include=\"\'nodes_renderer1.html\'\" style=padding-right:0rem;padding-bottom:0.1rem;></li></ol></div></div></div><script type=text/ng-template id=nodes_renderer1.html><div ui-tree-handle class=\"tree-node tree-node-content\"> <div class=\"tree-node-content row\" style=\"position:relative;\"> <a class=\"btn \" data-nodrag ng-click=\"toggle(this)\" ng-if=\"node.children && node.children.length > 0\" style=\"position:absolute;top:1rem;left:0rem;\"><span class=\"fa text-primary\" ng-class=\"{\'fa-chevron-right\': collapsed, \'fa-chevron-down\': !collapsed}\"></span></a> <input type=\"text\" ng-model=\"node.title\" ng-change=\"draft.$save();\" ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 1000, \'blur\': 0} }\" style=\"padding: 0.5rem;color:#444;\"> <a class=\"btn showonhover\" data-nodrag ng-click=\"remove(this);draft.$save();\"><span class=\"fa fa-close text-danger \"></span></a> <a class=\"btn \" data-nodrag ng-click=\"newsubsection(this)\" style=\"position:absolute;right:0.5rem;top:1rem;\"><span class=\"fa fa-plus text-success\"></span></a> </div> </div> <ol ui-tree-nodes=\"\" ng-model=\"node.children\" ng-class=\"{hidden: collapsed}\" style=\"\"> <li class=\"\" ng-repeat=\"node in node.children track by $index\" ui-tree-node ng-include=\"\'nodes_renderer1.html\'\" style=\"padding-right:0rem;padding-bottom:0.1rem;\"> </li> </ol></script>");}]);})(window);
+$templateCache.put("{widgetsPath}/testwidget/src/view.html","<div id=tableofcontents class=\"card card-default\"><div class=card-header><h4 class=card-title e-form=nameform editable-text=draft.name buttons=no onaftersave=draft.$save();>{{draft.name}} <span class=\"fa fa-edit showonhover\" ng-click=nameform.$show()></span> <small class=pull-right></small> <small class=pull-right><button class=\"fa fa-plus btn btn-warning\" ng-click=toc.newtopsection()></button></small></h4></div><div class=card-text><div ui-tree><ol ui-tree-nodes max-depth=6 ng-model=draft.content><li ui-tree-node ng-repeat=\"node in draft.content\" ng-include=\"\'nodes_renderer1.html\'\" style=padding-right:0rem;padding-bottom:0.1rem;></li></ol></div></div></div><script type=text/ng-template id=nodes_renderer1.html><div ui-tree-handle class=\"tree-node tree-node-content\"> <div class=\"tree-node-content row\" style=\"position:relative;\"> <a class=\"btn \" data-nodrag ng-click=\"toggle(this)\" ng-if=\"node.children && node.children.length > 0\" style=\"position:absolute;top:1rem;left:0rem;\"><span class=\"fa text-primary\" ng-class=\"{\'fa-chevron-right\': collapsed, \'fa-chevron-down\': !collapsed}\"></span></a> <input type=\"text\" ng-model=\"node.title\" ng-change=\"draft.$save();\" ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 1000, \'blur\': 0} }\" style=\"padding: 0.5rem;color:#444;\"> <a class=\"btn showonhover\" data-nodrag ng-click=\"remove(this);draft.$save();\"><span class=\"fa fa-close text-danger \"></span></a> <a class=\"btn \" data-nodrag ng-click=\"toc.newsubsection(this)\" style=\"position:absolute;right:0.5rem;top:1rem;\"><span class=\"fa fa-plus text-success\"></span></a> </div> </div> <ol ui-tree-nodes=\"\" ng-model=\"node.children\" ng-class=\"{hidden: collapsed}\" style=\"\"> <li class=\"\" ng-repeat=\"node in node.children track by $index\" ui-tree-node ng-include=\"\'nodes_renderer1.html\'\" style=\"padding-right:0rem;padding-bottom:0.1rem;\"> </li> </ol></script>");}]);})(window);
