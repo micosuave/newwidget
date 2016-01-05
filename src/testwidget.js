@@ -31,6 +31,24 @@ $templateCache.put("{widgetsPath}/iframe/src/view.html","<div><div class=\"alert
 angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.tree', 'ui.router', 'ngDialog'])
     .config(function(dashboardProvider) {
         dashboardProvider
+          .widget('pdfviewer', {
+            title: 'PDF Viewer',
+            description: 'PDFJS viewer',
+            controller: 'PDFController',
+            controllerAs: 'pdf',
+            templateUrl: '{widgetsPath}/testwidget/src/pdfview.html',
+            frameless: true,
+            reload: true,
+            styleClass: 'card-fancy',
+            edit: {
+              templateUrl: '{widgetsPath}/iframe/src/edit.html',
+              reload: true,
+              controller: 'PDFController',
+              controllerAs: 'pdf'
+
+            }
+            
+            })
             .widget('tocwidget', {
                 title: 'PhD-ToC-Widget',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
@@ -40,6 +58,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 templateUrl: '{widgetsPath}/testwidget/src/view.html',
                 frameless: true,
                 reload: true,
+                immediate: true,
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/edit.html',
                     modalSize: 'lg',
@@ -84,12 +103,13 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                   }
             }).widget('ckwidget', {
                 title: 'CKeditor-Widget',
-                titleTemplateUrl: '/newwidget/src/ckeditor.html',
+                titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'CKeditor text editor',
                 controller: 'CKEWidgetCtrl',
                 templateUrl: '/newwidget/src/ckeditor.html',
                 frameless: true,
                 reload: true,
+                immediate: true,
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
                     modalSize: 'lg',
@@ -230,8 +250,20 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
             });
 
-    }).controller('PhdTocWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin","Collection","$controller","$rootScope",
-        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope) {
+  }).controller('PDFController', ['$scope', 'pdfDelegate','config','Collection', function($scope, pdfDelegate, config, Collection) {
+    var pdf = this;
+    pdf.config = config;
+    if (config.url) {
+      $scope.pdfUrl = config.url
+    } else if (config.id) {
+      Collection(config.id).$loaded().then(function (thing) {
+        pdf.item = thing;
+      });
+    }
+    // pdfDelegate.$getByHandle('my-pdf-container').zoomIn();
+  }])
+  .controller('PhdTocWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","$ACTIVEROAR",
+        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, $ACTIVEROAR) {
             $scope.size = 'lg';
 
             // if (!config.draftid) {
@@ -245,6 +277,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             $scope.ckdefault = ckdefault;
             $scope.ckmin = ckmin;
             toc.edit = edit;
+            toc.broadcast = function () {
+              $rootScope.$broadcast('TABLEOFCONTENTS', config.id);
+            };
+            
             // var pj = {
             //   editable: editable()
             // };
@@ -257,8 +293,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               }
             };
             //$scope.pj = pj;
-            toc.draft = Collection(config.id);
-            toc.draft.$bindTo($scope, 'draft');
+            toc.tree = Collection(config.id);
+            toc.tree.$bindTo($scope, 'tree');
             // $scope.configured = function() {
             //     return $scope.config.content !== '';
             // };
@@ -276,7 +312,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
             $scope.loaddraft = function(draftId) {
                 var draft = PROJECTDRAFT(draftId);
-                draft.$bindTo($scope, 'draft');
+                draft.$bindTo($scope, 'tree');
             };
 
 
@@ -292,34 +328,34 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                return section;
             };
             toc.newtopsection = function() {
-                if (angular.isUndefined($scope.draft.content)) {
+                if (angular.isUndefined($scope.tree.roarlist)) {
                     var sections = [];
-                    angular.extend($scope.draft, {
-                        content: sections
+                    angular.extend($scope.tree, {
+                        roarlist: sections
                     });
-                    $scope.draft.content.push(new Section());
+                    $scope.tree.roarlist.push(new Section());
                     //draft.$save();
                 } else {
-                    $scope.draft.content.push(new Section());
+                    $scope.tree.roarlist.push(new Section());
                     //draft.$save();
                 }
             };
             toc.newsubsection = function(section) {
               var model = section.$nodeScope.$modelValue;
             
-                if (angular.isUndefined(model.children)) {
+                if (angular.isUndefined(model.roarlist)) {
                     var sections = [];
                    
                     angular.extend(model, {
-                        children: sections
+                        roarlist: sections
                         
                     });
                    
-                    model.children.push(new Section());
+                    model.roarlist.push(new Section());
                  
                     //draft.$save();
                 } else {
-                    model.children.push(new Section());
+                    model.roarlist.push(new Section());
                    
                     //draft.$save();
                 }
@@ -385,6 +421,13 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             var pj = {
               editable: editable()
             };
+            $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
+              alertify.confirm('set to ' + $data + '?', function (cancel, confirm) {
+                $scope.config.id = $data;
+                 var draft = Collection($data);
+                   draft.$bindTo($scope, 'draft');
+              });
+            });
             function editable() {
               if ($rootScope.$state.includes('projectdashboard')) {
                 return true;
