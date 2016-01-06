@@ -8,7 +8,8 @@
                       </small> 
                     <small class="pull-right">
                       <button class="fa fa-plus btn btn-warning" ng-click="toc.newtopsection()"></button>
-                      <button id="broadcastbutton" title="broadcast" class="fa fa-info btn btn-info " ng-click="toc.broadcast()"></button>
+                      <!--<button id="broadcastbutton" title="broadcast" class="fa fa-info btn btn-info " ng-click="toc.broadcast()"></button>-->
+                            <switch ng-model="toc.editable" ng-change="togglemode()"  icon="fa fa-globe fa-2x" class="pull-right" disabled></switch>
                       </small>
                     </h4>
                 </div>
