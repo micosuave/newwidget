@@ -328,9 +328,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                return section;
             };
             toc.newtopsection = function () {
+              var modelref = Collection($scope.tree.id).$ref();
+
               Collections().$add(new Section()).then(function (ref) {
                 var id = ref.key();
                 ref.update({ id: id });
+                modelref.child('roarlist').child(id).set(id);
                 Collection(id).$loaded().then(function (sect) {
 
                   if (angular.isUndefined($scope.tree.roarlist)) {
@@ -348,24 +351,30 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               });   
             };
             toc.newsubsection = function(section) {
-              var model = section.$nodeScope.$modelValue;
-              var modelref = Collections.$getRecord(model.id).$ref();
-              Collections().$add(new Section()).then(function (ref) {
-                var id = ref.key();
-                ref.update({ id: id });
-                modelref.child('roarlist').child(id).set(id);
-                // Collection(id).$loaded().then(function (sect) {
-                //   if (angular.isUndefined(model.roarlist)) {
-                //     var sections = [];
-                //     model.roarlist = sections;
-                //     model.roarlist.push(sect);
-                //     //draft.$save();
-                //   } else {
-                //     model.roarlist.push(sect);
-                //     //draft.$save();
-                //   }
-                // });
-              });
+              if (angular.isUndefined(section.$nodeScope.$modelValue)) {
+                var model = section.$nodeScope.node
+
+              } else {
+                var model = section.$nodeScope.$modelValue;
+              }
+                var modelref = Collection(model.id).$ref();
+                Collections().$add(new Section()).then(function (ref) {
+                  var id = ref.key();
+                  ref.update({ id: id });
+                  modelref.child('roarlist').child(id).set(id);
+                  Collection(id).$loaded().then(function (sect) {
+                    if (angular.isUndefined(model.roarlist)) {
+                      var sections = [];
+                      model.roarlist = sections;
+                      model.roarlist.push(sect);
+                      //draft.$save();
+                    } else {
+                      model.roarlist.push(sect);
+                      //draft.$save();
+                    }
+                  });
+                });
+              
             };
             toc.opensubsection = function (scope) {
               //window.alert(scope);
@@ -382,7 +391,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
               };
               walk($scope.tree);
-             
+              console.log(toc.builddoc().join());
+              alertify.log(toc.builddoc().join());
               // var walk = function (node) {
               //   angular.forEach(node.roarlist, function (node, key) {
               //     if (node.children) {
@@ -394,6 +404,28 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               // };
               // walk($scope.tree);
             };
+            var roothead = "<!DOCTYPE html><html><head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css'/></head><body>";
+            toc.builddoc = function () {
+              var deferred = $q.defer();
+              var doc = [];
+              doc.push(roothead);
+              var walk = function (node) {
+                doc.push(node.content);
+                if (node.roarlist) {
+                  angular.forEach(node.roarlist, function (node, key) {
+                    walk(node);
+                  });
+                } else {
+                  return true;
+                }
+
+              };
+              try { walk($scope.tree); }
+              catch (ex) { console.log(ex); }
+              finally { deferred.resolve(doc) }
+              return deferred.promise;
+            };
+            
             // $scope.editcard = function($scope) {
             //     var model = $scope.$nodeScope.$modelValue;
             //     model.isActive = true;
@@ -456,8 +488,13 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               editable: editable()
             };
             $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
-              $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.$modelValue.id;
-                
+              if (angular.isUndefined($data.$parent.$nodeScope.$modelValue)) {
+                 $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.node.id;
+              
+              } else {
+                $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.$modelValue.id
+              }
+               
               
               // $scope.$parent.$parent.config.id = $data;
                $scope.$parent.$parent.reload();

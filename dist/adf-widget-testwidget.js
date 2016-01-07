@@ -329,9 +329,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                return section;
             };
             toc.newtopsection = function () {
+              var modelref = Collection($scope.tree.id).$ref();
+
               Collections().$add(new Section()).then(function (ref) {
                 var id = ref.key();
                 ref.update({ id: id });
+                modelref.child('roarlist').child(id).set(id);
                 Collection(id).$loaded().then(function (sect) {
 
                   if (angular.isUndefined($scope.tree.roarlist)) {
@@ -349,24 +352,30 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               });   
             };
             toc.newsubsection = function(section) {
-              var model = section.$nodeScope.$modelValue;
-              var modelref = Collections.$getRecord(model.id).$ref();
-              Collections().$add(new Section()).then(function (ref) {
-                var id = ref.key();
-                ref.update({ id: id });
-                modelref.child('roarlist').child(id).set(id);
-                // Collection(id).$loaded().then(function (sect) {
-                //   if (angular.isUndefined(model.roarlist)) {
-                //     var sections = [];
-                //     model.roarlist = sections;
-                //     model.roarlist.push(sect);
-                //     //draft.$save();
-                //   } else {
-                //     model.roarlist.push(sect);
-                //     //draft.$save();
-                //   }
-                // });
-              });
+              if (angular.isUndefined(section.$nodeScope.$modelValue)) {
+                var model = section.$nodeScope.node
+
+              } else {
+                var model = section.$nodeScope.$modelValue;
+              }
+                var modelref = Collection(model.id).$ref();
+                Collections().$add(new Section()).then(function (ref) {
+                  var id = ref.key();
+                  ref.update({ id: id });
+                  modelref.child('roarlist').child(id).set(id);
+                  Collection(id).$loaded().then(function (sect) {
+                    if (angular.isUndefined(model.roarlist)) {
+                      var sections = [];
+                      model.roarlist = sections;
+                      model.roarlist.push(sect);
+                      //draft.$save();
+                    } else {
+                      model.roarlist.push(sect);
+                      //draft.$save();
+                    }
+                  });
+                });
+              
             };
             toc.opensubsection = function (scope) {
               //window.alert(scope);
@@ -383,7 +392,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
               };
               walk($scope.tree);
-             
+              console.log(toc.builddoc().join());
+              alertify.log(toc.builddoc().join());
               // var walk = function (node) {
               //   angular.forEach(node.roarlist, function (node, key) {
               //     if (node.children) {
@@ -395,6 +405,28 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               // };
               // walk($scope.tree);
             };
+            var roothead = "<!DOCTYPE html><html><head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css'/></head><body>";
+            toc.builddoc = function () {
+              var deferred = $q.defer();
+              var doc = [];
+              doc.push(roothead);
+              var walk = function (node) {
+                doc.push(node.content);
+                if (node.roarlist) {
+                  angular.forEach(node.roarlist, function (node, key) {
+                    walk(node);
+                  });
+                } else {
+                  return true;
+                }
+
+              };
+              try { walk($scope.tree); }
+              catch (ex) { console.log(ex); }
+              finally { deferred.resolve(doc) }
+              return deferred.promise;
+            };
+            
             // $scope.editcard = function($scope) {
             //     var model = $scope.$nodeScope.$modelValue;
             //     model.isActive = true;
@@ -457,8 +489,13 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               editable: editable()
             };
             $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
-              $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.$modelValue.id;
-                
+              if (angular.isUndefined($data.$parent.$nodeScope.$modelValue)) {
+                 $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.node.id;
+              
+              } else {
+                $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.$modelValue.id
+              }
+               
               
               // $scope.$parent.$parent.config.id = $data;
                $scope.$parent.$parent.reload();
@@ -595,7 +632,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     ]);
 
 angular.module("adf.widget.testwidget").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/testwidget/src/boilerplate.html","<!DOCTYPE html><html><head><title>{{draft.title}}</title></head><body>{{}}</body></html>");
-$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin: 0.5rem;padding: 0.2rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;\" ng-if=pj.editable><h6 class=card-title>{{draft.title}}</h6><textarea id=iframeElement ckeditor ng-model=draft.content ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 1000, \'blur\': 0} }\"></textarea></div><iframe srcdoc=\"{{draft.content | trustAsHTML}}\" style=width:100%; class=\"card card-rounded\"></iframe><ng-annotate-text text=draft.content class=\"card card-rounded\"></ng-annotate-text>");
+$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin: 0.5rem;padding: 0.2rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;\" ng-if=pj.editable><div class=card-header><h3 class=card-title>{{draft.title}}</h3></div><textarea id=iframeElement ckeditor ng-model=draft.content ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 1000, \'blur\': 0} }\"></textarea></div><iframe srcdoc=\"{{draft.content | trustAsHTML}}\" style=width:100%; class=\"card card-rounded\"></iframe><ng-annotate-text text=draft.content class=\"card card-rounded\"></ng-annotate-text>");
 $templateCache.put("{widgetsPath}/testwidget/src/dashedit.html","<div class=\"card-fancy card-rounded card-thick\"><div class=card-header><button type=button class=close ng-click=closeDialog() aria-hidden=true>&times;</button><h4 class=modal-title>Edit Page</h4></div><div class=\"card card-block\"><form role=form><div class=form-group><label for=dtitle>Title</label> <input type=text ng-model=config.title placeholder=Title></div><div class=form-group><label>Structure</label><div class=card-columns><div class=\"radio card {{key}}\" ng-repeat=\"(key, structure) in structures\"><label><input type=radio value={{key}} ng-model=model.structure ng-change=\"changeStructure(key, structure)\"> {{key}}</label></div></div></div><div class=row><div class=\"form-group row\"><label>Collapsible?</label> <input type=checkbox ng-model=dashboard.collapsible></div><div class=\"form-group row\"><label>Maxizable?</label> <input type=checkbox ng-model=dashboard.maximizable></div><div class=\"form-group row\"><label>Protected?</label> <input type=checkbox ng-model=dashboard.enableConfirmDelete></div></div><select ng-model=dashboard.styleClass ng-options=\"class.value as class.label for class in ROARCLASSES\" class=form-control placeholder=\"Select Style...\"></select></form><adf-dashboard name={{dashboard.title}} structure={{dashboard.structure}} collapsible={{dashboard.collapsible}} maximizable={{dashboard.maximizable}} enable-confirm-delete={{dashboard.enableConfirmDelete}} class={{dashboard.styleClass}} frameless={{dashboard.frameless}} continuous-edit-mode=false adf-model=dashboard.model></adf-dashboard></div><div class=card-footer><button type=button class=\"btn btn-primary card-link\" ng-click=closeDialog()>Close</button></div></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/edit.html","<form role=form><div class=form-group><label for=draftid>Tree Root</label><select ng-model=config.id ng-change=loaddraft(config.id) ng-options=\"branch.id as branch.name for branch in tree\" class=form-control id=draftid placeholder=\"Select Root Branch...\"></select></div><a class=\"card fa fa-file\" ng-repeat=\"branch in tree\" ng-click=\"config.id = branch.id\">{{branch.name}}</a> <button class=\"dashed-outline fa fa-4x fa-plus\" ng-click=newdraft()></button></form>");
 $templateCache.put("{widgetsPath}/testwidget/src/editckeditor.html","<form role=form><div class=form-group><label for=draftid>Draft</label><select ng-model=config.draftid ng-change=loaddraft(config.draftid) ng-options=\"draft.$id as draft.name for draft in drafts\" class=form-control id=draftid placeholder=\"Select Draft...\"></select></div><a class=\"card fa fa-file\" ng-repeat=\"draft in drafts\" ng-click=\"config.draftid = draft.$id\">{{draft.name}}</a> <button class=\"dashed-outline fa fa-4x fa-plus\" ng-click=newdraft()></button></form>");
