@@ -262,8 +262,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     }
     // pdfDelegate.$getByHandle('my-pdf-container').zoomIn();
   }])
-  .controller('PhdTocWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","$ACTIVEROAR",
-        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, $ACTIVEROAR) {
+  .controller('PhdTocWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","$ACTIVEROAR","Collections",
+        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, $ACTIVEROAR, Collections) {
             $scope.size = 'lg';
 
             // if (!config.draftid) {
@@ -277,8 +277,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             $scope.ckdefault = ckdefault;
             $scope.ckmin = ckmin;
             toc.edit = edit;
-            toc.broadcast = function () {
-              $rootScope.$broadcast('TABLEOFCONTENTS', config.id);
+            toc.broadcast = function (data) {
+              $rootScope.$broadcast('TABLEOFCONTENTS', data);
             };
             
             // var pj = {
@@ -327,38 +327,72 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 section.content = 'Section content';
                return section;
             };
-            toc.newtopsection = function() {
-                if (angular.isUndefined($scope.tree.roarlist)) {
+            toc.newtopsection = function () {
+              Collections().$add(new Section()).then(function (ref) {
+                var id = ref.key();
+                ref.update({ id: id });
+                Collection(id).$loaded().then(function (sect) {
+
+                  if (angular.isUndefined($scope.tree.roarlist)) {
                     var sections = [];
                     angular.extend($scope.tree, {
-                        roarlist: sections
+                      roarlist: sections
                     });
-                    $scope.tree.roarlist.push(new Section());
+                    $scope.tree.roarlist.push(sect);
                     //draft.$save();
-                } else {
-                    $scope.tree.roarlist.push(new Section());
+                  } else {
+                    $scope.tree.roarlist.push(sect);
                     //draft.$save();
-                }
+                  }
+                });
+              });   
             };
             toc.newsubsection = function(section) {
               var model = section.$nodeScope.$modelValue;
-            
-                if (angular.isUndefined(model.roarlist)) {
-                    var sections = [];
-                   
-                    angular.extend(model, {
-                        roarlist: sections
-                        
-                    });
-                   
-                    model.roarlist.push(new Section());
-                 
-                    //draft.$save();
+              var modelref = Collections.$getRecord(model.id).$ref();
+              Collections().$add(new Section()).then(function (ref) {
+                var id = ref.key();
+                ref.update({ id: id });
+                modelref.child('roarlist').child(id).set(id);
+                // Collection(id).$loaded().then(function (sect) {
+                //   if (angular.isUndefined(model.roarlist)) {
+                //     var sections = [];
+                //     model.roarlist = sections;
+                //     model.roarlist.push(sect);
+                //     //draft.$save();
+                //   } else {
+                //     model.roarlist.push(sect);
+                //     //draft.$save();
+                //   }
+                // });
+              });
+            };
+            toc.opensubsection = function (scope) {
+              //window.alert(scope);
+              toc.broadcast(scope);
+            };
+            toc.togglemode = function () {
+              var walk = function (node) {
+                if (node.roarlist) {
+                  angular.forEach(node.roarlist, function (node, key) {
+                    walk(node);
+                  });
                 } else {
-                    model.roarlist.push(new Section());
-                   
-                    //draft.$save();
+                  alertify.log(node.content);
                 }
+              };
+              walk($scope.tree);
+             
+              // var walk = function (node) {
+              //   angular.forEach(node.roarlist, function (node, key) {
+              //     if (node.children) {
+              //       walk(node);
+              //     } else {
+              //       Collection(node.id).$save(node);
+              //     }
+              //   });
+              // };
+              // walk($scope.tree);
             };
             // $scope.editcard = function($scope) {
             //     var model = $scope.$nodeScope.$modelValue;
@@ -422,11 +456,20 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               editable: editable()
             };
             $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
-              alertify.confirm('set to ' + $data + '?', function (cancel, confirm) {
-                $scope.config.id = $data;
-                 var draft = Collection($data);
-                   draft.$bindTo($scope, 'draft');
-              });
+              $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.$modelValue.id;
+                
+              
+              // $scope.$parent.$parent.config.id = $data;
+               $scope.$parent.$parent.reload();
+              // console.log('Event', $event);
+              // console.log('Data', $data);
+              // console.log('more', more);
+              // alertify.confirm('set to ' + $data + '?', function (cancel, confirm) {
+              //   $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.$modelValue.id;
+              //    //var draft = Collection($data);
+              //    //draft.$bindTo($scope, 'draft');
+              //   $scope.$parent.$parent.reload();
+              // });
             });
             function editable() {
               if ($rootScope.$state.includes('projectdashboard')) {
