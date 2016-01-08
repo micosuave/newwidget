@@ -6,7 +6,7 @@
                             <textarea id="iframeElement" ckeditor="" ng-model="draft.content" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"></textarea>
 
                         </div>
-<div id="draftdocument" class="card card-block card-default">
+<div id="draftdocument" class="card card-block">
                 <h1 >{{draft.name || draft.title}}</h1>
                 <ng-annotate-text text="draft.content" class="card card-rounded"></ng-annotate-text>
                 <iframe srcdoc="{{draft.content | trustAsHTML}}" style="width:100%;" class="card card-rounded"></iframe>
