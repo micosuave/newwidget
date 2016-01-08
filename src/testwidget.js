@@ -514,6 +514,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               
               // $scope.$parent.$parent.config.id = $data;
                $scope.$parent.$parent.reload();
+               $scope.edittime = true;
               // console.log('Event', $event);
               // console.log('Data', $data);
               // console.log('more', more);

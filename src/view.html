@@ -1,7 +1,7 @@
 
   <div id="tableofcontents" class="card card-default">
                 <div class="card-header">
-                    <h4 class="card-title" e-form="nameform" editable-text="tree.name" buttons="no" onaftersave="tree.$save();">{{tree.name}}
+                    <h4 class="card-title" e-form="nameform" editable-text="tree.name" buttons="no" onaftersave="tree.$save();" ng-click="toc.opensubsection(tree)">{{tree.name}}
                     <span class="fa fa-edit" ng-click="nameform.$show()" ng-show="toc.editable"></span>
                     <small class="pull-right">
                       <!--<button class="fa fa-send btn btn-success" ng-click="publish(draft)"></button>-->
@@ -9,7 +9,7 @@
                     <small class="pull-right">
                       <button class="fa fa-plus btn btn-warning" ng-if="toc.editable" ng-click="toc.newtopsection()"></button>
                       <!--<button id="broadcastbutton" title="broadcast" class="fa fa-info btn btn-info " ng-click="toc.broadcast()"></button>-->
-                            <switch ng-model="toc.editable" ng-change="toc.togglemode()"  icon="fa fa-globe fa-2x" class="pull-right" disabled style="position:absolute;top:0;right:0;"></switch>
+                            <switch ng-model="toc.editable" ng-change="toc.togglemode()"  icon="fa fa-globe fa-2x" class="pull-right" disabled style="position:absolute;top:-20px;right:0;"></switch>
                       </small>
                     </h4>
                 </div>
