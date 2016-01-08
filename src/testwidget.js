@@ -391,8 +391,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
               };
               walk($scope.tree);
-              console.log(toc.builddoc().join());
-              alertify.log(toc.builddoc().join());
+              console.log(toc.builddoc());
+              alertify.log(toc.builddoc());
               // var walk = function (node) {
               //   angular.forEach(node.roarlist, function (node, key) {
               //     if (node.children) {
@@ -405,27 +405,43 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               // walk($scope.tree);
             };
             var roothead = "<!DOCTYPE html><html><head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css'/></head><body>";
+            var roottail = "</body></html>";
+            
+
             toc.builddoc = function () {
               var deferred = $q.defer();
               var doc = [];
               doc.push(roothead);
-              var walk = function (node) {
-                doc.push(node.content);
-                if (node.roarlist) {
+              var walk = function (node, depth, siblings) {
+                if (node && node.content) {
+                  console.log(depth, node.title);
+                  doc.push(node.title , node.content);  
+                }
+                if (node && node.roarlist) {
                   angular.forEach(node.roarlist, function (node, key) {
-                    walk(node);
+                    walk(node, depth+=1, node.roarlist);
                   });
-                } else {
-                  return true;
+                }
+                if (node && !node.id) {
+                  Collection(node).$loaded().then(function (node) {
+                    walk(node, depth+=1);
+                  });
+                  
                 }
 
               };
-              try { walk($scope.tree); }
+              try { walk($scope.tree, 0); }
               catch (ex) { console.log(ex); }
-              finally { deferred.resolve(doc) }
-              return deferred.promise;
-            };
+              finally { doc.push(roottail);
+              
             
+           
+
+        
+        
+          deferred.resolve(doc) }
+              return deferred.promise;
+        };
             // $scope.editcard = function($scope) {
             //     var model = $scope.$nodeScope.$modelValue;
             //     model.isActive = true;

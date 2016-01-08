@@ -1,0 +1,7 @@
+<div class="card">
+  <section ng-repeat="(key, node) in node.roarlist" node="{{node.id || node}}">
+    <label>{{node.title}}</label>
+      <ng-annotate-text text="node.content"></ng-annotate-text>
+      <div ng-include="'./document.html'" ng-repeat="(key, node) in node.roarlist"></div>
+  </section>
+</div>
