@@ -115,11 +115,11 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
                     modalSize: 'lg',
                     controller: 'CKEditorCtrl',
-                    reload: false
+                    reload: true
                 },
                 resolve: {
-                    config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL",
-                      function (config, $firebaseArray, $rootScope, FIREBASE_URL) {
+                    config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL","ckdefault",
+                      function (config, $firebaseArray, $rootScope, FIREBASE_URL, ckdefault) {
                         if (config.id) {
                           return config;
                         } else {
@@ -142,7 +142,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                               timestamp: Firebase.ServerValue.TIMESTAMP
                             });
                             config.id = id;
-                            
+                            config.editor = ckdefault;
 
                             return config;
                           });
@@ -488,15 +488,30 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //     });
             // };
         }
-  ]).controller('CKEditorCtrl', ["$scope", "config", "ckdefault", "ckmin", function ($scope, config, ckdefault, ckmin) {
+  ]).controller('CKEditorCtrl', ["$scope", "config", "ckdefault", "ckmin","ckclip","ckreport", function ($scope, config, ckdefault, ckmin,ckclip, ckreport) {
     var editors = [
       { name: 'Default', obj: ckdefault },
-      { name: 'Minimal', obj: ckmin }
+      { name: 'Minimal', obj: ckmin },
+      { name: 'Clip', obj: ckclip },
+      { name: 'Report', obj: ckreport },
+      { name: 'Full', obj: null}
     ];
+    var templates=[
+     {title: "Memorandum",
+    image:"template1.gif",
+    description: "Template for a simple memo.",
+    html:'<div class="panel" style="width: 816px;height:1056px;border: 1px solid black;padding:48px"> <table id="pageheadertable" style="width: 100%;height: 48px;border: 0px solid red;"> <colgroup> <col width="50px"> <col width=""> <col width="49px"> </colgroup> <tbody> <tr> <td style="text-align: left;border-right: 5px double black;color:#aaaaaa">Left</td> <td style="text-align:center;color:#aaaaaa">Center</td> <td style="text-align: right;text-indent: 48px;color:#aaaaaa">Right</td> </tr> </tbody> </table> <div style="border: 0px solid blue;width:15px;margin-left:30px;height:864px;"> <table height="100%"> <tr><td>&nbsp&nbsp1</td></tr> <tr><td>&nbsp&nbsp2</td></tr> <tr><td>&nbsp&nbsp3</td></tr> <tr><td>&nbsp&nbsp4</td></tr> <tr><td>&nbsp&nbsp5</td></tr> <tr><td>&nbsp&nbsp6</td></tr> <tr><td>&nbsp&nbsp7</td></tr> <tr><td>&nbsp&nbsp8</td></tr> <tr><td>&nbsp&nbsp9</td></tr> <tr><td>10</td></tr> <tr><td>11</td></tr> <tr><td>12</td></tr> <tr><td>13</td></tr> <tr><td>14</td></tr> <tr><td>15</td></tr> <tr><td>16</td></tr> <tr><td>17</td></tr> <tr><td>18</td></tr> <tr><td>19</td></tr> <tr><td>20</td></tr> <tr><td>21</td></tr> <tr><td>22</td></tr> <tr><td>23</td></tr> <tr><td>24</td></tr> <tr><td>25</td></tr> <tr><td>26</td></tr> <tr><td>27</td></tr> <tr><td>28</td></tr> </table> </div> <div style="width: 624px;height: 864px;border: 1px solid #DDDDDD;border-left: 5px double black;margin: -864px 48px 0px 48px;overflow:hidden;"> <span style="text-align:right;"><img class="pull-right" src="/llp_core/img/gs.jpeg" width="50px" /></span> <h2 style="text-align:right;">Memorandum&nbsp</h2> <p>&nbsp</p> <h4 style="margin-top: -5px"><strong> &nbspFrom:</strong><small style="margin-left:10px;">Sender</small></h4> <h4><strong> &nbspTo:</strong><small style="margin-left:35px;">Reciever</small></h4> <h4><strong> &nbspRe:</strong><small style="margin-left:35px;">Subject</small></h4> <h4><strong> &nbspDate:</strong><small style="margin-left:15px;">MM/DD/YYYY</small></h4> <p></p> <hr style="height: 0px;border: 1px solid #aaaaaa;"> <p style="text-indent: 50px;margin-top:0px;line-height: 2.15">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur arcu massa, eu tristique tortor semper nec. Proin consectetur consectetur massa, in gravida tortor finibus eget. Nunc vel metus lacinia, mattis enim non, porttitor tellus. Curabitur dignissim nec sapien et finibus. Cras nec urna feugiat, fermentum est ac, dapibus quam. Vivamus ipsum orci, dapibus vel felis ultrices, placerat iaculis nulla. Vivamus ut interdum nunc. In sit amet pharetra nulla, ut vulputate mi.</p> <p style="text-indent: 50px;margin-top:0px;line-height: 2.15">Cras ac tortor ac odio tempus iaculis. Aliquam sed accumsan elit, ac facilisis felis. Morbi vulputate ante justo, eu porttitor nibh volutpat sed. Sed tincidunt arcu at vehicula eleifend. Nam tristique semper sagittis. Praesent a ultricies odio. Etiam at nibh urna. Curabitur feugiat justo ac metus suscipit, gravida interdum dolor rutrum. Curabitur sit amet dui mattis, cursus turpis eget, fringilla felis. Morbi mollis dapibus hendrerit. Quisque elementum sodales nibh a varius. In sollicitudin ultricies tempus.</p> <p style="text-indent: 50px;margin-top:0px;line-height: 2.15">Suspendisse vel nunc et tellus sagittis volutpat. Cras imperdiet leo ut mauris lobortis vestibulum. Cras in venenatis est. In finibus in augue quis vestibulum. Pellentesque suscipit sit amet neque et ornare. Aliquam sit amet turpis at dolor condimentum tincidunt. Duis sed sodales nulla, sed dictum mauris. Proin in nunc tincidunt, efficitur quam id, placerat ipsum. Sed varius lectus et auctor consectetur. Aenean elementum lectus sed bibendum semper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean posuere dui nulla, quis efficitur turpis semper at. Morbi scelerisque ligula nibh, sed commodo arcu vehicula at. Vestibulum odio nunc, interdum quis ornare sit amet, ornare non orci. Nulla in ante nisi. Mauris a tincidunt neque, elementum elementum neque.</p> <p></p> <p></p> </div> <table id="pageheadertable" style="width: 100%;height: 48px;border: 0px solid red;"> <colgroup> <col width="50px"> <col width=""> <col width="49px"> </colgroup> <tbody> <tr> <td style="text-align: left;border-right: 5px double black;color:#aaaaaa">Left</td> <td style="text-align:center;color:#aaaaaa">Center</td> <td style="text-align: right;text-indent: 48px;color:#aaaaaa">Right</td> </tr> </tbody> </table> </div> <div class="panel" style="width: 816px;height:1056px;border: 1px solid black;padding:48px"> <table id="pageheadertable" style="width: 100%;height: 48px;border: 0px solid red;"> <colgroup> <col width="50px"> <col width=""> <col width="49px"> </colgroup> <tbody> <tr> <td style="text-align: left;border-right: 5px double black;color:#aaaaaa">Left</td> <td style="text-align:center;color:#aaaaaa">Center</td> <td style="text-align: right;text-indent: 48px;color:#aaaaaa">Right</td> </tr> </tbody> </table> <div style="border: 0px solid blue;width:15px;margin-left:30px;height:864px;"> <table height="100%"> <tr><td>&nbsp&nbsp1</td></tr> <tr><td>&nbsp&nbsp2</td></tr> <tr><td>&nbsp&nbsp3</td></tr> <tr><td>&nbsp&nbsp4</td></tr> <tr><td>&nbsp&nbsp5</td></tr> <tr><td>&nbsp&nbsp6</td></tr> <tr><td>&nbsp&nbsp7</td></tr> <tr><td>&nbsp&nbsp8</td></tr> <tr><td>&nbsp&nbsp9</td></tr> <tr><td>10</td></tr> <tr><td>11</td></tr> <tr><td>12</td></tr> <tr><td>13</td></tr> <tr><td>14</td></tr> <tr><td>15</td></tr> <tr><td>16</td></tr> <tr><td>17</td></tr> <tr><td>18</td></tr> <tr><td>19</td></tr> <tr><td>20</td></tr> <tr><td>21</td></tr> <tr><td>22</td></tr> <tr><td>23</td></tr> <tr><td>24</td></tr> <tr><td>25</td></tr> <tr><td>26</td></tr> <tr><td>27</td></tr> <tr><td>28</td></tr> </table> </div> <div style="width: 624px;height: 864px;border: 1px solid #DDDDDD;border-left: 5px double black;margin: -864px 48px 0px 48px;overflow:hidden;"> <p style="text-indent: 50px;margin-top:0px;line-height: 2.15">Integer eu leo sed mauris vestibulum vulputate. Nam augue enim, finibus a mauris eget, semper maximus justo. Duis sed ligula pulvinar nisi elementum elementum. Proin pulvinar pellentesque erat, eget bibendum massa. Integer cursus eu lorem et egestas. Ut pulvinar sapien nibh, vitae facilisis metus accumsan non. Curabitur condimentum bibendum scelerisque. Vestibulum gravida ornare vulputate. Duis vehicula mauris eros, vel viverra diam imperdiet eget. Nulla iaculis rhoncus velit, sed tincidunt lacus rhoncus non.</p> <p style="text-indent: 50px;margin-top:0px;line-height: 2.15">Maecenas pulvinar lorem sed ipsum ornare viverra. Cras quis lorem vitae velit pulvinar suscipit. Fusce gravida venenatis purus, et faucibus magna tristique in. Nulla non diam nibh. Maecenas fringilla a mauris non dictum. Vivamus sed erat sit amet nibh lacinia ullamcorper. Quisque in pretium quam. Sed vehicula sapien nec tortor consectetur, sed gravida velit feugiat.</p> <p></p> <p></p> </div> <table id="pageheadertable" style="width: 100%;height: 48px;border: 0px solid red;"> <colgroup> <col width="50px"> <col width=""> <col width="49px"> </colgroup> <tbody> <tr> <td style="text-align: left;border-right: 5px double black;color:#aaaaaa">Left</td> <td style="text-align:center;color:#aaaaaa">Center</td> <td style="text-align: right;text-indent: 48px;color:#aaaaaa">Right</td> </tr> </tbody> </table> </div>'},
+
+     {title: "Response to Office Action",
+    image:"template2.gif",
+    description: "Template for a response to an office action.",
+    html:'<div style="padding: 100px;width: 850px;height: 1100px;position: relative;overflow: scroll;font-size: 12px;background-color: white;"> <div style="font-size: 0.5em;float: right;margin: -50px;"> <h6 style="text-align:right">Attorney Docket [Number]</h6> </div> <div> <h4 style="text-align:center;"><strong>IN THE UNITED STATES PATENT &amp; TRADEMARK OFFICE</strong></h4> <table border="0" cellpadding="1" cellspacing="1" width="100%" style="margin-top: 25px;"> <colgroup> <col width="25%"> <col width="25%"> <col width="25%"> <col width="25%"> </colgroup> <tbody> <tr> <td style="padding-bottom: 25px;">Applicants:</td> <td style="padding-bottom: 25px;"><small style="background-color: rgba(100,100,100,0.05);font-size: 9px;">[[LAST, ET AL.]]</small></td> <td style="padding-bottom: 25px;">Confirmation No.:</td> <td style="padding-bottom: 25px;"><small style="background-color: rgba(100,100,100,0.05);font-size: 9px;">[[0000]]</small></td> </tr> <tr> <td style="padding-bottom: 25px;">Application No.:</td> <td style="padding-bottom: 25px;"><small style="background-color: rgba(100,100,100,0.05);font-size: 9px;">[[00/000,000]]</small></td> <td style="padding-bottom: 25px;">Art Unit:</td> <td style="padding-bottom: 25px;"><small style="background-color: rgba(100,100,100,0.05);font-size: 9px;">[[0000]]</small></td> </tr> <tr> <td style="padding-bottom: 25px;">Filed</td> <td style="padding-bottom: 25px;"><small style="background-color: rgba(100,100,100,0.05);font-size: 9px;">[[DATE]]</small></td> <td style="padding-bottom: 25px;">Examiner:</td> <td style="padding-bottom: 25px;"><small style="background-color: rgba(100,100,100,0.05);font-size: 9px;">[[LAST, FIRST]]</small></td> </tr> <tr> <td style="padding-bottom: 25px;">Title:</td> <td style="padding-bottom: 25px;" colspan="3"><small style="background-color: rgba(100,100,100,0.05);font-size: 9px;">[[SUBJECT]]</small></td> </tr> </tbody> </table> <div style="text-indent: 50px;"> <address> <p style="text-indent: 0px;line-height: 5px;"><span style="line-height:1">Honorable Commissioner of Patents &amp; Trademarks</span></p> <p style="text-indent: 0px;line-height: 5px;"><span style="line-height:1">P.O. Box 1450 </span></p> <p style="text-indent: 0px;line-height: 5px;"><span style="line-height:1">Alexandria, VA 22313-1450</span></p> </address> <h5 style="text-align:center"><u><strong>AMENDMENT AND RESPONSE TO OFFICE ACTION</strong></u></h5> <p>&nbsp</p> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean mollis, nunc ut pulvinar congue, diam odio luctus tellus, sed aliquet quam elit in velit. Etiam vel eros eu dui mollis bibendum quis vel erat. Aenean blandit efficitur odio quis rhoncus. In vitae ex lacus. Cras non consectetur est. Praesent a ipsum non nisi auctor mattis ut molestie mi. Donec interdum tellus eros, et euismod justo venenatis non. Praesent consequat nisl turpis, eu convallis enim fringilla vitae. Donec in dui posuere, imperdiet arcu ullamcorper, sagittis velit. Pellentesque lobortis sed enim eu elementum. Donec sodales mauris enim. Vestibulum bibendum maximus arcu, vitae rutrum nisl accumsan ac.</p> </div> </div> </div> '}]; 
+    $scope.config = config;
     $scope.editors = editors;
+    $scope.templates = templates;
   }])
-  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope",
-        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope) {
+  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport",
+        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport) {
             $scope.size = 'lg';
 
             // if (!config.draftid) {
@@ -505,13 +520,28 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //     var draft = PROJECTDRAFT(config.draftid);
             //     $scope.draft = draft;
             // }
-            
+            $scope.ckclip = ckclip;
+            $scope.ckreport = ckreport;
             $scope.config = config;
             $scope.ckdefault = ckdefault;
             $scope.ckmin = ckmin;
             var pj = {
               editable: editable()
             };
+            if (angular.isString(config.editor)) {
+              if (config.editor === 'ckdefault') {
+                config.editor = ckdefault;
+              }
+              else if (config.editor === 'ckmin') {
+                config.editor = ckmin;
+              }
+              else if (config.editor === 'ckreport') {
+                config.editor = ckreport;
+              }
+              else if (config.editor === 'ckclip') {
+                config.editor = ckclip;
+              }
+            }
             $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
               if (angular.isUndefined($data.$parent.$nodeScope.$modelValue)) {
                  $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.node.id;

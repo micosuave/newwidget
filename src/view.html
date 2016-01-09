@@ -1,15 +1,14 @@
 
-  <div id="tableofcontents" class="card card-default">
+  <div id="tableofcontents" class="card">
                 <div class="card-header">
-                    <h4 class="card-title" e-form="nameform" editable-text="tree.name" buttons="no" onaftersave="tree.$save();" ng-click="toc.opensubsection(tree)">{{tree.name}}
+                    <switch ng-model="toc.editable" ng-change="toc.togglemode()"  icon="fa fa-globe fa-2x" class="pull-right" disabled style="position:absolute;left:0;top:0;" ng-if="toc.canedit"></switch>
+                    
+                    <h4 class="card-title" e-form="nameform" editable-text="tree.contentlist" buttons="no" onaftersave="tree.$save();" ng-click="toc.opensubsection(tree)">{{tree.contentlistname}}
                     <span class="fa fa-edit" ng-click="nameform.$show()" ng-show="toc.editable"></span>
+                    
                     <small class="pull-right">
-                      <!--<button class="fa fa-send btn btn-success" ng-click="publish(draft)"></button>-->
-                      </small> 
-                    <small class="pull-right">
-                      <button class="fa fa-plus btn btn-warning" ng-if="toc.editable" ng-click="toc.newtopsection()"></button>
+                      <a class="fa fa-plus text-warning" ng-if="toc.editable" ng-click="toc.newtopsection()"></a>
                       <!--<button id="broadcastbutton" title="broadcast" class="fa fa-info btn btn-info " ng-click="toc.broadcast()"></button>-->
-                            <switch ng-model="toc.editable" ng-change="toc.togglemode()"  icon="fa fa-globe fa-2x" class="pull-right" disabled style="position:absolute;top:-20px;right:0;" ng-if="toc.canedit"></switch>
                       </small>
                     </h4>
                 </div>

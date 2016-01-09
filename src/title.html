@@ -1,12 +1,12 @@
 <h3 class="card-title">
-<a href title="toggle widget frame" ng-click="frameless = !frameless"> <i class="fa fa-ge" ng-class="{'fa-ge': (frameless == true),'fa-alert':(frameless == false)}"></i> </a>
- {{title}} 
+<a href title="change widget location" class="adf-move" ng-if="editMode"> <i class="glyphicon glyphicon-move"></i> </a>  
 
+ {{widget.title}} 
+<a href title="collapse widget" ng-show="options.collapsible && !widgetState.isCollapsed" ng-click="widgetState.isCollapsed = !widgetState.isCollapsed"> <i class="glyphicon glyphicon-minus"></i> </a>  
+<a href title="expand widget" ng-show="options.collapsible && widgetState.isCollapsed" ng-click="widgetState.isCollapsed = !widgetState.isCollapsed"> <i class="glyphicon glyphicon-plus"></i> </a> 
 <span class="pull-right"> 
 <a href title="reload widget content" ng-if="widget.reload" ng-click="reload()"> <i class="fa fa-refresh"></i> </a>  
-<a href title="change widget location" class="adf-move" ng-if="editMode"> <i class="glyphicon glyphicon-move"></i> </a>  
-<a href title="collapse widget" ng-show="options.collapsible && !widgetState.isCollapsed" ng-click="widgetState.isCollapsed = !widgetState.isCollapsed"> <i class="glyphicon glyphicon-minus"></i> </a>  
-<a href title="expand widget" ng-show="options.collapsible && widgetState.isCollapsed" ng-click="widgetState.isCollapsed = !widgetState.isCollapsed"> <i class="glyphicon glyphicon-plus"></i> </a>  
+ 
 <a href title="edit widget configuration" ng-click="edit()" ng-if="editMode"> <i class="glyphicon glyphicon-cog"></i> </a> 
 <a href title="fullscreen widget" ng-click="openFullScreen()" ng-show="options.maximizable"> <i class="glyphicon glyphicon-fullscreen"></i> </a>  
 

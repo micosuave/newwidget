@@ -1,39 +1,39 @@
-<div class="card" style="margin: 0.5rem;padding: 0.2rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;" ng-if="pj.editable">
-<div class="card-header"><h3 class="card-title">{{draft.title}}</h3></div>
+<div class="card" style="margin: -0.5rem;padding: 0rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;" ng-if="pj.editable">
+<div class="card-header" ng-if="!draft.isRoot"><h3 class="card-title">{{draft.title}}</h3></div>
                    <!-- <textarea ui-tinymce="tinyMceOptions" mentio mentio-typed-text="typedTerm" 
                             mentio-items="simplePeople | filter:label:typedTerm" ng-model='foo'
                             mentio-iframe-element="iframeElement"></textarea> -->
-                            <textarea id="iframeElement" ckeditor="{{config.editor || 'ckdefault'}}" ng-model="draft.content" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"></textarea>
+                            <textarea id="iframeElement" ckeditor="config.editor" ng-model="draft.content" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"></textarea>
 
                         </div>
-<div id="draftdocument" class="card card-block">
-                <h1 >{{draft.name || draft.title}}</h1>
-                <ng-annotate-text text="draft.content" class="card card-rounded"></ng-annotate-text>
-                <iframe srcdoc="{{draft.content | trustAsHTML}}" style="width:100%;" class="card card-rounded"></iframe>
+<div id="draftdocument" class="card card-block" ng-if="!pj.editable">
+                <!--<h1 >{{draft.title || draft.name}}</h1>-->
+                <ng-annotate-text text="draft.content" class=""></ng-annotate-text>
+                <iframe srcdoc="{{draft.content | trustAsHTML}}" style="width:100%;" class=""></iframe>
                 <div class="" ng-repeat="node in draft.roarlist" node="{{node.id || node}}" style="padding-right: 0rem;">
                     <h2 class="card-title" style="margin-bottom:0px;font-family:'Arial', sans serif;">{{node.title}}</h2>
-                    <ng-annotate-text text="node.content || node.details" class="card-text"></ng-annotate-text>
-                   <iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class="card card-rounded"></iframe>
+                    <ng-annotate-text text="node.content || node.details" class=""></ng-annotate-text>
+                   <iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class=""></iframe>
                     <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="padding-right: 0rem;">
                         <h3 class="card-title" style="margin-bottom:0px;font-family:'Arial', sans serif;">{{node.title}}</h3>
-                        <ng-annotate-text text="node.content || node.details" class="card-text"></ng-annotate-text>
-                        <iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class="card card-rounded"></iframe>
+                        <ng-annotate-text text="node.content || node.details" class=""></ng-annotate-text>
+                        <iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class=""></iframe>
                         <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="padding-right: 0rem;">
                             <h4 class="card-title" style="margin-bottom:0px;font-family:'Arial', sans serif;">{{node.title}} </h4>
-                            <ng-annotate-text text="node.content || node.details" class="card-text"></ng-annotate-text>
-                           <iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class="card card-rounded"></iframe>
+                            <ng-annotate-text text="node.content || node.details" class=""></ng-annotate-text>
+                           <iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class=""></iframe>
                             <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="padding-right: 0rem;">
                                 <h5 class="card-title" style="margin-bottom:0px;font-family:'Arial', sans serif;">{{node.title}}</h5>
-                                <ng-annotate-text text="node.content || node.details" class="card-text"></ng-annotate-text>
-                                <iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class="card card-rounded"></iframe>
+                                <ng-annotate-text text="node.content || node.details" class=""></ng-annotate-text>
+                                <iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class=""></iframe>
                                 <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="padding-right: 0rem;">
                                     <h6 class="card-title" style="margin-bottom:0px;font-family:'Arial', sans serif;">{{node.title}}</h6>
-                                    <ng-annotate-text text="node.content || node.details" class="card-text"></ng-annotate-text>
-                                    <iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class="card card-rounded"></iframe>
+                                    <ng-annotate-text text="node.content || node.details" class=""></ng-annotate-text>
+                                    <iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class=""></iframe>
                                     <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}">
                                       <label class="lead"  style="margin-bottom:0px;font-family:'Arial', sans serif;">{{node.title}}</label>
-                                      <ng-annotate-text text="node.content ||node.details" class="card-text"></ng-annotate-text>
-                                      <iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class="card card-rounded"></iframe>
+                                      <ng-annotate-text text="node.content ||node.details" class=""></ng-annotate-text>
+                                      <iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class=""></iframe>
                                     </div>
                                 </div>
                             </div>
