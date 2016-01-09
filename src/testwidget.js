@@ -277,7 +277,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             $scope.config = config;
             $scope.ckdefault = ckdefault;
             $scope.ckmin = ckmin;
-            toc.canedit = edit;
+            
             toc.broadcast = function (data) {
               $rootScope.$broadcast('TABLEOFCONTENTS', data);
             };
@@ -285,7 +285,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             // var pj = {
             //   editable: editable()
             // };
-            function edit() {
+           toc.canedit = function() {
               if ($rootScope.$state.includes('projectdashboard')) {
                 return true;
               }

@@ -1,9 +1,9 @@
 
-  <div id="tableofcontents" class="card">
-                <div class="card-header">
-                    <switch ng-model="toc.editable" ng-change="toc.togglemode()"  icon="fa fa-globe fa-2x" class="pull-right" disabled style="position:absolute;left:0;top:0;" ng-if="toc.canedit"></switch>
+ 
+                <div class="card-header"  ng-if="toc.canedit()">
+                    <switch ng-model="toc.editable" ng-change="toc.togglemode()"  icon="fa fa-globe fa-2x" class="pull-left" disabled style="font-size:14px;"></switch>
                     
-                    <h4 class="card-title" e-form="nameform" editable-text="tree.contentlist" buttons="no" onaftersave="tree.$save();" ng-click="toc.opensubsection(tree)">{{tree.contentlistname}}
+                    <h4 class="card-title" e-form="nameform" editable-text="tree.contentlistname" buttons="no" onaftersave="tree.$save();" ng-click="toc.opensubsection(tree)">{{tree.contentlistname}}
                     <span class="fa fa-edit" ng-click="nameform.$show()" ng-show="toc.editable"></span>
                     
                     <small class="pull-right">
@@ -12,7 +12,7 @@
                       </small>
                     </h4>
                 </div>
-                <div class="card-text">
+                <div class="card-text" ng-if="tree.roarlist">
                     <div ui-tree="">
                         <ol ui-tree-nodes max-depth="6" ng-model="tree.roarlist">
                             <li ui-tree-node class="" ng-repeat="(key,node) in tree.roarlist | orderBy: $index " ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node}}"></li>
@@ -20,8 +20,7 @@
                         </ol>
                     </div>
                 </div>
-            </div>
-           
+            
             
             <script type="text/ng-template" id="nodes_renderer1.html">
     <div ui-tree-handle class="tree-node tree-node-content">
