@@ -383,9 +383,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 });
               
             };
-            toc.opensubsection = function (scope) {
+            toc.opensubsection = function (node) {
               //window.alert(scope);
-              toc.broadcast(scope);
+              $rootScope.$broadcast('TABLEOFCONTENTS', node.id);
+              //debugger;
+              //toc.broadcast(node.id);
+              //debugger;
             };
             toc.togglemode = function () {
               var walk = function (node) {
@@ -552,15 +555,15 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               $scope.$parent.$parent.reload();
             });
             $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
-              if (angular.isUndefined($data.$parent.$nodeScope.$modelValue)) {
-                 $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.node.id;
+              // if (angular.isUndefined($data.$parent.$nodeScope.$modelValue)) {
+              //    $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.node.id;
               
-              } else {
-                $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.$modelValue.id
-              }
+              // } else {
+              //   $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.$modelValue.id
+              // }
                
               
-              // $scope.$parent.$parent.config.id = $data;
+               $scope.$parent.$parent.config.id = $data;
                $scope.$parent.$parent.reload();
                $scope.edittime = true;
               // console.log('Event', $event);
