@@ -1,10 +1,9 @@
 <form role="form">
     <div class="form-group">
-        <label for="draftid">Draft</label>
-        <select ng-model="config.draftid" ng-change="loaddraft(config.draftid)" ng-options="draft.$id as draft.name for draft in drafts" class="form-control" id="draftid" placeholder="Select Draft..."></select>
+        <label for="draftid">Editor Configuration</label>
+        <select ng-model="config.editor" ng-change="" ng-options="editor.obj as editor.name for editor in editors" class="form-control" id="draftid" placeholder="Select Editor Configuration..."></select>
         <!-- <input type="text" class="form-control" id="sample" ng-model="config.sample" placeholder="Enter sample"> -->
     </div>
 
-    <a class="card fa fa-file" ng-repeat="draft in drafts" ng-click="config.draftid = draft.$id">{{draft.name}}</a>
-    <button class="dashed-outline fa fa-4x fa-plus" ng-click="newdraft()"></button>
+    
 </form>

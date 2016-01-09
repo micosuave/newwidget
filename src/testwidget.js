@@ -113,7 +113,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
                     modalSize: 'lg',
-                    controller: 'CKEWidgetCtrl',
+                    controller: 'CKEditorCtrl',
                     reload: true
                 },
                 resolve: {
@@ -276,7 +276,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             $scope.config = config;
             $scope.ckdefault = ckdefault;
             $scope.ckmin = ckmin;
-            toc.edit = edit;
+            toc.canedit = edit;
             toc.broadcast = function (data) {
               $rootScope.$broadcast('TABLEOFCONTENTS', data);
             };
@@ -292,6 +292,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 return false;
               }
             };
+            
             //$scope.pj = pj;
             toc.tree = Collection(config.id);
             toc.tree.$bindTo($scope, 'tree');
@@ -486,7 +487,14 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //     });
             // };
         }
-    ]).controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin","Collection","$controller","$rootScope",
+  ]).controller('CKEditorCtrl', ["$scope", "config", "ckdefault", "ckmin", function ($scope, config, ckdefault, ckmin) {
+    var editors = [
+      { name: 'Default', obj: ckdefault },
+      { name: 'Minimal', obj: ckmin }
+    ];
+    $scope.editors = editors;
+  }])
+  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope",
         function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope) {
             $scope.size = 'lg';
 

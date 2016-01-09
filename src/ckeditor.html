@@ -3,7 +3,7 @@
                    <!-- <textarea ui-tinymce="tinyMceOptions" mentio mentio-typed-text="typedTerm" 
                             mentio-items="simplePeople | filter:label:typedTerm" ng-model='foo'
                             mentio-iframe-element="iframeElement"></textarea> -->
-                            <textarea id="iframeElement" ckeditor="" ng-model="draft.content" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"></textarea>
+                            <textarea id="iframeElement" ckeditor="{{config.editor}}" ng-model="draft.content" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"></textarea>
 
                         </div>
 <div id="draftdocument" class="card card-block">

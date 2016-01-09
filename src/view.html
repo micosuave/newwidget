@@ -9,7 +9,7 @@
                     <small class="pull-right">
                       <button class="fa fa-plus btn btn-warning" ng-if="toc.editable" ng-click="toc.newtopsection()"></button>
                       <!--<button id="broadcastbutton" title="broadcast" class="fa fa-info btn btn-info " ng-click="toc.broadcast()"></button>-->
-                            <switch ng-model="toc.editable" ng-change="toc.togglemode()"  icon="fa fa-globe fa-2x" class="pull-right" disabled style="position:absolute;top:-20px;right:0;"></switch>
+                            <switch ng-model="toc.editable" ng-change="toc.togglemode()"  icon="fa fa-globe fa-2x" class="pull-right" disabled style="position:absolute;top:-20px;right:0;" ng-if="toc.canedit"></switch>
                       </small>
                     </h4>
                 </div>
@@ -22,51 +22,8 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
-  <div ng-repeat="(key, node) in tree.roarlist" node="{{node.id ||node}}">
-    <h4 class="card-title">{{node.title}}</h4>
-      <ng-annotate-text text="node.content"></ng-annotate-text>
-      <div ng-include="'document.html'" ng-repeat="(key, node) in node.roarlist" node="{{key}}"></div>
-  </div>
-</div>
-            <script type="text/ng-template" id="document.html">
-    <h4 class="card-title">{{node.title}}</h4>
-      <ng-annotate-text text="node.content"></ng-annotate-text>
-      <div ng-include="'document.html'" ng-repeat="(key, node) in node.roarlist" node="{{node.id || node}}"></div>
-            </script>
-            <div id="draftdocument" class="card card-block card-default">
-                <h1 >{{tree.name || tree.title}}</h1>
-                <div class="" ng-repeat="node in tree.roarlist" node="{{node.id || node}}" style="padding-right: 0rem;">
-                    <h2 class="card-title" style="margin-bottom:0px;font-family:'Arial', sans serif;">{{node.title}}</h2>
-                    <ng-annotate-text text="node.content || node.details" class="card-text"></ng-annotate-text>
-                   
-                    <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="padding-right: 0rem;">
-                        <h3 class="card-title" style="margin-bottom:0px;font-family:'Arial', sans serif;">{{node.title}}</h3>
-                        <ng-annotate-text text="node.content || node.details" class="card-text"></ng-annotate-text>
-                        
-                        <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="padding-right: 0rem;">
-                            <h4 class="card-title" style="margin-bottom:0px;font-family:'Arial', sans serif;">{{node.title}} </h4>
-                            <ng-annotate-text text="node.content || node.details" class="card-text"></ng-annotate-text>
-                           
-                            <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="padding-right: 0rem;">
-                                <h5 class="card-title" style="margin-bottom:0px;font-family:'Arial', sans serif;">{{node.title}}</h5>
-                                <ng-annotate-text text="node.content || node.details" class="card-text"></ng-annotate-text>
-                                
-                                <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="padding-right: 0rem;">
-                                    <h6 class="card-title" style="margin-bottom:0px;font-family:'Arial', sans serif;">{{node.title}}</h6>
-                                    <ng-annotate-text text="node.content || node.details" class="card-text"></ng-annotate-text>
-                                    
-                                    <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}">
-                                      <label class="lead"  style="margin-bottom:0px;font-family:'Arial', sans serif;">{{node.title}}</label>
-                                      <ng-annotate-text text="node.content ||node.details" class="card-text"></ng-annotate-text>
-                                      
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
+            
             <script type="text/ng-template" id="nodes_renderer1.html">
     <div ui-tree-handle class="tree-node tree-node-content">
         <div class="tree-node-content flextoprow mouseoverunderline" style="position:relative;">
