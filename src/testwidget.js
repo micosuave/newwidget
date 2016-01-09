@@ -281,7 +281,9 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             toc.broadcast = function (data) {
               $rootScope.$broadcast('TABLEOFCONTENTS', data);
             };
-            
+            toc.returnroot = function () {
+              $rootScope.$broadcast('RETURNROOT', config.id);
+            };
             // var pj = {
             //   editable: editable()
             // };
@@ -293,7 +295,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 return false;
               }
             };
-            
+           toc.editable = false;
+            $scope.$on('adfToggleEditMode', function(){
+              toc.editable = !toc.editable;
+            })
             //$scope.pj = pj;
             toc.tree = Collection(config.id);
             toc.tree.$bindTo($scope, 'tree');
@@ -542,6 +547,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 config.editor = ckclip;
               }
             }
+            $scope.$on('RETURNROOT', function ($event, $data) {
+              $scope.$parent.$parent.config.id = $data;
+              $scope.$parent.$parent.reload();
+            });
             $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
               if (angular.isUndefined($data.$parent.$nodeScope.$modelValue)) {
                  $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.node.id;
