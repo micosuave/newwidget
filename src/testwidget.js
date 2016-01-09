@@ -110,11 +110,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 frameless: true,
                 reload: true,
                 immediate: true,
+                styleClass: 'card',
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
                     modalSize: 'lg',
                     controller: 'CKEditorCtrl',
-                    reload: true
+                    reload: false
                 },
                 resolve: {
                     config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL",
