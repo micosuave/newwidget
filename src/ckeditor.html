@@ -1,5 +1,5 @@
 <div class="card" style="margin: -0.5rem;padding: 0rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;" ng-if="pj.editable">
-<div class="card-header" ng-hide="draft.isRoot"><h3 class="card-title">{{draft.title}}</h3></div>
+<div class="card-header" ng-hide="!draft.isRoot"><h3 class="card-title">{{draft.title}}</h3></div>
                    <!-- <textarea ui-tinymce="tinyMceOptions" mentio mentio-typed-text="typedTerm" 
                             mentio-items="simplePeople | filter:label:typedTerm" ng-model='foo'
                             mentio-iframe-element="iframeElement"></textarea> -->
@@ -10,27 +10,27 @@
           <h1 >{{draft.title || draft.name}}</h1>
             <ng-annotate-text text="draft.content" class=""></ng-annotate-text>
                 <!--<iframe srcdoc="{{draft.content | trustAsHTML}}" style="width:100%;" class=""></iframe>-->
-                <div class="" ng-repeat="node in draft.roarlist" node="{{node.id || node}}" style="">
+                <div class="" ng-repeat="node in draft.roarlist" node="{{node.id || node}}" style="margin-left:0.25rem;">
                     <h2 class="" style="">{{node.title}}</h2>
                     <ng-annotate-text text="node.content" class=""></ng-annotate-text>
                    <!--<iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class=""></iframe>-->
-                    <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="">
+                    <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="margin-left:0.5rem;">
                         <h3 class="" style="">{{node.title}}</h3>
                         <ng-annotate-text text="node.content" class=""></ng-annotate-text>
                         <!--<iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class=""></iframe>-->
-                        <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="">
+                        <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="margin-left:0.75rem;">
                             <h4 class="" style="">{{node.title}} </h4>
                             <ng-annotate-text text="node.content" class=""></ng-annotate-text>
                            <!--<iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class=""></iframe>-->
-                            <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="">
+                            <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="margin-left:1rem;">
                                 <h5 class="" style="">{{node.title}}</h5>
                                 <ng-annotate-text text="node.content" class=""></ng-annotate-text>
                                 <!--<iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class=""></iframe>-->
-                                <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="">
+                                <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="margin-left:1.25rem;">
                                     <h6 class="" style="">{{node.title}}</h6>
                                     <ng-annotate-text text="node.content" class=""></ng-annotate-text>
                                     <!--<iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class=""></iframe>-->
-                                    <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}">
+                                    <div class="" ng-repeat="node in node.roarlist" node="{{node.id || node}}" style="margin-left:1.5rem;">
                                       <label class=""  style="">{{node.title}}</label>
                                       <ng-annotate-text text="node.content" class=""></ng-annotate-text>
                                       <!--<iframe srcdoc="{{node.content | trustAsHTML}}" style="width:100%;" class=""></iframe>-->

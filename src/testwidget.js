@@ -102,14 +102,14 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     ]
                   }
             }).widget('ckwidget', {
-                title: 'CKeditor-Widget',
+                title: 'LexPad Editor',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
-                description: 'CKeditor text editor',
+                description: 'text editor',
                 controller: 'CKEWidgetCtrl',
                 templateUrl: '/newwidget/src/ckeditor.html',
                 frameless: true,
-                reload: true,
-                immediate: true,
+                reload: false,
+                immediate: false,
                 styleClass: 'card',
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
@@ -332,6 +332,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               var section = this;
                 section.title = 'Section Title';
                 section.content = 'Section content';
+                section.isRoot = false;
                return section;
             };
             toc.newtopsection = function () {
