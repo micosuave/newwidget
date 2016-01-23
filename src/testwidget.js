@@ -332,7 +332,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               var section = this;
                 section.title = 'Section Title';
                 section.content = 'Section content';
-                section.isRoot = false;
+                section.isnotRoot = true;
                return section;
             };
             toc.newtopsection = function () {
