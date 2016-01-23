@@ -7,7 +7,7 @@
 
                         </div>
         <div id="draftdocument" class="{{draft.renderClass}}" ng-if="!pj.editable" style="">
-          <h1 >{{draft.title || draft.name}}</h1>
+          <h1 ng-show="!draft.isRoot">{{draft.title || draft.name}}</h1>
             <ng-annotate-text text="draft.content" class=""></ng-annotate-text>
                 <!--<iframe srcdoc="{{draft.content | trustAsHTML}}" style="width:100%;" class=""></iframe>-->
                 <div class="" ng-repeat="node in draft.roarlist" node="{{node.id || node}}" style="margin-left:0.25rem;">
