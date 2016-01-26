@@ -59,6 +59,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 frameless: true,
                 reload: true,
                 immediate: true,
+                styleClass: 'llp-memo-draft-basic',
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/edit.html',
                     modalSize: 'lg',
@@ -110,7 +111,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 frameless: true,
                 reload: false,
                 immediate: false,
-                styleClass: 'card',
+                styleClass: 'llp-memo-draft-basic',
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
                     modalSize: 'lg',

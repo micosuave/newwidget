@@ -49,3 +49,6 @@
 .llp-memo-draft-basic li {
   list-style-type: initial;
 }
+a.gototarget:before {
+  content: leader('.');
+}
