@@ -556,7 +556,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               $('#ckdrafter' + config.id).css({ 'border': '1px dotted red' });
             }
             $scope.updateid = function () {
-              config.id = $ACTIVEROAR.tabid;
+              //config.id = $ACTIVEROAR.tabid;
               $scope.$parent.$parent.config.id = $ACTIVEROAR.tabid;
               $scope.$parent.$parent.reload();
             };
