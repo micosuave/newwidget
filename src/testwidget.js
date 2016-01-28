@@ -520,8 +520,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     $scope.editors = editors;
     $scope.templates = templates;
   }])
-  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport",
-        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport) {
+  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport","$ACTIVEROAR",
+        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR) {
             $scope.size = 'lg';
 
             // if (!config.draftid) {
@@ -552,6 +552,14 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 config.editor = ckclip;
               }
             }
+            if (config.id == !$ACTIVEROAR.tabid) {
+              $('#ckdrafter' + config.id).css({ 'border': '1px dotted red' });
+            }
+            $scope.updateid = function () {
+              config.id = $ACTIVEROAR.tabid;
+              $scope.$parent.$parent.config.id = $ACTIVEROAR.tabid;
+              $scope.$parent.$parent.reload();
+            };
             $scope.$on('RETURNROOT', function ($event, $data) {
               $scope.$parent.$parent.config.id = $data;
               $scope.$parent.$parent.reload();
