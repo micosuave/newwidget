@@ -8,7 +8,9 @@
     "adf-widget"
   ],
   "description": "just a simple test of widget generator",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.0.1"
+  },
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-angular-filesort": "^1.1.1",

@@ -75,25 +75,25 @@ gulp.task('serve', ['watch', 'sample'], function() {
 gulp.task('css', function() {
     gulp.src(['src/**/*.css', 'src/**/*.less'])
         .pipe($.if('*.less', $.less()))
-        .pipe($.concat(pkg.name + '.css'))
+       // .pipe($.concat(pkg.name + '.css'))
         .pipe(gulp.dest('dist'))
         .pipe($.rename(pkg.name + '.min.css'))
-        .pipe($.minifyCss())
+       //.pipe($.minifyCss())
         .pipe(gulp.dest('dist'));
 });
 
 gulp.task('js', function() {
     gulp.src(['src/**/*.js', 'src/**/*.html'])
-        .pipe($.if('*.html', $.minifyHtml()))
-        .pipe($.if('*.html', $.angularTemplatecache(pkg.name + '.tpl.js', templateOptions)))
+        //.pipe($.if('*.html', $.minifyHtml()))
+       // .pipe($.if('*.html', $.angularTemplatecache(pkg.name + '.tpl.js', templateOptions)))
         .pipe($.angularFilesort())
         .pipe($.if('*.js', $.replace(/'use strict';/g, '')))
-        .pipe($.concat(pkg.name + '.js'))
+        //.pipe($.concat(pkg.name + '.js'))
         .pipe($.headerfooter('(function(window, undefined) {\'use strict\';\n', '})(window);'))
-        .pipe($.ngAnnotate(annotateOptions))
+       // .pipe($.ngAnnotate(annotateOptions))
         .pipe(gulp.dest('dist'))
         .pipe($.rename(pkg.name + '.min.js'))
-        .pipe($.uglify())
+       // .pipe($.uglify())
         .pipe(gulp.dest('dist'));
 });
 

@@ -3,17 +3,17 @@ angular.module('adf.widget.iframe', ['adf.provider'])
   .config(["dashboardProvider", function(dashboardProvider){
     dashboardProvider
       .widget('iframe', {
-        title: 'iframe',
+        title: '',
         description: 'Embed an external page into the dashboard',
         templateUrl: '{widgetsPath}/iframe/src/view.html',
         controller: 'iframeController',
         controllerAs: 'iframe',
-        frameless: true,
+        frameless: false,
         edit: {
           templateUrl: '{widgetsPath}/iframe/src/edit.html'
         },
         config: {
-          height: '420px'
+          height: '320px'
         }
       });
   }])
@@ -37,8 +37,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             controller: 'PDFController',
             controllerAs: 'pdf',
             templateUrl: '{widgetsPath}/testwidget/src/pdfview.html',
-            frameless: true,
-            reload: true,
+            frameless: false,
+            reload: false,
             styleClass: 'card-fancy',
             edit: {
               templateUrl: '{widgetsPath}/iframe/src/edit.html',
@@ -57,14 +57,14 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 controllerAs: 'toc',
                 templateUrl: '{widgetsPath}/testwidget/src/view.html',
                 frameless: true,
-                reload: true,
-                immediate: true,
+                reload: false,
+                immediate: false,
                 styleClass: 'llp-memo-draft-basic',
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/edit.html',
                     modalSize: 'lg',
                     controller: 'PhdTocWidgetCtrl',
-                    reload: true
+                    reload: false
                 },
                 resolve: {
                     config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL",
@@ -103,20 +103,20 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     ]
                   }
             }).widget('ckwidget', {
-                title: 'LexPad Editor',
+                title: 'LexPad',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'text editor',
                 controller: 'CKEWidgetCtrl',
                 templateUrl: '/newwidget/src/ckeditor.html',
-                frameless: true,
+                frameless: false,
                 reload: false,
                 immediate: false,
-                styleClass: 'llp-memo-draft-basic',
+                styleClass: 'llp-memo-draft-basic panel-default',
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
                     modalSize: 'lg',
                     controller: 'CKEditorCtrl',
-                    reload: true
+                    reload: false
                 },
                 resolve: {
                     config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL","ckdefault",
@@ -154,7 +154,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                       }
                     ]
                   }
-            }).widget('uiView', {
+            }).widget('embed', {
                 title: 'EmbedViewer',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'embed content from remote sites',
@@ -162,13 +162,20 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
                     $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
                 }],
-                frameless: true,
+                frameless: false,
                 edit: {
                     template: '<div class="card"><label for="content">Enter embed code</label><textarea name="content" class="form-control" ng-model="config.content"></textarea></div>',
                     immediate: true,
                     reload: true
                 }
-            }).widget('dash', {
+            })
+
+
+
+
+
+/*
+.widget('dash', {
                 title: 'board',
                 template: ' <adf-dashboard name="{{dashboard.title}}" structure="{{dashboard.structure}}" collapsible="{{dashboard.collapsible}}" maximizable="{{dashboard.maximizable}}" enable-confirm-delete="{{dashboard.enableConfirmDelete}}" class="{{dashboard.styleClass}}" frameless="{{dashboard.frameless}}" title-template-url="{{dashboard.titleTemplateUrl}}" continuous-edit-mode="false" adf-model="dashboard.model" />',
                 frameless: true,
@@ -252,7 +259,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
             });
 
-  }).controller('PDFController', ['$scope', 'pdfDelegate','config','Collection', function($scope, pdfDelegate, config, Collection) {
+  })
+*/
+
+
+
+.controller('PDFController', ['$scope', 'pdfDelegate','config','Collection', function($scope, pdfDelegate, config, Collection) {
     var pdf = this;
     pdf.config = config;
     if (config.url) {
@@ -681,7 +693,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
                 });
 
-            };
+            };*/
+/*
             $scope.deactivate = function($scope) {
                 $scope.$nodeScope.$modelValue.section.isActive = false;
                 draft.$save();
@@ -706,4 +719,4 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //     });
             // };
         }
-    ]);
+}    ]);
