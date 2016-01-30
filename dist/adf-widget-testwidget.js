@@ -1,20 +1,21 @@
 (function(window, undefined) {'use strict';
 
-angular.module('adf.widget.iframe', ['adf.provider'])
+angular.module('adf.widget.frame', ['adf.provider'])
   .config(["dashboardProvider", function(dashboardProvider){
     dashboardProvider
       .widget('iframe', {
-        title: 'iframe',
+        title: '',
         description: 'Embed an external page into the dashboard',
         templateUrl: '{widgetsPath}/iframe/src/view.html',
         controller: 'iframeController',
         controllerAs: 'iframe',
-        frameless: true,
+        frameless: false,
+        reload: false,
         edit: {
           templateUrl: '{widgetsPath}/iframe/src/edit.html'
         },
         config: {
-          height: '420px'
+          height: '320px'
         }
       });
   }])
@@ -38,8 +39,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             controller: 'PDFController',
             controllerAs: 'pdf',
             templateUrl: '{widgetsPath}/testwidget/src/pdfview.html',
-            frameless: true,
-            reload: true,
+            frameless: false,
+            reload: false,
             styleClass: 'card-fancy',
             edit: {
               templateUrl: '{widgetsPath}/iframe/src/edit.html',
@@ -58,14 +59,14 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 controllerAs: 'toc',
                 templateUrl: '{widgetsPath}/testwidget/src/view.html',
                 frameless: true,
-                reload: true,
-                immediate: true,
+                reload: false,
+                immediate: false,
                 styleClass: 'llp-memo-draft-basic',
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/edit.html',
                     modalSize: 'lg',
                     controller: 'PhdTocWidgetCtrl',
-                    reload: true
+                    reload: false
                 },
                 resolve: {
                     config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL",
@@ -104,20 +105,20 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     ]
                   }
             }).widget('ckwidget', {
-                title: 'LexPad Editor',
+                title: 'LexPad',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'text editor',
                 controller: 'CKEWidgetCtrl',
                 templateUrl: '/newwidget/src/ckeditor.html',
-                frameless: true,
+                frameless: false,
                 reload: false,
                 immediate: false,
-                styleClass: 'llp-memo-draft-basic',
+                styleClass: 'llp-memo-draft-basic panel-default',
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
                     modalSize: 'lg',
                     controller: 'CKEditorCtrl',
-                    reload: true
+                    reload: false
                 },
                 resolve: {
                     config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL","ckdefault",
@@ -155,7 +156,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                       }
                     ]
                   }
-            }).widget('uiView', {
+            }).widget('embed', {
                 title: 'EmbedViewer',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'embed content from remote sites',
@@ -163,13 +164,20 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
                     $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
                 }],
-                frameless: true,
+                frameless: false,
                 edit: {
                     template: '<div class="card"><label for="content">Enter embed code</label><textarea name="content" class="form-control" ng-model="config.content"></textarea></div>',
                     immediate: true,
                     reload: true
                 }
-            }).widget('dash', {
+            })
+
+
+    }])
+
+
+/*
+.widget('dash', {
                 title: 'board',
                 template: ' <adf-dashboard name="{{dashboard.title}}" structure="{{dashboard.structure}}" collapsible="{{dashboard.collapsible}}" maximizable="{{dashboard.maximizable}}" enable-confirm-delete="{{dashboard.enableConfirmDelete}}" class="{{dashboard.styleClass}}" frameless="{{dashboard.frameless}}" title-template-url="{{dashboard.titleTemplateUrl}}" continuous-edit-mode="false" adf-model="dashboard.model" />',
                 frameless: true,
@@ -253,7 +261,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
             });
 
-  }]).controller('PDFController', ['$scope', 'pdfDelegate','config','Collection', function($scope, pdfDelegate, config, Collection) {
+  })
+*/
+
+
+
+.controller('PDFController', ['$scope', 'pdfDelegate','config','Collection', function($scope, pdfDelegate, config, Collection) {
     var pdf = this;
     pdf.config = config;
     if (config.url) {
@@ -525,12 +538,6 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR) {
             $scope.size = 'lg';
 
-            // if (!config.draftid) {
-            //     config.draftid = '';
-            // } else {
-            //     var draft = PROJECTDRAFT(config.draftid);
-            //     $scope.draft = draft;
-            // }
             $scope.ckclip = ckclip;
             $scope.ckreport = ckreport;
             $scope.config = config;
@@ -566,26 +573,13 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               $scope.$parent.$parent.reload();
             });
             $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
-              // if (angular.isUndefined($data.$parent.$nodeScope.$modelValue)) {
-              //    $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.node.id;
-              
-              // } else {
-              //   $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.$modelValue.id
-              // }
+             
                
               
                $scope.$parent.$parent.config.id = $data;
                $scope.$parent.$parent.reload();
                $scope.edittime = true;
-              // console.log('Event', $event);
-              // console.log('Data', $data);
-              // console.log('more', more);
-              // alertify.confirm('set to ' + $data + '?', function (cancel, confirm) {
-              //   $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.$modelValue.id;
-              //    //var draft = Collection($data);
-              //    //draft.$bindTo($scope, 'draft');
-              //   $scope.$parent.$parent.reload();
-              // });
+             
             });
             function editable() {
               if ($rootScope.$state.includes('projectdashboard')) {
@@ -598,31 +592,13 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             $scope.pj = pj;
             var draft = Collection(config.id);
             draft.$bindTo($scope, 'draft');
-            // $scope.configured = function() {
-            //     return $scope.config.content !== '';
-            // };
-
-            // $scope.notConfigured = function() {
-            //     return $scope.config.content === '';
-            // };
-            // var projectId = $stateParams.pId;
-
-            // var matterId = $stateParams.matterId;
-            // var project = PROJECT(projectId);
-            // $scope.project = project;
-            // var drafts = PROJECTDRAFTS(projectId);
-            // $scope.drafts = drafts;
-
+            
             $scope.loaddraft = function(draftId) {
                 var draft = Collection(draftId);
                 draft.$bindTo($scope, 'draft');
             };
 
 
-            //draft.$bindTo($scope, 'draft');
-            //var notes = ROARsnippets(matterId);
-            //$scope.notecards = notes;
-            
 
             var Section = function(){
               var section = this;
@@ -663,54 +639,11 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     //draft.$save();
                 }
             };
-         /*   $scope.editcard = function($scope) {
-                var model = $scope.$nodeScope.$modelValue;
-                model.isActive = true;
-                draft.$save();
-                ngDialog.open({
-                    template: 'sectionedit.html',
-                    scope: $scope,
-                    controller: 'PhdTocWidgetCtrl',
-                    appendTo: '#tableofcontents',
-                    //plain: true,
-                    showClose: false,
-                    closeByEscape: true,
-                    closeByDocument: true,
-                    className: 'ngdialog-theme-card',
-                    overlay: false
-
-
-                });
-
-            };
-            $scope.deactivate = function($scope) {
-                $scope.$nodeScope.$modelValue.section.isActive = false;
-                draft.$save();
-                alertify.log("<img src='img/lexlab.svg'>");
-            };
-            $scope.savedraft = function($scope) {
-                $scope.$nodeScope.$modelValue.section.isActive = false;
-                draft.$save();
-                alertify.log("<img src='img/lexlab.svg'>");
-            };
-            var contentarray = new Array();
-            var newdrafttpl = {
-                name: 'New Draft',
-                content: contentarray
-            };*/
-            // $scope.newdraft = function() {
-            //     projectdrafts.$add(newdrafttpl).then(function(ref) {
-            //         var id = ref.key();
-            //         ref.update({
-            //             id: id
-            //         });
-            //     });
-            // };
+         
         }
-    ]);
+   ]);
 
-angular.module("adf.widget.testwidget").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/testwidget/src/boilerplate.html","<!DOCTYPE html><html><head><title>{{draft.title}}</title></head><body>{{}}</body></html>");
-$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin: -0.5rem;padding: 0rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;\" ng-if=pj.editable><div class=card-header ng-show=draft.isnotRoot><h3 class=card-title>{{draft.title}}</h3></div><div id=ckdrafter{{config.id}} ckeditor=config.editor ng-model=draft.content ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 30000, \'blur\': 0} }\" class=\"card card-block\" contenteditable=true style=width:100%;height:100%;font-size:14px;color:#444;></div></div><div id=draftdocument class={{draft.renderClass}} ng-if=!pj.editable><h1 ng-show=draft.isnotRoot>{{draft.title || draft.name}}</h1><ng-annotate-text text=draft.content></ng-annotate-text><div ng-repeat=\"node in draft.roarlist\" node=\"{{node.id || node}}\" style=margin-left:0.25rem;><h2>{{node.title}}</h2><ng-annotate-text text=node.content></ng-annotate-text><div ng-repeat=\"node in node.roarlist\" node=\"{{node.id || node}}\" style=margin-left:0.5rem;><h3>{{node.title}}</h3><ng-annotate-text text=node.content></ng-annotate-text><div ng-repeat=\"node in node.roarlist\" node=\"{{node.id || node}}\" style=margin-left:0.75rem;><h4>{{node.title}}</h4><ng-annotate-text text=node.content></ng-annotate-text><div ng-repeat=\"node in node.roarlist\" node=\"{{node.id || node}}\" style=margin-left:1rem;><h5>{{node.title}}</h5><ng-annotate-text text=node.content></ng-annotate-text><div ng-repeat=\"node in node.roarlist\" node=\"{{node.id || node}}\" style=margin-left:1.25rem;><h6>{{node.title}}</h6><ng-annotate-text text=node.content></ng-annotate-text><div ng-repeat=\"node in node.roarlist\" node=\"{{node.id || node}}\" style=margin-left:1.5rem;><label>{{node.title}}</label><ng-annotate-text text=node.content></ng-annotate-text></div></div></div></div></div></div></div><a ng-click=updateid() class=\"fa fa-refresh\"></a>");
+angular.module("adf.widget.testwidget").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin: -0.1rem;padding: 0.1rem;text-align: left;overflow: visibile; height: 60rem;border: 0rem solid #110000;box-shadow:0 0 0 transparent;\" ng-if=pj.editable><a ng-click=updateid() class=\"fa fa-refresh\"></a><div class=card-header ng-show=draft.isnotRoot><h3 class=card-title>{{draft.title}}</h3></div><div id={config.id} ckeditor=config.editor ng-model=draft.content ng-model-options=\"{ updateOn: \'blur\', debounce: {\'blur\': 500} }\" class=\"card card-block\" contenteditable=true style=width:100%;min-height:300px;font-size:14px;color:#444;></div></div><div id=draftdocument class={{draft.renderClass}} ng-if=!pj.editable><h1 ng-show=draft.isnotRoot>{{draft.title || draft.name}}</h1><ng-annotate-text text=draft.content></ng-annotate-text><div ng-repeat=\"node in draft.roarlist\" node=\"{{node.id || node}}\" style=margin-left:0.25rem;><h2>{{node.title}}</h2><ng-annotate-text text=node.content></ng-annotate-text><div ng-repeat=\"node in node.roarlist\" node=\"{{node.id || node}}\" style=margin-left:0.5rem;><h3>{{node.title}}</h3><ng-annotate-text text=node.content></ng-annotate-text><div ng-repeat=\"node in node.roarlist\" node=\"{{node.id || node}}\" style=margin-left:0.75rem;><h4>{{node.title}}</h4><ng-annotate-text text=node.content></ng-annotate-text><div ng-repeat=\"node in node.roarlist\" node=\"{{node.id || node}}\" style=margin-left:1rem;><h5>{{node.title}}</h5><ng-annotate-text text=node.content></ng-annotate-text><div ng-repeat=\"node in node.roarlist\" node=\"{{node.id || node}}\" style=margin-left:1.25rem;><h6>{{node.title}}</h6><ng-annotate-text text=node.content></ng-annotate-text><div ng-repeat=\"node in node.roarlist\" node=\"{{node.id || node}}\" style=margin-left:1.5rem;><label>{{node.title}}</label><ng-annotate-text text=node.content></ng-annotate-text></div></div></div></div></div></div></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/dashedit.html","<div class=\"card-fancy card-rounded card-thick\"><div class=card-header><button type=button class=close ng-click=closeDialog() aria-hidden=true>&times;</button><h4 class=modal-title>Edit Page</h4></div><div class=\"card card-block\"><form role=form><div class=form-group><label for=dtitle>Title</label> <input type=text ng-model=config.title placeholder=Title></div><div class=form-group><label>Structure</label><div class=card-columns><div class=\"radio card {{key}}\" ng-repeat=\"(key, structure) in structures\"><label><input type=radio value={{key}} ng-model=model.structure ng-change=\"changeStructure(key, structure)\"> {{key}}</label></div></div></div><div class=row><div class=\"form-group row\"><label>Collapsible?</label> <input type=checkbox ng-model=dashboard.collapsible></div><div class=\"form-group row\"><label>Maxizable?</label> <input type=checkbox ng-model=dashboard.maximizable></div><div class=\"form-group row\"><label>Protected?</label> <input type=checkbox ng-model=dashboard.enableConfirmDelete></div></div><select ng-model=dashboard.styleClass ng-options=\"class.value as class.label for class in ROARCLASSES\" class=form-control placeholder=\"Select Style...\"></select></form><adf-dashboard name={{dashboard.title}} structure={{dashboard.structure}} collapsible={{dashboard.collapsible}} maximizable={{dashboard.maximizable}} enable-confirm-delete={{dashboard.enableConfirmDelete}} class={{dashboard.styleClass}} frameless={{dashboard.frameless}} continuous-edit-mode=false adf-model=dashboard.model></adf-dashboard></div><div class=card-footer><button type=button class=\"btn btn-primary card-link\" ng-click=closeDialog()>Close</button></div></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/document.html","<div class=card><section ng-repeat=\"(key, node) in node.roarlist\" node=\"{{node.id || node}}\"><label>{{node.title}}</label><ng-annotate-text text=node.content></ng-annotate-text><div ng-include=\"\'./document.html\'\" ng-repeat=\"(key, node) in node.roarlist\"></div></section></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/edit.html","<form role=form><div class=form-group><label for=draftid>Tree Root</label><select ng-model=config.id ng-change=loaddraft(config.id) ng-options=\"branch.id as branch.name for branch in tree\" class=form-control id=draftid placeholder=\"Select Root Branch...\"></select></div><a class=\"card fa fa-file\" ng-repeat=\"branch in tree\" ng-click=\"config.id = branch.id\">{{branch.name}}</a> <button class=\"dashed-outline fa fa-4x fa-plus\" ng-click=newdraft()></button></form>");

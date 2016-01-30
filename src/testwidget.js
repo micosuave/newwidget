@@ -1,5 +1,5 @@
 'use strict';
-angular.module('adf.widget.iframe', ['adf.provider'])
+angular.module('adf.widget.frame', ['adf.provider'])
   .config(["dashboardProvider", function(dashboardProvider){
     dashboardProvider
       .widget('iframe', {
@@ -9,6 +9,7 @@ angular.module('adf.widget.iframe', ['adf.provider'])
         controller: 'iframeController',
         controllerAs: 'iframe',
         frameless: false,
+        reload: false,
         edit: {
           templateUrl: '{widgetsPath}/iframe/src/edit.html'
         },
@@ -171,7 +172,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             })
 
 
-
+    })
 
 
 /*
@@ -536,12 +537,6 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR) {
             $scope.size = 'lg';
 
-            // if (!config.draftid) {
-            //     config.draftid = '';
-            // } else {
-            //     var draft = PROJECTDRAFT(config.draftid);
-            //     $scope.draft = draft;
-            // }
             $scope.ckclip = ckclip;
             $scope.ckreport = ckreport;
             $scope.config = config;
@@ -577,26 +572,13 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               $scope.$parent.$parent.reload();
             });
             $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
-              // if (angular.isUndefined($data.$parent.$nodeScope.$modelValue)) {
-              //    $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.node.id;
-              
-              // } else {
-              //   $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.$modelValue.id
-              // }
+             
                
               
                $scope.$parent.$parent.config.id = $data;
                $scope.$parent.$parent.reload();
                $scope.edittime = true;
-              // console.log('Event', $event);
-              // console.log('Data', $data);
-              // console.log('more', more);
-              // alertify.confirm('set to ' + $data + '?', function (cancel, confirm) {
-              //   $scope.$parent.$parent.config.id = $data.$parent.$nodeScope.$modelValue.id;
-              //    //var draft = Collection($data);
-              //    //draft.$bindTo($scope, 'draft');
-              //   $scope.$parent.$parent.reload();
-              // });
+             
             });
             function editable() {
               if ($rootScope.$state.includes('projectdashboard')) {
@@ -609,31 +591,13 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             $scope.pj = pj;
             var draft = Collection(config.id);
             draft.$bindTo($scope, 'draft');
-            // $scope.configured = function() {
-            //     return $scope.config.content !== '';
-            // };
-
-            // $scope.notConfigured = function() {
-            //     return $scope.config.content === '';
-            // };
-            // var projectId = $stateParams.pId;
-
-            // var matterId = $stateParams.matterId;
-            // var project = PROJECT(projectId);
-            // $scope.project = project;
-            // var drafts = PROJECTDRAFTS(projectId);
-            // $scope.drafts = drafts;
-
+            
             $scope.loaddraft = function(draftId) {
                 var draft = Collection(draftId);
                 draft.$bindTo($scope, 'draft');
             };
 
 
-            //draft.$bindTo($scope, 'draft');
-            //var notes = ROARsnippets(matterId);
-            //$scope.notecards = notes;
-            
 
             var Section = function(){
               var section = this;
@@ -674,49 +638,6 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     //draft.$save();
                 }
             };
-         /*   $scope.editcard = function($scope) {
-                var model = $scope.$nodeScope.$modelValue;
-                model.isActive = true;
-                draft.$save();
-                ngDialog.open({
-                    template: 'sectionedit.html',
-                    scope: $scope,
-                    controller: 'PhdTocWidgetCtrl',
-                    appendTo: '#tableofcontents',
-                    //plain: true,
-                    showClose: false,
-                    closeByEscape: true,
-                    closeByDocument: true,
-                    className: 'ngdialog-theme-card',
-                    overlay: false
-
-
-                });
-
-            };*/
-/*
-            $scope.deactivate = function($scope) {
-                $scope.$nodeScope.$modelValue.section.isActive = false;
-                draft.$save();
-                alertify.log("<img src='img/lexlab.svg'>");
-            };
-            $scope.savedraft = function($scope) {
-                $scope.$nodeScope.$modelValue.section.isActive = false;
-                draft.$save();
-                alertify.log("<img src='img/lexlab.svg'>");
-            };
-            var contentarray = new Array();
-            var newdrafttpl = {
-                name: 'New Draft',
-                content: contentarray
-            };*/
-            // $scope.newdraft = function() {
-            //     projectdrafts.$add(newdrafttpl).then(function(ref) {
-            //         var id = ref.key();
-            //         ref.update({
-            //             id: id
-            //         });
-            //     });
-            // };
+         
         }
-}    ]);
+   ]);
