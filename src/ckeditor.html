@@ -1,4 +1,5 @@
-<div  class="card" style="margin: -0.5rem;padding: 0rem;text-align: left;overflow: scroll; height: 50rem;border: 0.1rem solid #110000;" ng-if="pj.editable">
+<div  class="card" style="margin: -0.1rem;padding: 0.1rem;text-align: left;overflow: visibile; height: 60rem;border: 0rem solid #110000;box-shadow:0 0 0 transparent;" ng-if="pj.editable">
+    <a ng-click="updateid()" class="fa fa-refresh"></a>
 
 <div class="card-header" ng-show="draft.isnotRoot"><h3 class="card-title">{{draft.title}}</h3></div>
                    <!-- <textarea ui-tinymce="tinyMceOptions" mentio mentio-typed-text="typedTerm" 
@@ -6,8 +7,8 @@
                             mentio-iframe-element="iframeElement"></textarea> -->
                             <div id="{config.id}"  ckeditor="config.editor" ng-model="draft.content" ng-model-options="{ updateOn: 'blur', debounce: {'blur': 500} }" class="card card-block " contenteditable="true"  style="width:100%;min-height:300px;font-size:14px;color:#444;"></div>
                         
-    //<div id="{config.id}"  ckeditor="config.editor" ng-model="draft.content" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 30000, 'blur': 0} }" class="card card-block " contenteditable="true"  style="width:100%;height:100%;font-size:14px;color:#444;"></div>
-   //</div>
+   <!--<div id="{config.id}"  ckeditor="config.editor" ng-model="draft.content" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 30000, 'blur': 0} }" class="card card-block " contenteditable="true"  style="width:100%;height:100%;font-size:14px;color:#444;"></div>-->
+   </div>
                         
         <div id="draftdocument" class="{{draft.renderClass}}" ng-if="!pj.editable" style="">
           <h1 ng-show="draft.isnotRoot">{{draft.title || draft.name}}</h1>
@@ -45,4 +46,3 @@
                 </div>
             </div>
   
-    <a ng-click="updateid()" class="fa fa-refresh"></a>
