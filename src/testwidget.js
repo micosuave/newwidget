@@ -564,7 +564,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             }
             $scope.updateid = function () {
               //config.id = $ACTIVEROAR.tabid;
-              $scope.$parent.$parent.config.id = $ACTIVEROAR.tabid;
+              $scope.$parent.$parent.config.id = $stateParams.tabid || $stateParams.pageid || $stateParams.pId;
               $scope.$parent.$parent.reload();
             };
             $scope.$on('RETURNROOT', function ($event, $data) {
