@@ -8,8 +8,8 @@ angular.module('adf.widget.frame', ['adf.provider'])
         templateUrl: '{widgetsPath}/iframe/src/view.html',
         controller: 'iframeController',
         controllerAs: 'iframe',
-        frameless: false,
-        reload: false,
+        frameless: true,
+        reload: true,
         edit: {
           templateUrl: '{widgetsPath}/iframe/src/edit.html'
         },
@@ -38,8 +38,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             controller: 'PDFController',
             controllerAs: 'pdf',
             templateUrl: '{widgetsPath}/testwidget/src/pdfview.html',
-            frameless: false,
-            reload: false,
+            frameless: true,
+            reload: true,
             styleClass: 'card-fancy',
             edit: {
               templateUrl: '{widgetsPath}/iframe/src/edit.html',
@@ -109,7 +109,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 description: 'text editor',
                 controller: 'CKEWidgetCtrl',
                 templateUrl: '/newwidget/src/ckeditor.html',
-                frameless: false,
+                frameless: true,
                 reload: false,
                 immediate: false,
                 styleClass: 'llp-memo-draft-basic panel-default',
@@ -163,7 +163,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
                     $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
                 }],
-                frameless: false,
+                frameless: true,
                 edit: {
                     template: '<div class="card"><label for="content">Enter embed code</label><textarea name="content" class="form-control" ng-model="config.content"></textarea></div>',
                     immediate: true,

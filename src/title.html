@@ -1,7 +1,7 @@
 <h3 class="card-title">
 <a href title="change widget location" class="adf-move" ng-if="editMode"> <i class="glyphicon glyphicon-move"></i> </a>  
 
- {{widget.title}} 
+ {{config.title || widget.title}} 
 <a href title="collapse widget" ng-show="options.collapsible && !widgetState.isCollapsed" ng-click="widgetState.isCollapsed = !widgetState.isCollapsed"> <i class="glyphicon glyphicon-minus"></i> </a>  
 <a href title="expand widget" ng-show="options.collapsible && widgetState.isCollapsed" ng-click="widgetState.isCollapsed = !widgetState.isCollapsed"> <i class="glyphicon glyphicon-plus"></i> </a> 
 <span class="pull-right"> 
