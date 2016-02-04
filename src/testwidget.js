@@ -3,7 +3,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
   .config(["dashboardProvider", function(dashboardProvider){
     dashboardProvider
       .widget('iframe', {
-        title: '',
+        title: 'LexFrame',
         description: 'Embed an external page into the dashboard',
         templateUrl: '{widgetsPath}/iframe/src/view.html',
         controller: 'iframeController',
