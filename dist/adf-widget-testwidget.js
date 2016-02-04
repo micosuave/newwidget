@@ -534,8 +534,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     $scope.editors = editors;
     $scope.templates = templates;
   }])
-  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport","$ACTIVEROAR","$stateParams","$sce",
-        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce) {
+  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport","$ACTIVEROAR","$stateParams","$sce","$compile",
+        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile) {
             $scope.size = 'lg';
 
             $scope.ckclip = ckclip;
@@ -546,6 +546,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             var pj = {
               editable: editable()
             };
+            
             if (angular.isString(config.editor)) {
               if (config.editor === 'ckdefault') {
                 config.editor = ckdefault;
@@ -559,6 +560,9 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               else if (config.editor === 'ckclip') {
                 config.editor = ckclip;
               }
+            }
+            else{
+                config.editor = ckdefault;
             }
             if (config.id == !$ACTIVEROAR.tabid) {
               $('#ckdrafter' + config.id).css({ 'border': '1px dotted red' });
