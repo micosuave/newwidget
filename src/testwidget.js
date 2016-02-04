@@ -597,8 +597,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 draft.$bindTo($scope, 'draft');
             };
 
-
-
+            var head = "<!DOCTYPE html><html><head><link rel='stylesheet' href='//lexlab.io/llp_core/dist/app.full.min.css'><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css'><script src='https://code.jquery.com/jquery-2.2.0.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js'></script></head><body><div class='card card-fancy'>";
+            $scope.sourcedoc = $sce.trustAsHtml(head + draft.content);
             var Section = function(){
               var section = this;
                 section.title = 'Section Title';
