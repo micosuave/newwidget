@@ -51,7 +51,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             
             })
             .widget('tocwidget', {
-                title: 'PhD-ToC-Widget',
+                title: 'Table of Contents',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'Prototype LLP Platform App',
                 controller: 'PhdTocWidgetCtrl',

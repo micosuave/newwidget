@@ -5,7 +5,7 @@
                     
                     <h4 class="card-title">
                       <a class=" " data-nodrag ng-click="toc.returnroot()" ng-if="tree.roarlist" style=""><span class="fa text-primary" ng-class="{'fa-chevron-right': tree.isCollapsed, 'fa-chevron-down': !tree.isCollapsed}"></span></a>
-                      <span e-form="nameform" editable-text="tree.contentlistname" buttons="no" onaftersave="tree.$save();" > <span ng-click="toc.opensubsection(tree)" ng-if="tree.roarlist">{{tree.contentlistname}}</span>
+                      <span e-form="nameform" editable-text="tree.contentlistname" buttons="no" onaftersave="tree.$save();" > <span ng-click="toc.opensubsection(tree)" ng-if="tree.roarlist">{{tree.contentlistname || 'Contents'}}</span>
                     <span class="fa fa-edit" ng-click="nameform.$show()" ng-show="toc.editable"></span>
                     
                     <small class="pull-right">
