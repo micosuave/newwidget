@@ -111,7 +111,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 controller: 'CKEWidgetCtrl',
                 templateUrl: '/newwidget/src/ckeditor.html',
                 frameless: true,
-                //reload: true,
+                reload: true,
                 immediate: false,
                 styleClass: 'llp-memo-draft-basic panel-default',
                 edit: {
@@ -542,9 +542,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               
                $scope.$parent.$parent.config.id = $data;
                $scope.$parent.$parent.reload();
-               $scope.edittime = true;
+               $scope.loaddraft($data);
              
             });
+            
             $scope.showeditor = false;
             $scope.$on('adfToggleEditMode', function($event, $data){
                 $scope.showeditor = !$scope.showeditor;
