@@ -542,6 +542,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                $scope.edittime = true;
              
             });
+            $scope.showeditor = false;
+            $scope.$on('adfToggleEditMode', function($event, $data){
+                $scope.showeditor = !$scope.showeditor;
+            });
             function editable() {
               if ($rootScope.$state.includes('projectdashboard')) {
                 return true;
@@ -560,7 +564,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             };
 
             draft.$loaded().then(function(d){
-                var head = "<!DOCTYPE html><html class='html'><head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css'><link rel='stylesheet' href='//lexlab.io/llp_core/dist/app.full.min.css'><script src='https://code.jquery.com/jquery-2.2.0.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js'></script><script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js'></script><base href='/' target='_blank'/></head><body class='html'><div class='card card-fancy'>";
+                var head = "<!DOCTYPE html><html class='html'><head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css'><link rel='stylesheet' href='//lexlab.io/llp_core/dist/app.full.min.css'><script src='https://code.jquery.com/jquery-2.2.0.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js'></script><script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js'></script><base href='/' target='_blank'/></head><body class='html' style='padding:10px 5px;'><div class='card card-fancy'>";
                 $scope.sourcedoc = $sce.trustAsHtml(head + d.content);
             });
             
