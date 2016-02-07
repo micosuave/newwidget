@@ -521,7 +521,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             else{
                 config.editor = ckdefault;
             }
-            if (config.id == !$ACTIVEROAR.tabid) {
+            if (config.id !== ($stateParams.tabid || $stateParams.pageid || $stateParams.pId)) {
               $('#ckdrafter' + config.id).css({ 'border': '1px dotted red' });
             }
             $scope.updateid = function () {
