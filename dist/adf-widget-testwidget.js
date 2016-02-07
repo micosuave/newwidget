@@ -361,7 +361,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     rows: [{
                         columns: [{
                             styleClass: 'col-sm-4',
-                            widgets: [{type: 'tocwidget',title:'Table of Contents', config:{id: draftid}}]
+                            widgets: [{type: 'tocwidget',title:'Table of Contents', config:{id: config.id}}]
                         }, { styleClass: 'col-md-8', widgets: [{type: 'ckwidget',title:'',config:{id: draftid, editor: 'ckdefault'}}]
                         }]
                     }]
