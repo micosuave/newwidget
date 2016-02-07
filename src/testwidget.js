@@ -332,7 +332,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             // $scope.drafts = drafts;
 
             $scope.loaddraft = function(draftId) {
-                var draft = PROJECTDRAFT(draftId);
+                var draft = Collection(draftId);
                 draft.$bindTo($scope, 'tree');
             };
 
@@ -400,7 +400,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             };
             toc.opensubsection = function (node) {
               //window.alert(scope);
-              $rootScope.$broadcast('TABLEOFCONTENTS', node.id);
+              $rootScope.$broadcast('TABLEOFCONTENTS', node.id || node);
               //debugger;
               //toc.broadcast(node.id);
               //debugger;
