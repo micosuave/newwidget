@@ -400,6 +400,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             };
             toc.opensubsection = function (node) {
               //window.alert(scope);
+              alertify.log('TOC OUT');
               $rootScope.$broadcast('TABLEOFCONTENTS', node.id || node);
               //debugger;
               //toc.broadcast(node.id);
@@ -535,7 +536,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             });
             $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
              
-               
+               alertify.log('TOC REC');
+               alertify.log($data);
               
                $scope.$parent.$parent.config.id = $data;
                $scope.$parent.$parent.reload();
