@@ -74,7 +74,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         if (config.id) {
                           return config;
                         } else {
-                          var a = $firebaseArray(new Firebase(FIREBASE_URL + 'content/'));
+                          var a = $firebaseArray(new Firebase(FIREBASE_URL + 'matters/' + $rootScope.$stateParams.groupId + '/' + $rootScope.$stateParams.matterId + '/content/'));
                           var b = {};
                           a.$add({
                             'name': 'draft'
@@ -126,7 +126,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         if (config.id) {
                           return config;
                         } else {
-                          var a = $firebaseArray(new Firebase(FIREBASE_URL + 'content/'));
+                          var a = $firebaseArray(new Firebase(FIREBASE_URL + 'matters/' + $rootScope.$stateParams.groupId + '/' + $rootScope.$stateParams.matterId + '/content/'));
                           var b = {};
                           a.$add({
                             'name': 'draft'
