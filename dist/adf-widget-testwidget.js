@@ -532,14 +532,14 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             };
             $scope.$on('RETURNROOT', function ($event, $data) {
               $scope.$parent.$parent.config.id = $data;
-              $scope.$parent.$parent.reload();
+              $scope.$parent.reload();
             });
             $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
              
                
               
                $scope.$parent.$parent.config.id = $data;
-               $scope.$parent.$parent.reload();
+               $scope.$parent.reload();
                $scope.edittime = true;
              
             });
