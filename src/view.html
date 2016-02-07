@@ -33,7 +33,7 @@
             <a class=" showonhover" data-nodrag ng-if="toc.editable" ng-click="remove(this);collection.$save();"><span class="fa fa-close text-danger "></span></a>
             <a class=" " data-nodrag ng-if="toc.editable" ng-click="toc.newsubsection(this)" style=""><span class="fa fa-plus text-success"></span></a>
             
-            <a  class="pull-right gototarget" data-nodrag ng-if="!toc.editable" ng-click="toc.opensubsection(node)" style=""><span class="fa fa-chevron-right "></span></a>
+            <a  class="pull-right gototarget" data-nodrag  ng-click="toc.opensubsection(node)" style=""><span class="fa fa-chevron-right "></span></a>
 
         </div>
     </div>
