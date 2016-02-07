@@ -340,7 +340,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //draft.$bindTo($scope, 'draft');
             //var notes = ROARsnippets(matterId);
             //$scope.notecards = notes;
-            var DasH = function(draftid) {
+            var DasH = function(draftid, rootid) {
                 var dashref = Collection(draftid).$ref();
                 var dash = {
                 
@@ -360,7 +360,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     rows: [{
                         columns: [{
                             styleClass: 'col-sm-4',
-                            widgets: [{type: 'tocwidget',title:'Table of Contents', config:{id: config.id}}]
+                            widgets: [{type: 'tocwidget',title:'Table of Contents', config:{id: rootid}}]
                         }, { styleClass: 'col-md-8', widgets: [{type: 'ckwidget',title:'',config:{id: draftid, editor: 'ckdefault'}}]
                         }]
                     }]
@@ -382,7 +382,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
               Collections().$add(new Section()).then(function (ref) {
                 var id = ref.key();
-                DasH(id);
+                DasH(id, config.id);
                 ref.update({ id: id });
                 modelref.child('roarlist').child(id).set(id);
                 Collection(id).$loaded().then(function (sect) {
@@ -411,7 +411,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 var modelref = Collection(model.id).$ref();
                 Collections().$add(new Section()).then(function (ref) {
                   var id = ref.key();
-                  DasH(id);
+                  DasH(id, config.id);
                   ref.update({ id: id });
                   modelref.child('roarlist').child(id).set(id);
                   Collection(id).$loaded().then(function (sect) {
