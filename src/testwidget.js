@@ -18,7 +18,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
         }
       });
   }])
-  .controller('iframeController', ["$sce", "config", function($sce, config){
+  .controller('iframeController', ["$sce", "config","ckdefault", function($sce, config, ckdefault){
     if (config.url){
       this.url = $sce.trustAsResourceUrl(config.url);
     }
@@ -27,8 +27,8 @@ angular.module('adf.widget.frame', ['adf.provider'])
     }
   }]);
 
-angular.module("adf.widget.frame").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/iframe/src/edit.html","<form role=form><div class=form-group><label for=url>URL</label> <input type=url class=form-control id=url ng-model=config.url placeholder=http://www.example.com></div><div class=form-group><label for=url>Height</label> <input type=text class=form-control id=url ng-model=config.height><textarea ckeditor ng-model=config.srcdoc ng-model-options=\"{updateOn: 'default blur', debounce: {'default': 20000, 'blur': 0}}\"</div></form>");
-$templateCache.put("{widgetsPath}/iframe/src/view.html","<div><div class=\"alert alert-info\" ng-if=!config.url>Please insert a url in the widget configuration</div><iframe ng-if=iframe.url class=\"adf-iframe\" style=\"min-height:500px;height: {{config.height}};width:100%;\" ng-attr-srcdoc={{iframe.srcdoc}} ng-src={{iframe.url}} seamless allowfullscreen name=fframe></iframe></div>");}]);
+angular.module("adf.widget.frame").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/iframe/src/edit.html","<form role=form><div class=form-group><label for=url>URL</label> <input type=url class=form-control id=url ng-model=config.url placeholder=http://www.example.com></div><div class=form-group><label for=url>Height</label> <input type=text class=form-control id=url ng-model=config.height><textarea ckeditor=ckdefault ng-model=config.srcdoc ng-model-options=\"{updateOn: 'default blur', debounce: {'default': 20000, 'blur': 0}}\"</div></form>");
+$templateCache.put("{widgetsPath}/iframe/src/view.html","<div><div class=\"alert alert-info\" ng-if=!(config.url||config.srcdoc)>Please insert a url in the widget configuration</div><iframe class=\"adf-iframe\" style=\"height: {{config.height}};width:100%;\" ng-attr-srcdoc={{iframe.srcdoc}} ng-src={{iframe.url}} seamless allowfullscreen name=fframe></iframe></div>");}]);
 
 
 
