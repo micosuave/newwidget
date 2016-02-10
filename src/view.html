@@ -1,6 +1,6 @@
 
  
-                <div class="card-header"  ng-if="toc.canedit()">
+                <div class="card-header"  >
                     <!--<switch ng-model="config.editable" ng-change="toc.togglemode()"  icon="fa fa-sitemap fa-2x" class="pull-left" disabled style="font-size:14px;"></switch>-->
                     <button id="dragbutton" draggable ng-click="config.editable = !config.editable" class="pull-right btn btn-default btn-sm fa fa-2x" ng-class="{'fa-edit text-info':!config.editable,'fa-save text-success':config.editable}" style="position:absolute;top:-25px;right:-25px;border-radius:50%;padding: 10px 10px;box-shadow:1px 1px 5px rgba(0,0,0,0.25), inset 0 0 20px rgba(0,0,0,0.1);border:1px solid white;"></button>
                     <h4 class="card-title">
@@ -33,7 +33,7 @@
             <a class=" showonhover" data-nodrag ng-if="config.editable" ng-click="remove(this);collection.$save();"><span class="fa fa-close text-danger "></span></a>
             <a class=" " data-nodrag ng-if="config.editable" ng-click="toc.newsubsection(this)" style=""><span class="fa fa-plus text-success"></span></a>
             
-            <a  class="gototarget" data-nodrag  ui-sref="righttab({tabid: node.id})" style=""> <span ng-if="!config.editable" class="pull-left">{{node.title}}</span><i style="position:absolute;right:0;">&nbsp;</i></a>
+            <a  class="gototarget" data-nodrag  ui-sref="{{parentstate}}.righttab({tabid: node.id})" style=""> <span ng-if="!config.editable" class="pull-left">{{node.title}}</span><i style="position:absolute;right:0;">&nbsp;</i></a>
 
         </div>
     </div>
