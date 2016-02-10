@@ -1,15 +1,15 @@
 
  
                 <div class="card-header"  ng-if="toc.canedit()">
-                    <!--<switch ng-model="toc.editable" ng-change="toc.togglemode()"  icon="fa fa-globe fa-2x" class="pull-left" disabled style="font-size:14px;"></switch>-->
+                    <switch ng-model="config.editable" ng-change="toc.togglemode()"  icon="fa fa-sitemap fa-2x" class="pull-left" disabled style="font-size:14px;"></switch>
                     
                     <h4 class="card-title">
                       <a class=" " data-nodrag ng-click="toc.returnroot()" ng-if="tree.roarlist" style=""><span class="fa text-primary" ng-class="{'fa-chevron-right': tree.isCollapsed, 'fa-chevron-down': !tree.isCollapsed}"></span></a>
                       <span e-form="nameform" editable-text="tree.contentlistname" buttons="no" onaftersave="tree.$save();" > <span ng-click="toc.opensubsection(tree)" ng-if="tree.roarlist">{{tree.contentlistname || 'Contents'}}</span>
-                    <span class="fa fa-edit" ng-click="nameform.$show()" ng-show="toc.editable"></span>
+                    <span class="fa fa-edit hovershow" ng-click="nameform.$show()" ></span>
                     
                     <small class="pull-right">
-                      <a class="fa fa-plus text-warning" ng-if="toc.editable" ng-click="toc.newtopsection()"></a>
+                      <a class="fa fa-plus text-warning" ng-if="config.editable" ng-click="toc.newtopsection()"></a>
                       <!--<button id="broadcastbutton" title="broadcast" class="fa fa-info btn btn-info " ng-click="toc.broadcast()"></button>-->
                       </small>
                     </h4>
@@ -26,19 +26,19 @@
             
             <script type="text/ng-template" id="nodes_renderer1.html">
     <div ui-tree-handle class="tree-node tree-node-content">
-        <div class="tree-node-content flextoprow mouseoverunderline" style="position:relative;">
+        <div class="tree-node-content flextoprow " style="position:relative;">
             <a class=" " data-nodrag ng-click="toggle(this)" ng-if="node.roarlist" style=""><span class="fa text-primary" ng-class="{'fa-chevron-right': collapsed, 'fa-chevron-down': !collapsed}"></span></a>
-            <input type="text" ng-model="node.title" ng-change="node.$save();" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" style="padding: 0.5rem;color:#444;"  ng-if="toc.editable">
-            <span ng-if="!toc.editable">{{node.title}}</span>
-            <a class=" showonhover" data-nodrag ng-if="toc.editable" ng-click="remove(this);collection.$save();"><span class="fa fa-close text-danger "></span></a>
-            <a class=" " data-nodrag ng-if="toc.editable" ng-click="toc.newsubsection(this)" style=""><span class="fa fa-plus text-success"></span></a>
+            <input type="text" ng-model="node.title" ng-change="node.$save();" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" style="padding: 0.5rem;color:#444;"  ng-if="config.editable">
+            <span ng-if="!config.editable">{{node.title}}</span>
+            <a class=" showonhover" data-nodrag ng-if="config.editable" ng-click="remove(this);collection.$save();"><span class="fa fa-close text-danger "></span></a>
+            <a class=" " data-nodrag ng-if="config.editable" ng-click="toc.newsubsection(this)" style=""><span class="fa fa-plus text-success"></span></a>
             
             <a  class="pull-right gototarget" data-nodrag  ui-sref="righttab({tabid: node.id})" style=""><span class="fa fa-chevron-right "></span></a>
 
         </div>
     </div>
     <ol ui-tree-nodes="" ng-model="node.roarlist" ng-class="{hidden: collapsed}" style="">
-        <li class="" ng-repeat="(key, node) in node.roarlist" ui-tree-node ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node}}">
+        <li class="animated" ng-repeat="(key, node) in node.roarlist" ui-tree-node ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node}}">
         </li>
     </ol>
 </script>
