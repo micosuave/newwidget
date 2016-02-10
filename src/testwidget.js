@@ -297,7 +297,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             $scope.config = config;
             $scope.ckdefault = ckdefault;
             $scope.ckmin = ckmin;
-            
+            if($state.includes('roartheatre')){
+                $scope.parentstate = 'theatretoptab';
+            }
+            else{
+                $scope.parentstate = 'toptab';
+            }
             toc.broadcast = function (data) {
               $rootScope.$broadcast('TABLEOFCONTENTS', data);
             };
