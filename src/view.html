@@ -1,8 +1,8 @@
 
  
                 <div class="card-header"  ng-if="toc.canedit()">
-                    <switch ng-model="config.editable" ng-change="toc.togglemode()"  icon="fa fa-sitemap fa-2x" class="pull-left" disabled style="font-size:14px;"></switch>
-                    
+                    <!--<switch ng-model="config.editable" ng-change="toc.togglemode()"  icon="fa fa-sitemap fa-2x" class="pull-left" disabled style="font-size:14px;"></switch>-->
+                    <button id="dragbutton" draggable ng-click="config.editable = !config.editable" class="pull-right btn btn-default btn-sm fa fa-2x" ng-class="{'fa-edit text-info':!config.editable,'fa-save text-success':config.editable, 'btn-danger':!config.editable}" style="position:absolute;top:-15px;right:-15px;border-radius:50%;padding: 10px 10px;box-shadow:0px 0px 5px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.1);border:2px groove white;"></button>
                     <h4 class="card-title">
                       <a class=" " data-nodrag ng-click="toc.returnroot()" ng-if="tree.roarlist" style=""><span class="fa text-primary" ng-class="{'fa-chevron-right': tree.isCollapsed, 'fa-chevron-down': !tree.isCollapsed}"></span></a>
                       <span e-form="nameform" editable-text="tree.contentlistname" buttons="no" onaftersave="tree.$save();" > <span ng-click="toc.opensubsection(tree)" ng-if="tree.roarlist">{{tree.contentlistname || 'Contents'}}</span>
