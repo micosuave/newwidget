@@ -550,7 +550,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         onClick: function(draft){ return $scope.updateid();}  
                     }]
             };
-            var classy = function(){
+            function classy(){
                 if($stateParams.tabid){
                     if (config.id === $stateParams.tabid){
                         return 'success';
@@ -574,6 +574,9 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     else{
                         return 'warning';
                     }
+                }
+                else{
+                    return 'primary';
                 }
             };
             var pj = {
