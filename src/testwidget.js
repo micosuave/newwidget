@@ -542,7 +542,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     {   icon: 'fa-pencil',
                         label: 'Toggle Edit Mode',
                         styleClass: '',
-                        onClick: function(draft){ config.showeditor = !config.showeditor; return $scope.$destroy(); }
+                        onClick: function(draft){ return config.showeditor = !config.showeditor; }
                     },{
                         icon: 'fa-refresh',
                         label: 'Syncronize Editor',

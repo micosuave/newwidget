@@ -14,8 +14,8 @@
    <!--<ng-annotate-text text="draft.content" id="draftdocument" class="card card-block {{draft.renderClass}}" ng-if="!config.showeditor" ng-attr-srcdoc="{{draft.content}}" style="width:100%;min-height:500px;" class=""></ng-annotate-text>-->
    <iframe id="draftdocument2" class="card card-block {{draft.renderClass}}" ng-if="!config.showeditor" ng-attr-srcdoc="{{draft.content}}" style="width:100%;min-height:500px;" ></iframe>
     
-   <div id="" class="pull-right" uib-dropdown uib-keyboard-nav dropdown-append-to-body>
-        <button id="dragbutton" draggable class="pull-right btn btn-default btn-sm fa" ng-class="{'fa-edit text-info':!config.showeditor,'fa-save text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}" style="position:absolute;top:0;right:-5px;border-radius:50%;padding: 5px 5px;" uib-dropdown-toggle></button>
+   <div id="" class="pull-right" uib-dropdown uib-keyboard-nav dropdown-append-to-body style="position:absolute;top:0;right:0;">
+        <button id="dragbutton" draggable class="pull-right btn btn-default btn-sm fa fa-2x" ng-class="{'fa-edit text-info':!config.showeditor,'fa-save text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}" style="position:absolute;top:0;right:-5px;border-radius:50%;padding: 10px 10px;box-shadow:-1px 1px 2px rgba(0,0,0,0.25), inset 0 0 10px rgba(0,0,0,0.1);border:1px solid white;" uib-dropdown-toggle></button>
         <ul class="uib-dropdown-menu dropdown-menu-right">
             <li class="{{::menuitem.styleClass}}" ng-repeat="menuitem in menu.items">
                 <a ng-click="menuitem.onClick(draft)" class="fa fa-2x {{::menuitem.icon}} {{::menuitem.styleClass}}">&nbsp;&nbsp;&nbsp;&nbsp;{{::menuitem.label}}</a>
