@@ -536,6 +536,46 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             $scope.config = config;
             $scope.ckdefault = ckdefault;
             $scope.ckmin = ckmin;
+            $('#dragbutton').draggable({cursor: 'move'});
+            $scope.menu = {
+                items: [
+                    {   icon: 'fa-pencil',
+                        label: 'Toggle Edit Mode',
+                        styleClass: '',
+                        onClick: function(draft){ config.showeditor = !config.showeditor; return $scope.$destroy(); }
+                    },{
+                        icon: 'fa-refresh',
+                        label: 'Syncronize Editor',
+                        styleClass: classy(),
+                        onClick: function(draft){ return $scope.updateid();}  
+                    }]
+            };
+            var classy = function(){
+                if($stateParams.tabid){
+                    if (config.id === $stateParams.tabid){
+                        return 'success';
+                    }
+                    else{
+                        return 'warning';
+                    }
+                }
+                else if ($stateParams.pageid){
+                     if (config.id === $stateParams.pageid){
+                        return 'success';
+                    }
+                    else{
+                        return 'warning';
+                    }
+                }
+                else if ($stateParams.pId){
+                     if (config.id === $stateParams.pId){
+                        return 'success';
+                    }
+                    else{
+                        return 'warning';
+                    }
+                }
+            };
             var pj = {
               editable: editable()
             };
