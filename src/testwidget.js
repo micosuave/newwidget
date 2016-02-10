@@ -10,6 +10,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
         controllerAs: 'iframe',
         frameless: true,
         reload: true,
+        styleClass: 'card',
         edit: {
             controller: 'iframeController',
           templateUrl: '{widgetsPath}/iframe/src/edit.html'
