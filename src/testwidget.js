@@ -299,6 +299,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             $scope.ckmin = ckmin;
             if($state.includes('roartheatre')){
                 $scope.parentstate = 'theatretoptab';
+                config.editable = false;
+                $('#dragbutton').hide();
             }
             else{
                 $scope.parentstate = 'toptab';
