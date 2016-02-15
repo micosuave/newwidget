@@ -535,6 +535,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             $scope.config = config;
             $scope.ckdefault = ckdefault;
             $scope.ckmin = ckmin;
+            $scope.ckstarter = ckstarter;
             $('#dragbutton').draggable({cursor: 'move'});
             $scope.menu = {
                 items: [
@@ -551,7 +552,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         icon: 'fa-refresh',
                         label: 'Restore Defaults',
                         styleClass: 'text-success',
-                        onClick: function(draft){ return $scope.draft = ckstarter + draft;}
+                        onClick: function(draft){ return $scope.draft.content = $scope.ckstarter + draft.content;}
                     }]
             };
             function classy(){

@@ -12,7 +12,7 @@
    </form>
    </div>
    <!--<ng-annotate-text text="draft.content" id="draftdocument" class="card card-block {{draft.renderClass}}" ng-if="!config.showeditor" ng-attr-srcdoc="{{draft.content}}" style="width:100%;min-height:500px;" class=""></ng-annotate-text>-->
-   <iframe id="draftdocument2" class="card card-block {{draft.renderClass}}" ng-if="!config.showeditor" ng-attr-srcdoc="{{sourcedoc}}" style="width:100%;min-height:500px;" ></iframe>
+   <iframe id="draftdocument2" class="card card-block {{draft.renderClass}}" ng-if="!config.showeditor" ng-attr-srcdoc="{{draft.content}}" style="width:100%;min-height:500px;" ></iframe>
     
    <div id="" class="pull-right" uib-dropdown uib-keyboard-nav dropdown-append-to-body style="position:absolute;top:0;right:0;">
         <button id="dragbutton" draggable class="dragbutton pull-right btn btn-default btn-sm fa fa-2x" ng-class="{'fa-edit text-info':!config.showeditor,'fa-save text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}" style="position:absolute;top:-25px;right:-25px;border-radius:50%;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;" uib-dropdown-toggle></button>
