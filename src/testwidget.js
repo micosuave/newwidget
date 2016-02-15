@@ -526,8 +526,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     $scope.editors = editors;
     
   }])
-  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport","$ACTIVEROAR","$stateParams","$sce","$compile","ckstarter",
-        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter) {
+  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport","$ACTIVEROAR","$stateParams","$sce","$compile","ckstarter","ckender",
+        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender) {
             $scope.size = 'lg';
 
             $scope.ckclip = ckclip;
@@ -536,6 +536,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             $scope.ckdefault = ckdefault;
             $scope.ckmin = ckmin;
             $scope.ckstarter = ckstarter;
+            $scope.ckender = ckender;
             $('#dragbutton').draggable({cursor: 'move'});
             $scope.menu = {
                 items: [
@@ -552,7 +553,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         icon: 'fa-refresh',
                         label: 'Restore Defaults',
                         styleClass: 'text-success',
-                        onClick: function(draft){ return $scope.draft.content = $scope.ckstarter + draft.content;}
+                        onClick: function(draft){ var content = draft.content.splice(draft.content.indexOf('<body>'),draft.content.length); return $scope.draft.content = $scope.ckstarter + content + $scope.ckender;}
                     }]
             };
             function classy(){
@@ -642,8 +643,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             };
             $scope.pj = pj;
             var draft = Collection(config.id);
-            draft.$bindTo($scope, 'draft');
-            
+            // draft.$bindTo($scope, 'draft');
+            $scope.draft = draft;
             $scope.loaddraft = function(draftId) {
                 var draft = Collection(draftId);
                 draft.$bindTo($scope, 'draft');
