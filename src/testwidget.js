@@ -588,24 +588,24 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             var pj = {
               editable: editable()
             };
-            
-            if (angular.isString(config.editor)) {
-              if (config.editor === 'ckdefault') {
-                config.editor = ckdefault;
-              }
-              else if (config.editor === 'ckmin') {
-                config.editor = ckmin;
-              }
-              else if (config.editor === 'ckreport') {
-                config.editor = ckreport;
-              }
-              else if (config.editor === 'ckclip') {
-                config.editor = ckclip;
-              }
-            }
-            else{
-                config.editor = ckdefault;
-            }
+            $scope.ckdefault = ckdefault;
+            // if (angular.isString(config.editor)) {
+            //   if (config.editor === 'ckdefault') {
+            //     config.editor = ckdefault;
+            //   }
+            //   else if (config.editor === 'ckmin') {
+            //     config.editor = ckmin;
+            //   }
+            //   else if (config.editor === 'ckreport') {
+            //     config.editor = ckreport;
+            //   }
+            //   else if (config.editor === 'ckclip') {
+            //     config.editor = ckclip;
+            //   }
+            // }
+            // else{
+            //     config.editor = ckdefault;
+            // }
             if (config.id !== ($stateParams.tabid || $stateParams.pageid || $stateParams.pId)) {
               $('#ckdrafter' + config.id).css({ 'border': '1px dotted red' });
             }

@@ -8,7 +8,7 @@
                             mentio-iframe-element="iframeElement"></textarea> -->
                             <!--<textarea  id="{{config.id}}"  ckeditor="ckdefault" ng-model="draft.content" ng-model-options="{ updateOn: 'default blur', debounce: {'default':30000,'blur': 0} }" class="card card-block "   style="width:100%;min-height:500px;font-size:12px;color:#444;"></textarea>-->
     <form name="editorform" ng-submit="draft.$save();">                    
-   <textarea id="{{config.id}}" name="editorta"  ckeditor="config.editor" ng-model="draft.content" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 30000, 'blur': 0} }" class="card card-block "   style="width:100%;min-height:500px;font-size:12px;color:#444;"></textarea>
+   <textarea id="{{config.id}}" name="editorta" ng-change="draft.$save()"  ckeditor="ckdefault" ng-model="draft.content" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 10000, 'blur': 0} }" class="card card-block "   style="width:100%;min-height:500px;font-size:12px;color:#444;"></textarea>
    </form>
    </div>
    <!--<ng-annotate-text text="draft.content" id="draftdocument" class="card card-block {{draft.renderClass}}" ng-if="!config.showeditor" ng-attr-srcdoc="{{draft.content}}" style="width:100%;min-height:500px;" class=""></ng-annotate-text>-->
