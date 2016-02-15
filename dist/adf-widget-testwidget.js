@@ -527,8 +527,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     $scope.editors = editors;
     
   }])
-  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport","$ACTIVEROAR","$stateParams","$sce","$compile","ckstarter","ckender",
-        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender) {
+  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport","$ACTIVEROAR","$stateParams","$sce","$compile","ckstarter","ckender","toastr","ROARAnnotations","ROARAnnotation","NGAnnotation",
+        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,ROARAnnotations,ROARAnnotation,NGAnnotation) {
             $scope.size = 'lg';
 
             $scope.ckclip = ckclip;
@@ -717,6 +717,116 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     //draft.$save();
                 }
             };
+        $scope.onAnnotate = function($annotation) {
+            console.log($annotation);
+            annotations.$add($annotation);
+            alertify.success($annotation);
+        };
+        $scope.onAnnotateDelete = function($annotation) {
+            // annotations.$remove($annotation).then(function(ref){
+            //      console.log(ref);
+            // });
+            $scope.event.annotations[$annotation.$id] = null;
+
+
+        };
+
+        $scope.onAnnotateError = function($ex) {
+            if ($ex.message === "NG_ANNOTATE_TEXT_PARTIAL_NODE_SELECTED") {
+                return alertify.error("Invalid selection.");
+            } else {
+                return alertify.error($ex);
+            }
+        };
+
+        $scope.onPopupShow = function($el) {
+            var firstInput;
+            firstInput = $el.find("input, textarea").eq(0).focus();
+            var selection = window.getSelection();
+            if (selection) {
+                $scope.data.selection = selection;
+            }
+            // move.select = function(el) {
+            //     return $(selector).get(0);
+            // };
+            // var a = move.select($el);
+            // move(a).scale(1.2).duration(1500).end();
+            $('.ng-annotate-text-popup').draggable({
+                scroll: true,
+                cursor: 'move',
+                handle: '.roareventcardtab',
+                stack: '.ng-annotate-text-popup',
+                constrain: 'body'
+            }).resizable();
+            return firstInput && firstInput[0].select();
+        };
+
+        $scope.hasPoints = function(points) {
+            var _isNaN;
+            _isNaN = Number.isNaN || isNaN;
+            return typeof points === "number" && points !== 0 && !_isNaN(points);
+        };
+
+        $scope.hasComment = function(comment) {
+            return typeof comment === "string" && comment.length > 0;
+        };
+
+        $scope.annotationsAsFlatList = function(annotations) {
+
+            if (annotations == null) {
+                annotations = $scope.annotations;
+            }
+            if (!annotations.length) {
+                return [];
+            } else {
+                return annotations.map(function(annotation) {
+                    var arr;
+                    arr = [];
+                    // if ($scope.hasPoints(annotation.data.points) && $scope.hasComment(annotation.data.comment)) { 
+                    //  arr.push(annotation); 
+                    // } 
+                    // if (annotation.children && annotation.children.length) { 
+                    //  arr = arr.concat($scope.annotationsAsFlatList(annotation.children)); 
+                    // } 
+                    arr.push(annotation);
+                    return arr;
+                }).reduce(function(prev, current) {
+                    return prev.concat(current);
+                });
+            }
+        };
+        $scope.clearPopups = function() {
+            return $scope.$broadcast("ngAnnotateText.clearPopups");
+        };
+    var annotations = ROARAnnotations(config.id);
+        $scope.annotations = annotations;
+        if (!annotations) {
+
+            $scope.annotations = [
+                [new NGAnnotation({
+                        startIndex: 0,
+                        endIndex: 39,
+                        type: "green",
+                        data: {
+                            comment: "Well written!",
+                            points: 2
+                        }
+                    }),
+                    new NGAnnotation({
+                        startIndex: 240,
+                        endIndex: 247,
+                        type: "red",
+                        data: {
+                            comment: "Spelling mistake",
+                            points: -1
+                        }
+                    })
+                ]
+            ];
+
+
+        }
+
          
         }
    ]);
