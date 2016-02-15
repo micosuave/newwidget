@@ -716,6 +716,34 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     //draft.$save();
                 }
             };
+        var annotations = ROARAnnotations((draft.id || draft.$id || config.id), $stateParams.matterId);
+        $scope.annotations = annotations;
+        if (annotations.length < 1) {
+
+            $scope.annotations = [
+                [new NGAnnotation({
+                        startIndex: 0,
+                        endIndex: 39,
+                        type: "green",
+                        data: {
+                            comment: "Well written!",
+                            points: 2
+                        }
+                    }),
+                    new NGAnnotation({
+                        startIndex: 240,
+                        endIndex: 247,
+                        type: "red",
+                        data: {
+                            comment: "Spelling mistake",
+                            points: -1
+                        }
+                    })
+                ]
+            ];
+
+
+        }
         $scope.onAnnotate = function($annotation) {
             console.log($annotation);
             annotations.$add($annotation);
@@ -797,34 +825,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         $scope.clearPopups = function() {
             return $scope.$broadcast("ngAnnotateText.clearPopups");
         };
-    var annotations = ROARAnnotations(config.id);
-        $scope.annotations = annotations;
-        if (!annotations) {
-
-            $scope.annotations = [
-                [new NGAnnotation({
-                        startIndex: 0,
-                        endIndex: 39,
-                        type: "green",
-                        data: {
-                            comment: "Well written!",
-                            points: 2
-                        }
-                    }),
-                    new NGAnnotation({
-                        startIndex: 240,
-                        endIndex: 247,
-                        type: "red",
-                        data: {
-                            comment: "Spelling mistake",
-                            points: -1
-                        }
-                    })
-                ]
-            ];
-
-
-        }
+    
 
          
         }
