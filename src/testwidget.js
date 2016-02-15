@@ -38,24 +38,24 @@ $templateCache.put("{widgetsPath}/iframe/src/view.html","<div><div class=\"alert
 angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.tree', 'ui.router', 'ngDialog'])
     .config(function(dashboardProvider) {
         dashboardProvider
-          .widget('pdfviewer', {
-            title: 'PDF Viewer',
-            description: 'PDFJS viewer',
-            controller: 'PDFController',
-            controllerAs: 'pdf',
-            templateUrl: '{widgetsPath}/testwidget/src/pdfview.html',
-            frameless: true,
-            reload: true,
-            styleClass: 'card-fancy',
-            edit: {
-              templateUrl: '{widgetsPath}/iframe/src/edit.html',
-              reload: true,
-              controller: 'PDFController',
-              controllerAs: 'pdf'
+        //   .widget('pdfviewer', {
+        //     title: 'PDF Viewer',
+        //     description: 'PDFJS viewer',
+        //     controller: 'PDFController',
+        //     controllerAs: 'pdf',
+        //     templateUrl: '{widgetsPath}/testwidget/src/pdfview.html',
+        //     frameless: true,
+        //     reload: true,
+        //     styleClass: 'card-fancy',
+        //     edit: {
+        //       templateUrl: '{widgetsPath}/iframe/src/edit.html',
+        //       reload: true,
+        //       controller: 'PDFController',
+        //       controllerAs: 'pdf'
 
-            }
+        //     }
             
-            })
+        //     })
             .widget('tocwidget', {
                 title: 'Table of Contents',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
@@ -119,12 +119,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 reload: true,
                 immediate: false,
                 styleClass: 'llp-memo-draft-basic panel-default',
-                edit: {
-                    templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
-                    modalSize: 'lg',
-                    controller: 'CKEditorCtrl',
-                    reload: true
-                },
+                // edit: {
+                //     templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
+                //     modalSize: 'lg',
+                //     controller: 'CKEditorCtrl',
+                //     reload: true
+                // },
                 resolve: {
                     config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL","ckdefault",
                       function (config, $firebaseArray, $rootScope, FIREBASE_URL, ckdefault) {
@@ -150,7 +150,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                               timestamp: Firebase.ServerValue.TIMESTAMP
                             });
                             config.id = id;
-                            config.editor = ckdefault;
+                            //config.editor = ckdefault;
 
                             return config;
                           });
@@ -164,7 +164,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             }).widget('embed', {
                 title: 'EmbedViewer',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
-                description: 'embed content from remote sites',
+                description: 'embed arbitrary content from remote sites',
                 template: '<div ng-bind-html="configs"></div>',
                 controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
                     $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
