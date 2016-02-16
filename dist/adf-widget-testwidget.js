@@ -166,7 +166,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 title: 'EmbedViewer',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'embed arbitrary content from remote sites',
-                template: '<div ng-bind-html="configs"></div>',
+                template: '<div ng-bind-html="configs[0]"></div>',
                 controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
                     $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
                 }],
