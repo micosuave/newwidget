@@ -1,0 +1,10 @@
+<div class="col-sm-6">
+   <pre>
+       
+       {{draft.content | json:4 | diff:editorform.editorta.$modelValue}}
+       
+   </pre>
+   </div>
+   <div class="col-sm-6">
+       <div ng-bind-html="draft.content | diff: editorform.editorta.$modelValue"></div>
+       </div>
