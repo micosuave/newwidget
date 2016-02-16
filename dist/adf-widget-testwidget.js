@@ -554,7 +554,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         icon: 'fa-refresh',
                         label: 'Restore Defaults',
                         styleClass: 'text-success',
-                        onClick: function(draft){ var content = draft.content.splice(draft.content.indexOf('<body>'),draft.content.length); return $scope.draft.content = $scope.ckstarter + content + $scope.ckender;}
+                        onClick: function(draft){ var content = draft.content.slice(draft.content.indexOf('<body>'),draft.content.length); return $scope.draft.content = $scope.ckstarter + content + $scope.ckender;}
                     }]
             };
             function classy(){
