@@ -544,7 +544,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     {   icon: 'fa-pencil',
                         label: 'Toggle Edit Mode',
                         styleClass: 'text-info',
-                        onClick: function(draft){ draft.$save(); config.showeditor = !config.showeditor; return alertify.success('saved!');}
+                        onClick: function(draft){ return draft.$save().then(function(){ config.showeditor = !config.showeditor});}
                     },{
                         icon: 'fa-alert',
                         label: 'Syncronize Editor',
