@@ -117,14 +117,14 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 templateUrl: '/newwidget/src/ckeditor.html',
                 frameless: true,
                 reload: true,
-                immediate: false,
+                immediate: true,
                 styleClass: 'llp-memo-draft-basic panel-default',
-                // edit: {
-                //     templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
-                //     modalSize: 'lg',
-                //     controller: 'CKEditorCtrl',
-                //     reload: true
-                // },
+                edit: {
+                    templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
+                    modalSize: 'lg',
+                    controller: 'CKEditorCtrl',
+                    reload: true
+                },
                 resolve: {
                     config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL","ckdefault",
                       function (config, $firebaseArray, $rootScope, FIREBASE_URL, ckdefault) {
