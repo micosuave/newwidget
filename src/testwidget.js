@@ -586,10 +586,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
             };
             $scope.dosave = function(content){
-                config.showeditor = false;
+                
                 $scope.draft.content = content;
                 $scope.draft.$save();
-                
+                config.showeditor = false;
             };
             
             // var pj = {
