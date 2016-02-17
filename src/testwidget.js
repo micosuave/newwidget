@@ -586,10 +586,11 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
             };
             $scope.dosave = function(content){
-                
-                $scope.draft.$save(content);
                 config.showeditor = false;
+                $scope.draft.$save({content: content});
+                
             };
+            $scope.content = angular.copy(draft.content);
             // var pj = {
             //   editable: editable()
             // };
