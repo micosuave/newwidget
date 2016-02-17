@@ -8,12 +8,12 @@
                             mentio-iframe-element="iframeElement"></textarea> -->
                             <!--<textarea  id="{{config.id}}"  ckeditor="ckdefault" ng-model="draft.content" ng-model-options="{ updateOn: 'default blur', debounce: {'default':30000,'blur': 0} }" class="card card-block "   style="width:100%;min-height:500px;font-size:12px;color:#444;"></textarea>-->
     <form name="editorform" ng-submit="draft.$save();">                    
-   <textarea id="{{config.id}}" name="editorta" ng-change="alertify.log('change');"  ckeditor="ckdefault" ng-model="draft.content" ng-model-options="{ updateOn: 'default  blur', debounce: {'default': 20000,'dblclick':0, 'blur': 0} }" class="card card-block "   style="width:100%;min-height:500px;font-size:12px;color:#444;"></textarea>
+   <textarea id="{{config.id}}" name="editorta" ng-change=""  ckeditor="ckdefault" ng-model="draft.content" ng-model-options="{ updateOn: 'default  blur', debounce: {'default': 20000, 'blur': 0} }" class="card card-block "   style="width:100%;min-height:500px;font-size:12px;color:#444;"></textarea>
    
    
    </form>
    </div>
-   <div ng-bind-html="draft.content|trustAsHTML" id="draftdocument" class="card card-block " ng-if="!config.showeditor"  style="width:100%;min-height:500px;" class=""></div>
+   <div ng-bind-html="{draft.content|trustAsHTML}" id="draftdocument" class="card card-block " ng-if="!config.showeditor"  style="width:100%;min-height:500px;"></div>
    <!--<iframe id="draftdocument2" class="card card-block" ng-if="!config.showeditor" seamless sandbox="allow-scripts allow-same-origin allow-popups-to-escape-sandbox allow-popups allow-pointer-lock allow-orientation-lock allow-modals allow-forms" referrerpolicy="unsafe-url" name="draftrenderer" contenteditable allowfullscreen ng-attr-srcdoc="{{::draft.content}}" style="width:100%;min-height:500px;" ></iframe>-->
     
    <div id="" class="pull-right" uib-dropdown uib-keyboard-nav dropdown-append-to-body style="position:absolute;top:0;right:0;">
