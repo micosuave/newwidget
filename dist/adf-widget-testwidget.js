@@ -586,9 +586,9 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     return 'primary';
                 }
             };
-            var pj = {
-              editable: editable()
-            };
+            // var pj = {
+            //   editable: editable()
+            // };
             $scope.ckdefault = ckdefault;
             // if (angular.isString(config.editor)) {
             //   if (config.editor === 'ckdefault') {
@@ -631,14 +631,14 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             });
             
         
-            $scope.pj = pj;
+            //$scope.pj = pj;
             var draft = Collection(config.id);
             // draft.$bindTo($scope, 'draft');
             $scope.draft = draft;
-            $scope.loaddraft = function(draftId) {
-                var draft = Collection(draftId);
-                draft.$bindTo($scope, 'draft');
-            };
+            // $scope.loaddraft = function(draftId) {
+            //     var draft = Collection(draftId);
+            //     draft.$bindTo($scope, 'draft');
+            // };
 
             // draft.$loaded().then(function(d){
             //     var head = "<!DOCTYPE html><html class='html'><head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css'><link rel='stylesheet' href='//lexlab.io/llp_core/dist/app.full.min.css'><script src='https://code.jquery.com/jquery-2.2.0.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js'></script><script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js'></script><base href='/' target='_blank'/></head><body class='html' style='padding:10px 5px;'><div class='card card-block'>";
