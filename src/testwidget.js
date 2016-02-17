@@ -116,7 +116,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 controller: 'CKEWidgetCtrl',
                 templateUrl: '/newwidget/src/ckeditor.html',
                 frameless: true,
-                reload: true,
+                reload: false,
                 immediate: false,
                 styleClass: 'llp-memo-draft-basic panel-default',
                 // edit: {
