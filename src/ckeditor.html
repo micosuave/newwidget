@@ -1,8 +1,8 @@
 
-<div  class="card" style="margin: -0.1rem;padding: 0.1rem;text-align: left;overflow: scroll; height: 60rem;border: 0rem solid #110000;box-shadow:0 0 0 transparent;" ng-if="config.showeditor">
+<!--<div  class="card" style="margin: -0.1rem;padding: 0.1rem;text-align: left;overflow: scroll; height: 60rem;border: 0rem solid #110000;box-shadow:0 0 0 transparent;" ng-if="config.showeditor">-->
     <!--<a ng-click="updateid()" class="fa fa-refresh"></a>-->
 
-<div class="card-header" ng-show="draft.isnotRoot"><h3 class="card-title">{{draft.title}}</h3></div>
+<!--<div class="card-header" ng-show="draft.isnotRoot"><h3 class="card-title">{{draft.title}}</h3></div>-->
                    <!-- <textarea ui-tinymce="tinyMceOptions" mentio mentio-typed-text="typedTerm" 
                             mentio-items="simplePeople | filter:label:typedTerm" ng-model='foo'
                             mentio-iframe-element="iframeElement"></textarea> -->
@@ -12,8 +12,8 @@
    
    
    </form>-->
-   </div>
-   <ng-annotate-text text="draft.content"  ckeditor="ckdefault" contenteditable="{{config.showeditor}}" id="draftdocument" class="card card-block {{draft.renderClass}}" style="width:100%;min-height:500px;" class=""></ng-annotate-text>
+   <!--</div>-->
+   <div data-ng-bind-html="{{draft.content}}"  ckeditor="ckdefault" contenteditable="{{config.showeditor}}" id="draftdocument" class="card card-block {{draft.renderClass}}" style="width:100%;min-height:500px;" class=""></div>
    <!--<iframe id="draftdocument2" class="" ng-show="!config.showeditor" seamless sandbox="allow-scripts allow-same-origin allow-popups-to-escape-sandbox allow-popups allow-pointer-lock allow-orientation-lock allow-modals allow-forms" referrerpolicy="unsafe-url" name="draftrenderer" contenteditable allowfullscreen ng-attr-srcdoc="{{sync.content}}" style="width:100%;min-height:500px;" ></iframe>-->
     
    <div id="" class="pull-right" uib-dropdown uib-keyboard-nav dropdown-append-to-body style="position:absolute;top:0;right:0;">
