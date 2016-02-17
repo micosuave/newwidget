@@ -7,9 +7,9 @@
                             mentio-items="simplePeople | filter:label:typedTerm" ng-model='foo'
                             mentio-iframe-element="iframeElement"></textarea> -->
                             <!--<textarea  id="{{config.id}}"  ckeditor="ckdefault" ng-model="draft.content" ng-model-options="{ updateOn: 'default blur', debounce: {'default':30000,'blur': 0} }" class="card card-block "   style="width:100%;min-height:500px;font-size:12px;color:#444;"></textarea>-->
-    <form name="editorform" ng-submit="draft.$save();">                    
+    <form name="editorform" ng-submit="dosave();">                    
    <textarea id="{{config.id}}" name="editorta" ng-change=""  ckeditor="ckdefault" ng-model="draft.content" ng-model-options="{ updateOn: 'default  blur', debounce: {'default': 20000, 'blur': 0} }" class="card card-block "   style="width:100%;min-height:500px;font-size:12px;color:#444;"></textarea>
-   
+   <input type="submit" style="position:absolute;top:-25px;right:-25px;border-radius:50%;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;"/>
    
    </form>
    </div>

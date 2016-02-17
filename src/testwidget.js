@@ -543,7 +543,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     {   icon: 'fa-pencil',
                         label: 'Toggle Edit Mode',
                         styleClass: 'text-info',
-                        onClick: function(draft){ draft.$save(); return config.showeditor = !config.showeditor; }
+                        onClick: function(draft){return config.showeditor = !config.showeditor; }
                     },{
                         icon: 'fa-alert',
                         label: 'Syncronize Editor',
@@ -584,6 +584,11 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 else{
                     return 'primary';
                 }
+            };
+            $scope.dosave = function(content){
+                $scope.draft.content = content;
+                $scope.draft.$save();
+                config.showeditor = false;
             };
             // var pj = {
             //   editable: editable()
