@@ -586,8 +586,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
             };
             $scope.dosave = function(content){
-                $scope.draft.content = content;
-                $scope.draft.$save();
+                
+                $scope.draft.$save(content);
                 config.showeditor = false;
             };
             // var pj = {
