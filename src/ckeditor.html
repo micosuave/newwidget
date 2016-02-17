@@ -13,7 +13,7 @@
    
    </form>-->
    <!--</div>-->
-   <div data-ng-bind-html="{{draft.content}}"   contenteditable id="draftdocument" class="card card-block {{draft.renderClass}}" style="width:100%;min-height:500px;" class=""></div>
+   <div data-ng-bind-html="{{draft.content}}"   contenteditable="{{config.showeditor}}" ng-model="draft.content" ckeditor="ckdefault" id="draftdocument" class="card card-block {{draft.renderClass}}" style="width:100%;min-height:500px;" class=""></div>
    <!--<iframe id="draftdocument2" class="" ng-show="!config.showeditor" seamless sandbox="allow-scripts allow-same-origin allow-popups-to-escape-sandbox allow-popups allow-pointer-lock allow-orientation-lock allow-modals allow-forms" referrerpolicy="unsafe-url" name="draftrenderer" contenteditable allowfullscreen ng-attr-srcdoc="{{sync.content}}" style="width:100%;min-height:500px;" ></iframe>-->
     
    <div id="" class="pull-right" uib-dropdown uib-keyboard-nav dropdown-append-to-body style="position:absolute;top:0;right:0;">
