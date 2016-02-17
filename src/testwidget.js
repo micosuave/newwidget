@@ -116,7 +116,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 controller: 'CKEWidgetCtrl',
                 templateUrl: '/newwidget/src/ckeditor.html',
                 frameless: true,
-                reload: false,
+                reload: true,
                 immediate: false,
                 styleClass: 'llp-memo-draft-basic panel-default',
                 // edit: {
@@ -543,7 +543,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     {   icon: 'fa-pencil',
                         label: 'Toggle Edit Mode',
                         styleClass: 'text-info',
-                        onClick: function(draft){ return draft.$save().then(function(){ config.showeditor = !config.showeditor});}
+                        onClick: function(draft){ draft.$save(); return config.showeditor = !config.showeditor; }
                     },{
                         icon: 'fa-alert',
                         label: 'Syncronize Editor',
@@ -628,20 +628,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                $scope.loaddraft($data);
              
             });
-            var sync = Collection(config.id);
-            sync.$bindTo($scope, 'sync');
-            $scope.showeditor = false;
-            $scope.$on('adfToggleEditMode', function($event, $data){
-                $scope.showeditor = !$scope.showeditor;
-            });
-            function editable() {
-              if ($rootScope.$state.includes('projectdashboard')) {
-                return true;
-              }
-              if ($rootScope.$state.includes('roartheatre')) {
-                return false;
-              }
-            };
+            
+        
             $scope.pj = pj;
             var draft = Collection(config.id);
             // draft.$bindTo($scope, 'draft');
@@ -717,116 +705,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     //draft.$save();
                 }
             };
-        var annotations = ROARAnnotations((draft.id || draft.$id || config.id), $stateParams.matterId);
-        $scope.annotations = annotations;
-        if (annotations.length < 1) {
-
-            $scope.annotations = [
-                [new NGAnnotation({
-                        startIndex: 0,
-                        endIndex: 39,
-                        type: "green",
-                        data: {
-                            comment: "Well written!",
-                            points: 2
-                        }
-                    }),
-                    new NGAnnotation({
-                        startIndex: 240,
-                        endIndex: 247,
-                        type: "red",
-                        data: {
-                            comment: "Spelling mistake",
-                            points: -1
-                        }
-                    })
-                ]
-            ];
-
-
-        }
-        $scope.onAnnotate = function($annotation) {
-            console.log($annotation);
-            annotations.$add($annotation);
-            alertify.success($annotation);
-        };
-        $scope.onAnnotateDelete = function($annotation) {
-            // annotations.$remove($annotation).then(function(ref){
-            //      console.log(ref);
-            // });
-            $scope.event.annotations[$annotation.$id] = null;
-
-
-        };
-
-        $scope.onAnnotateError = function($ex) {
-            if ($ex.message === "NG_ANNOTATE_TEXT_PARTIAL_NODE_SELECTED") {
-                return alertify.error("Invalid selection.");
-            } else {
-                return alertify.error($ex);
-            }
-        };
-
-        $scope.onPopupShow = function($el) {
-            var firstInput;
-            firstInput = $el.find("input, textarea").eq(0).focus();
-            var selection = window.getSelection();
-            if (selection) {
-                $scope.data.selection = selection;
-            }
-            // move.select = function(el) {
-            //     return $(selector).get(0);
-            // };
-            // var a = move.select($el);
-            // move(a).scale(1.2).duration(1500).end();
-            $('.ng-annotate-text-popup').draggable({
-                scroll: true,
-                cursor: 'move',
-                handle: '.roareventcardtab',
-                stack: '.ng-annotate-text-popup',
-                constrain: 'body'
-            }).resizable();
-            return firstInput && firstInput[0].select();
-        };
-
-        $scope.hasPoints = function(points) {
-            var _isNaN;
-            _isNaN = Number.isNaN || isNaN;
-            return typeof points === "number" && points !== 0 && !_isNaN(points);
-        };
-
-        $scope.hasComment = function(comment) {
-            return typeof comment === "string" && comment.length > 0;
-        };
-
-        $scope.annotationsAsFlatList = function(annotations) {
-
-            if (annotations == null) {
-                annotations = $scope.annotations;
-            }
-            if (!annotations.length) {
-                return [];
-            } else {
-                return annotations.map(function(annotation) {
-                    var arr;
-                    arr = [];
-                    // if ($scope.hasPoints(annotation.data.points) && $scope.hasComment(annotation.data.comment)) { 
-                    //  arr.push(annotation); 
-                    // } 
-                    // if (annotation.children && annotation.children.length) { 
-                    //  arr = arr.concat($scope.annotationsAsFlatList(annotation.children)); 
-                    // } 
-                    arr.push(annotation);
-                    return arr;
-                }).reduce(function(prev, current) {
-                    return prev.concat(current);
-                });
-            }
-        };
-        $scope.clearPopups = function() {
-            return $scope.$broadcast("ngAnnotateText.clearPopups");
-        };
-    
+       
 
          
         }
