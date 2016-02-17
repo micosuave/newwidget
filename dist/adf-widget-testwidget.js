@@ -591,7 +591,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 $scope.draft.$save({content: content});
                 
             };
-            $scope.content = angular.copy(draft.content);
+            
             // var pj = {
             //   editable: editable()
             // };
@@ -641,6 +641,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             var draft = Collection(config.id);
             // draft.$bindTo($scope, 'draft');
             $scope.draft = draft;
+            $scope.content = angular.copy(draft.content);
             // $scope.loaddraft = function(draftId) {
             //     var draft = Collection(draftId);
             //     draft.$bindTo($scope, 'draft');
