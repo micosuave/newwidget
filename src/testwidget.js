@@ -640,7 +640,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             var draft = Collection(config.id);
             // draft.$bindTo($scope, 'draft');
             $scope.draft = draft;
-            $scope.content = angular.copy(draft.content);
+            draft.$loaded().then(function(draft){
+                 $scope.content = angular.copy(draft.content);
+            });
+           
             // $scope.loaddraft = function(draftId) {
             //     var draft = Collection(draftId);
             //     draft.$bindTo($scope, 'draft');
