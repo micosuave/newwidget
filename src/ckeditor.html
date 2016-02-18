@@ -13,8 +13,13 @@
    
    </form>
    </div>
-   <div ng-bind-html="draft.content" id="draftdocument" class="{{config.styleClass}} {{config.custom || 'llp-memo-draft-basic'}}" ng-if="!config.showeditor && !config.iframe"  style="width:100%;min-height:500px;"></div>
-   <iframe id="draftdocument2" class="card card-block {{config.styleClass}} {{config.custom || 'llp-memo-draft-basic'}}" ng-if="!config.showeditor && config.iframe" seamless sandbox="allow-scripts allow-same-origin allow-popups-to-escape-sandbox allow-popups allow-pointer-lock allow-orientation-lock allow-modals allow-forms" referrerpolicy="unsafe-url" name="draftrenderer"  allowfullscreen ng-attr-srcdoc="{{draft.content}}" style="width:100%;min-height:500px;" ></iframe>
+   <div ng-bind-html="draft.content" id="draftdocument" class="{{config.styleClass}} {{config.custom || 'llp-memo-draft-basic'}}" ng-if="!config.showeditor && !config.iframe && !config.versionhistory"  style="width:100%;min-height:500px;"></div>
+   <iframe id="draftdocument2" class="card card-block {{config.styleClass}} {{config.custom || 'llp-memo-draft-basic'}}" ng-if="!config.showeditor && config.iframe && !config.versionhistory" seamless sandbox="allow-scripts allow-same-origin allow-popups-to-escape-sandbox allow-popups allow-pointer-lock allow-orientation-lock allow-modals allow-forms" referrerpolicy="unsafe-url" name="draftrenderer"  allowfullscreen ng-attr-srcdoc="{{draft.content}}" style="width:100%;min-height:500px;" ></iframe>
+   
+   
+   
+   <div ng-bind-html="draft.content | diff:config.version.content" id="draftdocument" class="{{config.styleClass}} {{config.custom || 'llp-memo-draft-basic'}}" ng-if="!config.showeditor && !config.iframe && config.versionhistory"  style="width:100%;min-height:500px;"></div>
+   <iframe id="draftdocument2" class="card card-block {{config.styleClass}} {{config.custom || 'llp-memo-draft-basic'}}" ng-if="!config.showeditor && config.iframe && config.versionhistory" seamless sandbox="allow-scripts allow-same-origin allow-popups-to-escape-sandbox allow-popups allow-pointer-lock allow-orientation-lock allow-modals allow-forms" referrerpolicy="unsafe-url" name="draftrenderer"  allowfullscreen ng-attr-srcdoc="{{draft.content | diff: config.version.content}}" style="width:100%;min-height:500px;" ></iframe>
     
    <div id="" class="pull-right" uib-dropdown uib-keyboard-nav dropdown-append-to-body style="position:absolute;top:0;right:0;">
         <button id="dragbutton" draggable class="dragbutton pull-right btn btn-default btn-sm fa fa-2x" ng-class="{'fa-edit text-info':!config.showeditor,'fa-save text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}" style="position:absolute;top:-25px;right:-25px;border-radius:50%;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;" uib-dropdown-toggle></button>
@@ -22,6 +27,11 @@
             <li class="{{menuitem.styleClass}}" ng-repeat="menuitem in menu.items">
                 <a ng-click="menuitem.onClick(draft)" class="fa fa-2x {{menuitem.icon}} {{menuitem.styleClass}}">&nbsp;&nbsp;&nbsp;&nbsp;{{menuitem.label}}</a>
                 <li>
+                <li ng-if="config.versionhistory" ng-repeat="(version,key) in draft.versionhistory" >
+                    <a ng-click="config.version = version"><h6>{{$index}} - {{key | date}}<br>
+                    
+                    <small>{{getAuthor(version.author)}}</small></h6></a>
+                </li>
         </ul>
     </div>     
      <!--<ng-annotate-text text="draft.content" class="eventdigest card" style="background-color: #fff;padding: 1rem;border-radius: 0.2rem;" annotations="annotations" readonly="false" popup-controller="'AnnotationController'" popup-template-url="'/llp_core/modules/roarmap/partial/roarmap.detail.tpl/roarmap.annotation.tpl.html'"

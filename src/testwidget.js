@@ -656,9 +656,11 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     //   { name: 'Report', obj: ckreport },
     //   { name: 'Full', obj: null}
     ];
-    $scope.ROARCLASSES = ROARCLASSES;
+    $scope.ROARCLASSES = [{label: 'Memo Basic', value: 'llp-memo-draft-basic'}];
     $scope.config = config;
     $scope.editors = editors;
+    
+    $scope.versions = Collection(config.id).versionhistory;
     
   }])
   .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport","$ACTIVEROAR","$stateParams","$sce","$compile","ckstarter","ckender","toastr","ROARAnnotations","ROARAnnotation","NGAnnotation",
@@ -721,8 +723,17 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
             };
             $scope.dosave = function(content){
-                
+                var d = new Date();
+                var time = d.getTime();
+                var prev = $scope.draft.content;
+                if (angular.isUndefined($scope.draft.versionhistory)){
+                    $scope.draft.versionhistory[time] = {author: $rootScope.authData.uid,
+                                                            content: prev};
+                }else{
+                    $scope.draft.versionhistory[time] = {author: $rootScope.authData.uid, content: prev};
+                }
                 $scope.draft.content = content;
+                $scope.draft.lastModified = time;
                 $scope.draft.$save();
                 config.showeditor = false;
             };
