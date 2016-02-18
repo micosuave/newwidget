@@ -739,7 +739,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 config.showeditor = false;
             };
             $scope.getAuthor = function(id){
-                return Users.all.$getRecord(id).profile.name;
+                return Users.all.$getRecord(id).auth.profile.name;
             };
             // var pj = {
             //   editable: editable()

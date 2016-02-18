@@ -28,9 +28,9 @@
                 <a ng-click="menuitem.onClick(draft)" class="fa fa-2x {{menuitem.icon}} {{menuitem.styleClass}}">&nbsp;&nbsp;&nbsp;&nbsp;{{menuitem.label}}</a>
                 <li>
                 <li ng-if="config.versionhistory" ng-repeat="(key,version) in draft.versionhistory" >
-                    <a ng-click="config.version = version"><h6>{{$index}} - {{key | date}}<br>
+                    <a ng-click="config.version = version"><h5><strong>{{$index}} - {{key | date : 'medium'}}</strong><br>
                     
-                    <small>{{getAuthor(version.author)}}</small></h6></a>
+                    <em>{{getAuthor(version.author)}}</em></h5></a>
                 </li>
         </ul>
     </div>     
