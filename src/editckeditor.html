@@ -1,7 +1,7 @@
 <form role="form">
     <div class="form-group">
         <label for="draftid">Style Configuration</label>
-        <select ng-model="config.styleClass" ng-options="class.value as class.label for class in ROARCLASSES" class="form-control" id="styleclass" placeholder="Select style..."><option value="" label="default"></option><option value="{{custom}}" label="custom"></option></select>
+        <select ng-model="config.styleClass" ng-options="class.value as class.label for class in ROARCLASSES" class="form-control" id="styleclass" placeholder="Select style..."><option value="" label="default"></option><option value="{{custom || 'llp-memo-draft-basic'}}" label="custom"></option></select>
        <input type="text" ng-model="custom" placeholder="custom style class(es)" />
         <!--<select ng-model="config.editor" ng-change="" ng-options="editor.obj as editor.name for editor in editors" class="form-control" id="draftid" placeholder="Select Editor Configuration..."></select>-->
         <!-- <input type="text" class="form-control" id="sample" ng-model="config.sample" placeholder="Enter sample"> -->
