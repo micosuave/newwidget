@@ -3,7 +3,23 @@ angular.module('adf.widget.frame', ['adf.provider'])
   .config(["dashboardProvider", function(dashboardProvider){
     dashboardProvider
       .widget('iframe', {
-        title: 'LexFrame',
+        title: '+LexFrame',
+        description: 'Embed an external page into the dashboard',
+        templateUrl: '{widgetsPath}/iframe/src/view.html',
+        controller: 'iframeController',
+        controllerAs: 'iframe',
+        frameless: false,
+        reload: true,
+        styleClass: 'card',
+        edit: {
+            controller: 'iframeController',
+          templateUrl: '{widgetsPath}/iframe/src/edit.html'
+        },
+        config: {
+          height: '320px'
+        }
+      }).widget('iframe-less', {
+        title: '-LexFrame',
         description: 'Embed an external page into the dashboard',
         templateUrl: '{widgetsPath}/iframe/src/view.html',
         controller: 'iframeController',
@@ -56,8 +72,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         //     }
             
         //     })
-            .widget('tocwidget', {
-                title: 'Table of Contents',
+            .widget('tocwidget-less', {
+                title: '+Table of Contents',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'Prototype LLP Platform App',
                 controller: 'PhdTocWidgetCtrl',
@@ -109,8 +125,113 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                       }
                     ]
                   }
+            }).widget('tocwidget', {
+                title: '-Table of Contents',
+                titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
+                description: 'Prototype LLP Platform App',
+                controller: 'PhdTocWidgetCtrl',
+                controllerAs: 'toc',
+                templateUrl: '{widgetsPath}/testwidget/src/view.html',
+                frameless: true,
+                reload: true,
+                immediate: false,
+                styleClass: 'llp-memo-draft-basic',
+                edit: {
+                    templateUrl: '{widgetsPath}/testwidget/src/edit.html',
+                    modalSize: 'lg',
+                    controller: 'PhdTocWidgetCtrl',
+                    reload: false
+                },
+                resolve: {
+                    config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL",
+                      function (config, $firebaseArray, $rootScope, FIREBASE_URL) {
+                        if (config.id) {
+                          return config;
+                        } else {
+                          var a = $firebaseArray(new Firebase(FIREBASE_URL + 'matters/' + $rootScope.$stateParams.groupId + '/' + $rootScope.$stateParams.matterId + '/content/'));
+                          var b = {};
+                          a.$add({
+                            'name': 'draft'
+                            
+                          }).then(function (ref) {
+                            var id = ref.key();
+                            ref.update({
+                              id: id,
+                              //projectid: $rootScope.$stateParams.pId || 'projectid',
+                              //matterId: $rootScope.$stateParams.matterId || 'matterId',
+                              //groupId: $rootScope.$stateParams.groupId || 'groupId',
+                              //author: $rootScope.authData.uid || 'userid',
+                              ispublished: false,
+                              content_type: 'document',
+                              templateUrl: '{widgetsPath}/getphd/src/view.html',
+                              timestamp: Firebase.ServerValue.TIMESTAMP
+                            });
+                            config.id = id;
+                            
+
+                            return config;
+                          });
+                          return config;
+
+
+                        }
+                      }
+                    ]
+                  }
+            }).widget('ckwidget-less', {
+                title: '-LexPad',
+                titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
+                description: 'text editor',
+                controller: 'CKEWidgetCtrl',
+                templateUrl: '/newwidget/src/ckeditor.html',
+                frameless: true,
+                reload: true,
+                immediate: true,
+                styleClass: 'llp-memo-draft-basic panel-default',
+                edit: {
+                    templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
+                    modalSize: 'lg',
+                    controller: 'CKEditorCtrl',
+                    reload: true
+                },
+                resolve: {
+                    config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL","ckdefault",
+                      function (config, $firebaseArray, $rootScope, FIREBASE_URL, ckdefault) {
+                        if (config.id) {
+                          return config;
+                        } else {
+                          var a = $firebaseArray(new Firebase(FIREBASE_URL + 'matters/' + $rootScope.$stateParams.groupId + '/' + $rootScope.$stateParams.matterId + '/content/'));
+                          var b = {};
+                          a.$add({
+                            'name': 'draft'
+                            
+                          }).then(function (ref) {
+                            var id = ref.key();
+                            ref.update({
+                              id: id,
+                              //projectid: $rootScope.$stateParams.pId || 'projectid',
+                              //matterId: $rootScope.$stateParams.matterId || 'matterId',
+                              //groupId: $rootScope.$stateParams.groupId || 'groupId',
+                              //author: $rootScope.authData.uid || 'userid',
+                              ispublished: false,
+                              content_type: 'document',
+                              templateUrl: '{widgetsPath}/getphd/src/view.html',
+                              timestamp: Firebase.ServerValue.TIMESTAMP
+                            });
+                            config.id = id;
+                            //config.editor = ckdefault;
+
+                            return config;
+                          });
+                          return config;
+
+
+                        }
+                      }
+                    ]
+                  }
             }).widget('ckwidget', {
-                title: 'LexPad',
+                title: '+LexPad',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'text editor',
                 controller: 'CKEWidgetCtrl',
@@ -162,7 +283,21 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     ]
                   }
             }).widget('embed', {
-                title: 'EmbedViewer',
+                title: '+EmbedViewer',
+                titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
+                description: 'embed arbitrary content from remote sites',
+                template: '<div ng-bind-html="configs[0]"></div>',
+                controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
+                    $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
+                }],
+                frameless: true,
+                edit: {
+                    template: '<div class="card"><label for="content">Enter embed code</label><textarea name="content" class="form-control" ng-model="config.content"></textarea></div>',
+                    immediate: true,
+                    reload: true
+                }
+            }).widget('embed-less', {
+                title: '-EmbedViewer',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'embed arbitrary content from remote sites',
                 template: '<div ng-bind-html="configs[0]"></div>',
