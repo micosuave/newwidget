@@ -513,7 +513,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         };
           
         }
-  ]).controller('CKEditorCtrl', ["$scope", "config", "ckdefault", "ckmin","ckclip","ckreport","$sce", function ($scope, config, ckdefault, ckmin,ckclip, ckreport,$sce) {
+  ]).controller('CKEditorCtrl', ["$scope", "config", "ckdefault", "ckmin","ckclip","ckreport","$sce","ROARCLASSES", function ($scope, config, ckdefault, ckmin,ckclip, ckreport,$sce,ROARCLASSES) {
     var editors = [
       { name: 'Default', obj: ckdefault }
     //   { name: 'Minimal', obj: ckmin },
@@ -521,7 +521,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     //   { name: 'Report', obj: ckreport },
     //   { name: 'Full', obj: null}
     ];
-     
+    $scope.ROARCLASSES = ROARCLASSES;
     $scope.config = config;
     $scope.editors = editors;
     
