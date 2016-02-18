@@ -727,6 +727,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 var time = d.getTime();
                 var prev = $scope.draft.content;
                 if (angular.isUndefined($scope.draft.versionhistory)){
+                   $scope.draft.versionhistory = {};
                     $scope.draft.versionhistory[time] = {author: $rootScope.authData.uid,
                                                             content: prev};
                 }else{
