@@ -130,19 +130,19 @@ a.gototarget::after {
 .llp-black blockquote,
 .llp-black div,
 .llp-black button {
-  color: black;
+  color: black!important;
 }
 .llp-black span {
-  color: darkgoldenrod;
+  color: darkgoldenrod !important;
 }
 .llp-black ins {
-  color: darkgreen;
+  color: darkgreen !important;
 }
 .llp-black del {
-  color: darkred;
+  color: darkred !important;
 }
 .llp-black a {
-  color: steelblue;
+  color: steelblue !important;
 }
 a.gototarget::after {
   content: leader('.');
