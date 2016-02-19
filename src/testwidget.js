@@ -187,7 +187,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 frameless: true,
                 reload: true,
                 immediate: true,
-                styleClass: 'llp-memo-draft-basic panel-default',
+                styleClass: ' panel-default',
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
                     modalSize: 'lg',
