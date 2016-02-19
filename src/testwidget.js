@@ -290,7 +290,9 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
                     $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
                 }],
-                frameless: true,
+                styleClass: 'panel panel-default',
+                frameless: false,
+                reload: true,
                 edit: {
                     template: '<div class="card"><label for="content">Enter embed code</label><textarea name="content" class="form-control" ng-model="config.content"></textarea></div>',
                     immediate: true,
@@ -304,7 +306,9 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
                     $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
                 }],
+                styleClass: 'card card-block',
                 frameless: true,
+                reload: true,
                 edit: {
                     template: '<div class="card"><label for="content">Enter embed code</label><textarea name="content" class="form-control" ng-model="config.content"></textarea></div>',
                     immediate: true,
