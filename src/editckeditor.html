@@ -19,8 +19,9 @@
         
     </div>   
     
-    <div class="row" ng-repeat="tag in formattags">
-        
+    <div class="row" ng-repeat="class in helperclasses">
+        <label for="helperclass">{{class.label}}</label>
+        <input type="checkbox"  ng-checked="(config.class.value == true)">
         <div class="pull-left" ng-bind-html="tag.value"></div>
         <div ng-repeat="attribute in tag.attributes">
             <a editable-text="attribute.value"  >{{attribute.label}}</a>
