@@ -1,4 +1,4 @@
-<form role="form">
+<form role="form" editable-form>
     <div class="form-group">
         <label for="draftid">Style Configuration</label>
         <select ng-model="config.styleClass" ng-options="class.value as class.label for class in ROARCLASSES" class="form-control" id="styleclass" placeholder="Select style..."><option value="" label="default"></option></select>
@@ -23,7 +23,7 @@
         
         <div class="pull-left" ng-bind-html="tag.value"></div>
         <div ng-repeat="attribute in tag.attributes">
-            <a editable-text="attribute.value" >{{attribute.label}}</a>
+            <a editable-text="attribute.value"  >{{attribute.label}}</a>
             </div>
     </div>  
     <!--<div class="form-group">
