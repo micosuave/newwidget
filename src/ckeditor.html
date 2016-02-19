@@ -32,6 +32,7 @@
                     
                     <em>{{getAuthor(version.author)}}</em></h5></a>
                 </li>
+                <cursor ng-repeat="(key,user) in profile.users" userid="{{key}}"></cursor>
         </ul>
     </div>     
      <!--<ng-annotate-text text="draft.content" class="eventdigest card" style="background-color: #fff;padding: 1rem;border-radius: 0.2rem;" annotations="annotations" readonly="false" popup-controller="'AnnotationController'" popup-template-url="'/llp_core/modules/roarmap/partial/roarmap.detail.tpl/roarmap.annotation.tpl.html'"
