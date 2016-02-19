@@ -239,7 +239,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 frameless: true,
                 reload: true,
                 immediate: true,
-                styleClass: 'llp-memo-draft-basic panel-default',
+                styleClass: 'panel panel-default',
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/editckeditor.html',
                     modalSize: 'lg',
@@ -648,7 +648,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         };
           
         }
-  ]).controller('CKEditorCtrl', ["$scope", "config", "ckdefault", "ckmin","ckclip","ckreport","$sce","ROARCLASSES", function ($scope, config, ckdefault, ckmin,ckclip, ckreport,$sce,ROARCLASSES) {
+  ]).controller('CKEditorCtrl', ["$scope", "config", "ckdefault", "ckmin","ckclip","ckreport","$sce","ROARCLASSES","formattags", function ($scope, config, ckdefault, ckmin,ckclip, ckreport,$sce,ROARCLASSES,formattags) {
     var editors = [
       { name: 'Default', obj: ckdefault }
     //   { name: 'Minimal', obj: ckmin },
@@ -659,7 +659,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     $scope.ROARCLASSES = [{label: 'Memo Basic', value: 'llp-memo-draft-basic'}];
     $scope.config = config;
     $scope.editors = editors;
-    
+    $scope.formattags = formattags;
     
     
   }])
@@ -869,4 +869,14 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
          
         }
+   ]).value('formattags', [
+       {name: 'h1', label: 'heading1', value: '<h1></h1>',attributes:['fontSize','color','backgroundColor','fontFamily','fontStyle','textDecoration','margin', 'padding','border','overflow']},
+       {name: 'h2', label: 'heading2', value: '<h2></h2>',attributes:['fontSize','color','backgroundColor','fontFamily','fontStyle','textDecoration','margin', 'padding','border','overflow']},
+       {name: 'h3', label: 'heading3', value: '<h3></h3>',attributes:['fontSize','color','backgroundColor','fontFamily','fontStyle','textDecoration','margin', 'padding','border','overflow']},
+       {name: 'h4', label: 'heading4', value: '<h4></h4>',attributes:['fontSize','color','backgroundColor','fontFamily','fontStyle','textDecoration','margin', 'padding','border','overflow']},
+       {name: 'h5', label: 'heading5', value: '<h5></h5>',attributes:['fontSize','color','backgroundColor','fontFamily','fontStyle','textDecoration','margin', 'padding','border','overflow']},
+       {name: 'h6', label: 'heading6', value: '<h6></h6>',attributes:['fontSize','color','backgroundColor','fontFamily','fontStyle','textDecoration','margin', 'padding','border','overflow']},
+       {name: 'p', label: 'paragraph', value: '<p></p>',attributes:['fontSize','color','backgroundColor','fontFamily','fontStyle','textDecoration','margin', 'padding','border','overflow']},
+       {name: 'pre', label: 'preformatted', value: '<pre></pre>',attributes:['fontSize','color','backgroundColor','fontFamily','fontStyle','textDecoration','margin', 'padding','border','overflow']}
+       
    ]);

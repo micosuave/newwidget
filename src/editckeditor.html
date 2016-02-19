@@ -18,6 +18,14 @@
         <input type="checkbox" ng-model="config.versionhistory">
         
     </div>   
+    
+    <div class="row" ng-repeat="tag in formattags">
+        
+        <div class="pull-left" ng-bind-html="tag.value"></div>
+        <div ng-repeat="attribute in tag.attributes">
+            <a editable-text="attribute.value" >{{attribute.label}}</a>
+            </div>
+    </div>  
     <!--<div class="form-group">
         <label for="draftid">Template</label>
         <select ng-model="config.template" ng-change="" ng-options="template as template.title for template in templates" class="form-control" id="draftid" placeholder="Select Template..."></select>
