@@ -20,11 +20,11 @@
     </div>   
     
     <div class="row" ng-repeat="class in helperclasses">
-        <label for="helperclass">{{class.label}}</label>
-        <input type="checkbox"  ng-checked="(config.class.value == true)">
-        <div class="pull-left" ng-bind-html="tag.value"></div>
-        <div ng-repeat="attribute in tag.attributes">
-            <a editable-text="attribute.value"  >{{attribute.label}}</a>
+        <label for="helperclass" ng-style="class.customstyle">{{class.label}}</label>
+        <!--<input type="checkbox"  ng-checked="(config.class.value == true)">-->
+        <div class="pull-left" ng-bind-html="class.tag" ng-style="class.customstyle"></div>
+        <div ng-repeat="(key, value) in class.customstyle">
+            <a editable-text="value"  >{{key}}</a>
             </div>
     </div>  
     <!--<div class="form-group">

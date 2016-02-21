@@ -665,7 +665,20 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     $scope.editors = editors;
     $scope.formattags = formattags;
     
-    
+    var helperclasses=[
+        {name: 'h1', label: 'heading1', tag:'<h1 ng-style="customstyle">h1</h1>',customstyle: {color: 'black', "background-color": "white", "font-size": "24px", "font-family":"Arial"}},
+        {name: 'h2', label: 'heading2', tag:'<h2 ng-style="customstyle">h2</h2>',customstyle: {color: 'black', "background-color": "white", "font-size": "24px", "font-family":"Arial"}},
+        {name: 'h3', label: 'heading3', tag:'<h3 ng-style="customstyle">h3</h3>',customstyle: {color: 'black', "background-color": "white", "font-size": "24px", "font-family":"Arial"}},
+        {name: 'h4', label: 'heading4', tag:'<h4 ng-style="customstyle">h4</h4>',customstyle: {color: 'black', "background-color": "white", "font-size": "24px", "font-family":"Arial"}},
+        {name: 'h5', label: 'heading5', tag:'<h5 ng-style="customstyle">h5</h5>',customstyle: {color: 'black', "background-color": "white", "font-size": "24px", "font-family":"Arial"}},
+        {name: 'h6', label: 'heading6', tag:'<h6 ng-style="customstyle">h6</h6>',customstyle: {color: 'black', "background-color": "white", "font-size": "24px", "font-family":"Arial"}},
+        {name: 'p', label: 'paragraph', tag:'<p ng-style="customstyle">p</p>',customstyle: {color: 'black', "background-color": "white", "font-size": "24px", "font-family":"Arial"}},
+        {name: 'link', label: 'link', tag:'<a ng-style="customstyle">link</a>',customstyle: {color: 'black', "background-color": "white", "font-size": "24px", "font-family":"Arial"}},
+        {name: 'preformatted', label: 'preformatted', tag:'<pre ng-style="customstyle">preformatted</pre>',customstyle: {color: 'black', "background-color": "white", "font-size": "24px", "font-family":"Arial"}},
+        {name: 'blockquote', label: 'blockquote', tag:'<blockquote ng-style="customstyle">blockquote</blockquote>',customstyle: {color: 'black', "background-color": "white", "font-size": "24px", "font-family":"Arial"}}
+        
+    ];
+    $scope.helperclasses= helperclasses;
   }])
   .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport","$ACTIVEROAR","$stateParams","$sce","$compile","ckstarter","ckender","toastr","ROARAnnotations","ROARAnnotation","NGAnnotation","Users","Profile",
         function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,ROARAnnotations,ROARAnnotation,NGAnnotation,Users,Profile) {
