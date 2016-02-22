@@ -53,105 +53,82 @@ a.gototarget::after {
   content: leader('.');
 }
 
-.llp-memo-draft-basic {
+/*.llp-memo-draft-basic{
   font-size: 12px;
+  h1, h2{
+    font-weight:700;
+    text-transform: uppercase;
+    
+  }
+  h3{
+    text-transform: capitalize;
+    font-weight: 700;
+    text-indent: 0.2in;
+    
+    & ~ p{ text-indent: 0.2in;}
+  }
+  h4{
+    text-transform: capitalize;
+    text-decoration: underline;
+    text-indent: 0.4in;
+    
+    & ~ p { text-indent: 0.4in;}
+  }
+  h5{
+    font-style: italic;
+    text-indent: 0.6in;
+    
+    & ~ p{ text-indent: 0.6in;}
+  }
+  h6{
+    text-indent: 0.8in;
+    
+    & ~ p{ text-indent: 0.8in;}
+  }
+  p{
+    
+    line-height: 1.5em;
+  }
+  blockquote{
+    
+  }
+  ul,ol,li{
+    list-style-type: initial;
+  }
+  em{
+      font-style: italic;
+  }
+  del{
+      color: darkred;
+      text-decoration: line-through;
+  }
+  ins{
+      color: darkgreen;
+      text-decoration: underline;
+  }
+  .mark,.highlight{
+      background-color: rgba(250,250,0,0.8);
+  }
+  .sans-serif{
+      font-family: 'Tahoma','Arial',sans-serif;
+  }
+  .serif{
+      font-family:'Georgia','Times New Roman',serif;
+  }
+  
+} 
+.llp-black{
+    h1,h2,h3,h4,h5,h6,p,pre,blockquote,div,button{
+    color: black!important;
+    }
+    span{color: darkgoldenrod !important;}
+    ins{color:darkgreen !important;}
+    del{color:darkred !important;}
+    a{color:steelblue !important;}
 }
-.llp-memo-draft-basic h1,
-.llp-memo-draft-basic h2 {
-  font-weight: 700;
-  text-transform: uppercase;
-}
-.llp-memo-draft-basic h3 {
-  text-transform: capitalize;
-  font-weight: 700;
-  text-indent: 0.2in;
-}
-.llp-memo-draft-basic h3 ~ p {
-  text-indent: 0.2in;
-}
-.llp-memo-draft-basic h4 {
-  text-transform: capitalize;
-  text-decoration: underline;
-  text-indent: 0.4in;
-}
-.llp-memo-draft-basic h4 ~ p {
-  text-indent: 0.4in;
-}
-.llp-memo-draft-basic h5 {
-  font-style: italic;
-  text-indent: 0.6in;
-}
-.llp-memo-draft-basic h5 ~ p {
-  text-indent: 0.6in;
-}
-.llp-memo-draft-basic h6 {
-  text-indent: 0.8in;
-}
-.llp-memo-draft-basic h6 ~ p {
-  text-indent: 0.8in;
-}
-.llp-memo-draft-basic p {
-  line-height: 1.5em;
-}
-.llp-memo-draft-basic ul,
-.llp-memo-draft-basic ol,
-.llp-memo-draft-basic li {
-  list-style-type: initial;
-}
-.llp-memo-draft-basic em {
-  font-style: italic;
-}
-.llp-memo-draft-basic del {
-  color: darkred;
-  text-decoration: line-through;
-}
-.llp-memo-draft-basic ins {
-  color: darkgreen;
-  text-decoration: underline;
-}
-.llp-memo-draft-basic .mark,
-.llp-memo-draft-basic .highlight {
-  background-color: rgba(250, 250, 0, 0.8);
-}
-.llp-memo-draft-basic .sans-serif {
-  font-family: 'Tahoma', 'Arial', sans-serif;
-}
-.llp-memo-draft-basic .serif {
-  font-family: 'Georgia', 'Times New Roman', serif;
-}
-.llp-black h1,
-.llp-black h2,
-.llp-black h3,
-.llp-black h4,
-.llp-black h5,
-.llp-black h6,
-.llp-black p,
-.llp-black pre,
-.llp-black blockquote,
-.llp-black div,
-.llp-black button {
-  color: black!important;
-}
-.llp-black span {
-  color: darkgoldenrod !important;
-}
-.llp-black ins {
-  color: darkgreen !important;
-}
-.llp-black del {
-  color: darkred !important;
-}
-.llp-black a {
-  color: steelblue !important;
-}
-.xscroll {
-  max-width: 100%;
-  overflow-x: scroll;
-}
-.yscroll {
-  max-height: 100%;
-  overflow-y: scroll;
-}
+.xscroll{max-width: 100%; overflow-x:scroll;}
+.yscroll{max-height: 100%;overflow-y:scroll;}
+*/
 a.gototarget::after {
   content: leader('.');
 }
