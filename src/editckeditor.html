@@ -20,14 +20,15 @@
         
     </div>   
     <button ng-click="styleform.$show()" class="btn btn-default fa fa-paintbrush">Styles</button>
-    <form editable-form="styleform" class="row" ng-repeat="class in helperclasses">
+    <div class="row" ng-repeat="class in helperclasses">
         <label for="helperclass" ng-style="class.customstyle">{{class.label}}</label>
         <!--<input type="checkbox"  ng-checked="(config.class.value == true)">-->
         <div class="pull-left" ng-bind-html="class.tag" ng-style="class.customstyle"></div>
         <div ng-repeat="(key, value) in class.customstyle">
-            <a editable-text="value"  >{{key}}</a>
+            <label for="{{key}}">
+            <input id="{{key}}" ng-model="value"  placeholder="{{key}}"/>
             </div>
-    </form>
+    </div>
     </div>  
     <!--<div class="form-group">
         <label for="draftid">Template</label>

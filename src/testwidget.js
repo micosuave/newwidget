@@ -740,6 +740,25 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     return 'primary';
                 }
             };
+            $scope.dowrap = function(content){
+              var cstring = content.indexOf('<body');
+              var endstring = content.indexOf('</body></html>');
+              var length = content.length;
+              if (cstring > -1){
+                  var newcontent = content.substring(cstring, endstring || length);
+              }
+              else{
+                  var newcontent = content;
+              }
+              var os = ckstarter + newcontent + ckender;
+              $scope.editorform.editorta.$modelValue = os;
+            };
+            var stringtest = function(input){
+                return input.startsWith(ckstarter);
+            };
+            $scope.doclose = function(){
+                config.showeditor = false;
+            };
             $scope.dosave = function(content){
                 var d = new Date();
                 var time = d.getTime();
@@ -754,7 +773,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 $scope.draft.content = content;
                 $scope.draft.lastModified = time;
                 $scope.draft.$save();
-                config.showeditor = false;
+                
             };
             $scope.getAuthor = function(id){
                 return Users.all.$getRecord(id).auth.profile.name;
@@ -781,7 +800,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //     config.editor = ckdefault;
             // }
             if (config.id !== ($stateParams.tabid || $stateParams.pageid || $stateParams.pId)) {
-              $('#ckdrafter' + config.id).css({ 'border': '1px dotted red' });
+              $(this).css({ 'border': '1px dotted red' });
             }
             $scope.updateid = function () {
               //config.id = $ACTIVEROAR.tabid;
@@ -827,7 +846,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                section={ titleTemplateUrl: '/llp_core/modules/lionlawlabs/partial/projectdashboard/tabs/memo/title.html',
                 structure: '4-8',
                 styleClass: 'PTO', 
-                renderClass: 'llp-memo-draft-basic',
+                renderClass: '',
                 isActive: true,
                 editable: true,
                 collapsible: true,
@@ -845,7 +864,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     }]
                };
                 section.title = 'Section Title';
-                section.content = 'Section content';
+                section.content = ckstarter + '<div class="card card-block" style="padding: 10px 20px;"><p>Section content</p></div>' + ckender;
                 
                 
                return section;
