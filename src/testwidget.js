@@ -741,17 +741,18 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
             };
             $scope.dowrap = function(content){
-              var cstring = content.indexOf('<body');
-              var endstring = content.indexOf('</body></html>');
-              var length = content.length;
-              if (cstring > -1){
-                  var newcontent = content.substring(cstring, endstring || length);
-              }
-              else{
-                  var newcontent = content;
-              }
-              var os = ckstarter + newcontent + ckender;
-              $scope.editorform.editorta.$modelValue = os;
+               $scope.content = ckstarter + content + ckender;
+            //   var cstring = content.indexOf('<body');
+            //   var endstring = content.indexOf('</body></html>');
+            //   var length = content.length;
+            //   if (cstring > -1){
+            //       var newcontent = content.substring(cstring, endstring || length);
+            //   }
+            //   else{
+            //       var newcontent = content;
+            //   }
+            //   var os = ckstarter + newcontent + ckender;
+            //   $scope.editorform.editorta.$modelValue = os;
             };
             var stringtest = function(input){
                 return input.startsWith(ckstarter);
