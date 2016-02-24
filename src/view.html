@@ -17,7 +17,7 @@
                 <div class="" ng-if="tree.roarlist" >
                     <div ui-tree="treeOptions" data-nodrag style="cursor:pointer!important;">
                         <ol ui-tree-nodes max-depth="6" ng-model="tree.roarlist">
-                            <li ui-tree-node class="" ng-repeat="(key,node) in tree.roarlist " ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node}}"></li>
+                            <li ui-tree-node class="" ng-repeat="(key,node) in tree.roarlist " ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node}}" data-collapsed="true"></li>
 
                         </ol>
                     </div>
@@ -38,7 +38,7 @@
         </div>
     </div>
     <ol ui-tree-nodes="" ng-model="node.roarlist" ng-class="{hidden: collapsed}" style="">
-        <li class="" ng-repeat="(key, node) in node.roarlist" ui-tree-node ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node}}">
+        <li class="" ng-repeat="(key, node) in node.roarlist" ui-tree-node ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node}}" data-collapsed="true">
         </li>
     </ol>
 </script>
