@@ -422,8 +422,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     }
     // pdfDelegate.$getByHandle('my-pdf-container').zoomIn();
   }])
-  .controller('PhdTocWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","$ACTIVEROAR","Collections","$q","$state",
-        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, $ACTIVEROAR, Collections,$q,$state) {
+  .controller('PhdTocWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","$ACTIVEROAR","Collections","$q","$state","ckstarter","ckender",
+        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, $ACTIVEROAR, Collections,$q,$state,ckstarter,ckender) {
             $scope.size = 'lg';
 
             // if (!config.draftid) {
@@ -432,6 +432,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //     var draft = PROJECTDRAFT(config.draftid);
             //     $scope.draft = draft;
             // }
+            var ckstarter = ckstarter;
+            var ckender = ckender;
             var toc = this;
             $scope.config = config;
             $scope.ckdefault = ckdefault;
@@ -525,7 +527,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             var Section = function(){
               var section = this;
                 section.title = 'Section Title';
-                section.content = 'Section content';
+                section.content = ckstarter + '<div class="card card-block" style="padding: 10px 20px;"><p>Section content</p></div>' + ckender;
                 section.isnotRoot = true;
                return section;
             };
