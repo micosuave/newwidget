@@ -318,7 +318,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 title: 'Claim Dependency Treemap',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'view dependency tree of any published patent claim set',
-                template: '<d3pendingtree tree="tree" patent="{{config.patentnumber}}" /></d3pendingtree><div id="info"></div>',
+                template: '<div class="dark-bg"><div class="card card-block"><h4 class="card-title">US {{config.patentnumber | number:0}} <input class="pull-right" type="text" model="config.query" /></h4><d3pendingtree class="{{config.query}}" tree="tree" patent="{{config.patentnumber}}" /></d3pendingtree><blockquote id="info" class="bs-callout bs-callout-NOA">{{tree.abstract | highlight: config.query}}</blockquote></div></div>',
                 controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
                     $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
                 }],
