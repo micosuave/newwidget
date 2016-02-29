@@ -314,6 +314,22 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     immediate: true,
                     reload: true
                 }
+            }).widget('d3claimtreemap', {
+                title: 'Claim Dependency Treemap',
+                titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
+                description: 'view dependency tree of any published patent claim set',
+                template: '<d3pendingtree tree="tree" patent="{{config.patentnumber}}" /></d3pendingtree><div id="info"></div>',
+                controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
+                    $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
+                }],
+                styleClass: 'card card-block',
+                frameless: false,
+                reload: true,
+                edit: {
+                    template: '<form class="card"><label for="patentnumber">Enter embed code</label><input name="patentnumber" class="form-control" ng-model="config.patentnumber"></input></form>',
+                    immediate: true,
+                    reload: true
+                }
             })
 
 
