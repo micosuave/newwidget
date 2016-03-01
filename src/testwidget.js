@@ -789,7 +789,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }else{
                     $scope.draft.versionhistory[time] = {author: $rootScope.authData.uid, content: prev};
                 }
-                $http.post('/upload',angular.toJson(content));
+                //$http.post('/upload',angular.toJson(content));
                 $scope.draft.content = content;
                 $scope.draft.lastModified = time;
                 $scope.draft.$save();
