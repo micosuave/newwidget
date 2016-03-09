@@ -95,29 +95,31 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         if (config.id) {
                           return config;
                         } else {
-                          var a = $firebaseArray(new Firebase(FIREBASE_URL + 'matters/' + $rootScope.$stateParams.groupId + '/' + $rootScope.$stateParams.matterId + '/content/'));
-                          var b = {};
-                          a.$add({
-                            'name': 'draft'
+                        //   var a = $firebaseArray(new Firebase(FIREBASE_URL + 'matters/' + $rootScope.$stateParams.groupId + '/' + $rootScope.$stateParams.matterId + '/content/'));
+                        //   var b = {};
+                        //   a.$add({
+                        //     'name': 'draft'
                             
-                          }).then(function (ref) {
-                            var id = ref.key();
-                            ref.update({
-                              id: id,
-                              //projectid: $rootScope.$stateParams.pId || 'projectid',
-                              //matterId: $rootScope.$stateParams.matterId || 'matterId',
-                              //groupId: $rootScope.$stateParams.groupId || 'groupId',
-                              //author: $rootScope.authData.uid || 'userid',
-                              ispublished: false,
-                              content_type: 'document',
-                              templateUrl: '{widgetsPath}/getphd/src/view.html',
-                              timestamp: Firebase.ServerValue.TIMESTAMP
-                            });
+                        //   }).then(function (ref) {
+                        //     var id = ref.key();
+                        //     ref.update({
+                        //       id: id,
+                        //       //projectid: $rootScope.$stateParams.pId || 'projectid',
+                        //       //matterId: $rootScope.$stateParams.matterId || 'matterId',
+                        //       //groupId: $rootScope.$stateParams.groupId || 'groupId',
+                        //       //author: $rootScope.authData.uid || 'userid',
+                        //       ispublished: false,
+                        //       content_type: 'document',
+                        //       templateUrl: '{widgetsPath}/getphd/src/view.html',
+                        //       timestamp: Firebase.ServerValue.TIMESTAMP
+                        //     });
+                        var params = $rootScope.$stateParams;
+                        var id = params.tabid || params.pageid || params.pId;
                             config.id = id;
                             
-
-                            return config;
-                          });
+                        
+                        //     return config;
+                        //   });
                           return config;
 
 
@@ -148,29 +150,33 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         if (config.id) {
                           return config;
                         } else {
-                          var a = $firebaseArray(new Firebase(FIREBASE_URL + 'matters/' + $rootScope.$stateParams.groupId + '/' + $rootScope.$stateParams.matterId + '/content/'));
-                          var b = {};
-                          a.$add({
-                            'name': 'draft'
+                        //   var a = $firebaseArray(new Firebase(FIREBASE_URL + 'matters/' + $rootScope.$stateParams.groupId + '/' + $rootScope.$stateParams.matterId + '/content/'));
+                        //   var b = {};
+                        //   a.$add({
+                        //     'name': 'draft'
                             
-                          }).then(function (ref) {
-                            var id = ref.key();
-                            ref.update({
-                              id: id,
-                              //projectid: $rootScope.$stateParams.pId || 'projectid',
-                              //matterId: $rootScope.$stateParams.matterId || 'matterId',
-                              //groupId: $rootScope.$stateParams.groupId || 'groupId',
-                              //author: $rootScope.authData.uid || 'userid',
-                              ispublished: false,
-                              content_type: 'document',
-                              templateUrl: '{widgetsPath}/getphd/src/view.html',
-                              timestamp: Firebase.ServerValue.TIMESTAMP
-                            });
-                            config.id = id;
+                        //   }).then(function (ref) {
+                        //     var id = ref.key();
+                        //     ref.update({
+                        //       id: id,
+                        //       //projectid: $rootScope.$stateParams.pId || 'projectid',
+                        //       //matterId: $rootScope.$stateParams.matterId || 'matterId',
+                        //       //groupId: $rootScope.$stateParams.groupId || 'groupId',
+                        //       //author: $rootScope.authData.uid || 'userid',
+                        //       ispublished: false,
+                        //       content_type: 'document',
+                        //       templateUrl: '{widgetsPath}/getphd/src/view.html',
+                        //       timestamp: Firebase.ServerValue.TIMESTAMP
+                        //     });
+                        //     config.id = id;
                             
 
-                            return config;
-                          });
+                        //     return config;
+                        //   });
+                         var params = $rootScope.$stateParams;
+                        var id = params.tabid || params.pageid || params.pId;
+                            config.id = id;
+                        
                           return config;
 
 
@@ -311,22 +317,6 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 reload: true,
                 edit: {
                     template: '<div class="card"><label for="content">Enter embed code</label><textarea name="content" class="form-control" ng-model="config.content"></textarea></div>',
-                    immediate: true,
-                    reload: true
-                }
-            }).widget('d3claimtreemap', {
-                title: 'Claim Dependency Treemap',
-                titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
-                description: 'view dependency tree of any published patent claim set',
-                template: '<div class="dark-bg"><div class="card card-block"><h4 class="card-title">US {{config.patentnumber | number:0}} <input class="pull-right" type="text" model="config.query" /></h4><d3pendingtree class="{{config.query}}" tree="tree" patent="{{config.patentnumber}}" /></d3pendingtree><blockquote id="info" class="bs-callout bs-callout-NOA" ng-bind-html="tree.abstract | highlight: config.query | trustAsHTML"></blockquote></div></div>',
-                controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
-                    $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
-                }],
-                styleClass: 'card card-block',
-                frameless: false,
-                reload: true,
-                edit: {
-                    template: '<form class="card"><label for="patentnumber">Enter embed code</label><input name="patentnumber" class="form-control" ng-model="config.patentnumber"></input></form>',
                     immediate: true,
                     reload: true
                 }
