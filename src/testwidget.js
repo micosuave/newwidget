@@ -86,7 +86,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/edit.html',
                     modalSize: 'lg',
-                    controller: 'PhdTocWidgetCtrl',
+                    controller: 'CKEditorCtrl',
                     reload: false
                 },
                 resolve: {
@@ -141,7 +141,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 edit: {
                     templateUrl: '{widgetsPath}/testwidget/src/edit.html',
                     modalSize: 'lg',
-                    controller: 'PhdTocWidgetCtrl',
+                    controller: 'CKEditorCtrl',
                     reload: false
                 },
                 resolve: {
@@ -660,7 +660,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         };
           
         }
-  ]).controller('CKEditorCtrl', ["$scope", "config", "ckdefault", "ckmin","ckclip","ckreport","$sce","ROARCLASSES","formattags", function ($scope, config, ckdefault, ckmin,ckclip, ckreport,$sce,ROARCLASSES,formattags) {
+  ]).controller('CKEditorCtrl', ["$scope", "config", "ckdefault", "ckmin","ckclip","ckreport","$sce","ROARCLASSES","formattags","$stateParams", function ($scope, config, ckdefault, ckmin,ckclip, ckreport,$sce,ROARCLASSES,formattags,$stateParams) {
     var editors = [
       { name: 'Default', obj: ckdefault }
     //   { name: 'Minimal', obj: ckmin },
@@ -668,6 +668,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     //   { name: 'Report', obj: ckreport },
     //   { name: 'Full', obj: null}
     ];
+    var treeroot = Collection($stateParams.pId);
+    $scope.tree = treeroot;
     $scope.ROARCLASSES = [{label: 'Memo Basic', value: 'llp-memo-draft-basic'}];
     $scope.config = config;
     $scope.editors = editors;
