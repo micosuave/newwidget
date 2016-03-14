@@ -660,7 +660,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         };
           
         }
-  ]).controller('CKEditorCtrl', ["$scope", "config", "ckdefault", "ckmin","ckclip","ckreport","$sce","ROARCLASSES","formattags","$stateParams", function ($scope, config, ckdefault, ckmin,ckclip, ckreport,$sce,ROARCLASSES,formattags,$stateParams) {
+  ]).controller('CKEditorCtrl', ["$scope", "config", "ckdefault", "ckmin","ckclip","ckreport","$sce","ROARCLASSES","formattags","$stateParams","Collection", function ($scope, config, ckdefault, ckmin,ckclip, ckreport,$sce,ROARCLASSES,formattags,$stateParams,Collection) {
     var editors = [
       { name: 'Default', obj: ckdefault }
     //   { name: 'Minimal', obj: ckmin },
