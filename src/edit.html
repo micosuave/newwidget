@@ -1,20 +1,20 @@
 <form role="form">
     <div class="form-group">
         <label for="draftid">Tree Root</label>
-        <select ng-model="config.id" ng-change="loaddraft(config.id)" ng-options="branch.id as branch.name for branch in tree" class="form-control" id="draftid" placeholder="Select Root Branch..."></select>
+        <!--<select ng-model="config.id" ng-change="loaddraft(config.id)" ng-options="branch.id as branch.name for branch in tree" class="form-control" id="draftid" placeholder="Select Root Branch..."></select>-->
         <!-- <input type="text" class="form-control" id="sample" ng-model="config.sample" placeholder="Enter sample"> -->
-    </div>
 <ol>
     <li class="card fa fa-file" ng-repeat="node in tree.roarlist" ><a ng-click="config.id = node.id" node="{{node}}">{{node.title}}</a>
-        <div ng-include="'quicklinkid''"></div>
+        <div ng-include="'quicklinkid'"></div>
     </li>
 </ol>
-    <button class="dashed-outline fa fa-4x fa-plus" ng-click="newdraft()"></button>
+    </div>
+    <!--<button class="dashed-outline fa fa-4x fa-plus" ng-click="newdraft()"></button>-->
 </form>
 <script type="text/ng-template" id="quicklinkid">
     <ol>
     <li class="card fa fa-file" ng-repeat="node in node.roarlist" ><a ng-click="config.id = node.id" node="{{node}}">{{node.title}}</a>
-        <div ng-include="'quicklinkid''"></div>
+        <div ng-include="'quicklinkid'"></div>
     </li>
     </ol>
 </script>

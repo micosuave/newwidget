@@ -10,7 +10,7 @@
     <form name="editorform" ng-submit="dosave(content);">                    
    <textarea id="{{config.id}}" name="editorta" ng-change=""  ckeditor="ckdefault" ng-model="content" ng-model-options="{ updateOn: 'default  blur', debounce: {'default': 500, 'blur': 0} }" class="card card-block "   style="width:100%;min-height:500px;font-size:12px;color:#444;"></textarea>
    
-   <div class="btn-group" style="position:absolute;top:5px;right:5px;">
+   <div class="btn-group" draggable style="position:absolute;top:5px;right:5px;">
    <input type="submit" style="border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;" class="button btn fa " ng-class="{'text-success':editorform.editorta.$dirty}" value="SAVE"/>
    <button style="border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;" class="button btn btn-default fa fa-lg fa-close" ng-class="{'text-danger':editorform.editorta.$dirty}" ng-click="doclose()"></button>
    <button style="border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;" class="button btn btn-default fa fa-lg fa-refresh" ng-class="{'text-info':stringtest()}" ng-click="dowrap(content)"></button>
