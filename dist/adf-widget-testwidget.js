@@ -17,10 +17,13 @@ angular.module('adf.widget.frame', ['adf.provider'])
           templateUrl: '{widgetsPath}/iframe/src/edit.html'
         },
         config: {
-          height: '320px'
+          height: '640px',
+          framename: 'fframe',
+          iframe: true,
+          srcdoc: '<h1>Use this space to view links</h1>'
         }
       }).widget('iframe-less', {
-        title: '-LexFrame',
+        title: '-LexFrameViewer',
         description: 'Embed an external page into the dashboard',
         templateUrl: '{widgetsPath}/iframe/src/view.html',
         controller: 'iframeController',
@@ -33,7 +36,10 @@ angular.module('adf.widget.frame', ['adf.provider'])
           templateUrl: '{widgetsPath}/iframe/src/edit.html'
         },
         config: {
-          height: '320px'
+          height: '640px',
+          framename: 'fframe',
+          iframe: true,
+          srcdoc: '<h1>Use this space to view links</h1>'
         }
       });
   }])
