@@ -29,7 +29,7 @@
    <div ng-bind-html="draft.content | diff:config.version.content" id="draftdocument" class="{{config.styleClass}} {{config.custom || 'llp-memo-draft-basic'}}" ng-if="!config.showeditor && !config.iframe && config.versionhistory"  style="width:100%;min-height:500px;"></div>
    
     
-   <div id="" class="pull-right" uib-dropdown uib-keyboard-nav dropdown-append-to-body style="position:absolute;top:50px;right:0;" ng-if="!config.showeditor">
+   <div id="" class="pull-right" uib-dropdown uib-keyboard-nav  style="position:absolute;top:50px;right:0;" ng-if="!config.showeditor">
         <button id="dragbutton" draggable class="dragbutton pull-right btn btn-default btn-sm fa fa-2x" ng-class="{'fa-edit text-info':!config.showeditor,'fa-save text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}" style="border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;" uib-dropdown-toggle></button>
         <ul class="uib-dropdown-menu dropdown-menu-right">
             <li class="{{menuitem.styleClass}}" ng-repeat="menuitem in menu.items">

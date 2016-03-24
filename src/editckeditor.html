@@ -8,52 +8,44 @@
         <!-- <input type="text" class="form-control" id="sample" ng-model="config.sample" placeholder="Enter sample"> -->
     </div>
     
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-4">
         <label for="renderframe">Render in iframe</label>
         <input type="checkbox" ng-model="config.iframe">
         
     </div>   
     
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-4">
         <label for="renderversionhistory">Version History</label>
         <input type="checkbox" ng-model="config.versionhistory">
         
     </div>  
-    
-    <div class="form-group">
-        <label for="draftid">Tree Root</label>
-        <!--<select ng-model="config.id" ng-change="loaddraft(config.id)" ng-options="branch.id as branch.name for branch in tree" class="form-control" id="draftid" placeholder="Select Root Branch..."></select>-->
-        <!-- <input type="text" class="form-control" id="sample" ng-model="config.sample" placeholder="Enter sample"> -->
-<ol>
-    <li class="card fa fa-file" ng-repeat="node in tree.roarlist" >&nbsp;<a ng-click="config.id = node.id" node="{{node}}">{{node.title}}</a>
-        <div ng-include="'quicklinkid'"></div>
+    <div class="form-group col-sm-4">
+       <roar-event id="{{config.id}}" class="pull-right" ></roar-event>
+        
+    </div> 
+    <div class="form-group" ui-tree >
+            
+
+        <label for="draftid">Select Document</label>
+<ol ui-tree-nodes ng-model="tree.roarlist">
+    <li  ui-tree-node ng-repeat="node in tree.roarlist" ng-include="'quicklinkid'" node="{{node}}" data-collapsed="true">
     </li>
 </ol>
-    </div>
-    <!--<button class="dashed-outline fa fa-4x fa-plus" ng-click="newdraft()"></button>-->
+        
 
+   
 <script type="text/ng-template" id="quicklinkid">
-    <ol>
-    <li class="card fa fa-file" ng-repeat="node in node.roarlist" >&nbsp;<a ng-click="config.id = node.id" node="{{node}}">{{node.title}}</a>
-        <div ng-include="'quicklinkid'"></div>
-    </li>
+    <div class="card card-rounded" ng-class="{'text-success': (config.id === node.id)}">
+    <a class="btn btn-xs" ng-click="toggle(this)" ng-if="node.roarlist" style=""><span class="fa " ng-class="{'fa-chevron-right': collapsed, 'fa-chevron-down': !collapsed}" style="color:steelblue;transition:all 0.25s ease;"></span></a>
+
+   <a ng-click="config.id = node.id;$close();" ng-class="{'text-success': (config.id === node.id)}" class=""><span class="fa fa-stack fa-pull-left fa-border"><span class="fa fa-stack-2x fa-file-o"><span class="fa fa-stack-1x" style="font-size: 10px;vertical-align:bottom;">{{node.rid}}</span></span></span>&nbsp;&nbsp;{{node.title}}<br><small class="text-muted">{{node.date | date}}</small></a>
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.roarlist" ng-class="{hidden: collapsed}" style="">
+        <li class="" ng-repeat="(key, node) in node.roarlist" ui-tree-node ng-include="'quicklinkid'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node.$id || node.$value || node}}" data-collapsed="true">
+        </li>
     </ol>
 </script> 
-    <!--<button ng-click="styleform.$show()" class="btn btn-default fa fa-paintbrush">Styles</button>
-    <div class="row" ng-repeat="class in helperclasses">
-        <label for="helperclass" ng-style="class.customstyle">{{class.label}}</label>
-        <!--<input type="checkbox"  ng-checked="(config.class.value == true)">
-        <div class="pull-left" ng-bind-html="class.tag" ng-style="class.customstyle"></div>
-        <input type="color" ng-model="class.customstyle.color"/>
-        <input type="color" ng-model="class.customstyle.backgroundColor"/>
-        <input type="text" ng-model="class.customstyle.fontFamily"/>
-        <input type="text" ng-model="class.customstyle.fontSize"/>
-        </div>
-    </div>  -->
-    <!--<div class="form-group">
-        <label for="draftid">Template</label>
-        <select ng-model="config.template" ng-change="" ng-options="template as template.title for template in templates" class="form-control" id="draftid" placeholder="Select Template..."></select>
-        <!-- <input type="text" class="form-control" id="sample" ng-model="config.sample" placeholder="Enter sample"> -->
-    <!--</div>
-    <div class="form-group" formly-form="template.form"></div>-->
+     </div>
+
+
 </form>

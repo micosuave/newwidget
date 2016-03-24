@@ -1,20 +1,22 @@
 <form role="form">
-    <div class="form-group">
+   <div class="form-group" ui-tree>
         <label for="draftid">Tree Root</label>
-        <!--<select ng-model="config.id" ng-change="loaddraft(config.id)" ng-options="branch.id as branch.name for branch in tree" class="form-control" id="draftid" placeholder="Select Root Branch..."></select>-->
-        <!-- <input type="text" class="form-control" id="sample" ng-model="config.sample" placeholder="Enter sample"> -->
-<ol>
-    <li class="card fa fa-file" ng-repeat="node in tree.roarlist" >&nbsp;<a ng-click="config.id = node.id" node="{{node}}">{{node.title}}</a>
-        <div ng-include="'quicklinkid'"></div>
+        
+<ol ui-tree-nodes ng-model="tree.roarlist">
+    <li  ui-tree-node ng-repeat="node in tree.roarlist" ng-include="'quicklinkid'" node="{{node}}">
     </li>
 </ol>
     </div>
-    <!--<button class="dashed-outline fa fa-4x fa-plus" ng-click="newdraft()"></button>-->
-</form>
+
 <script type="text/ng-template" id="quicklinkid">
-    <ol>
-    <li class="card fa fa-file" ng-repeat="node in node.roarlist" >&nbsp;<a ng-click="config.id = node.id" node="{{node}}">{{node.title}}</a>
-        <div ng-include="'quicklinkid'"></div>
-    </li>
+    <div class="card card-rounded" ng-class="{'text-success': (config.id === node.id)}">
+    <a class="btn btn-xs" ng-click="toggle(this)" ng-if="node.roarlist" style=""><span class="fa " ng-class="{'fa-chevron-right': collapsed, 'fa-chevron-down': !collapsed}" style="color:steelblue;transition:all 0.25s ease;"></span></a>
+
+   <a ng-click="config.id = node.id;$close();" ng-class="{'text-success': (config.id === node.id)}" class="fa fa-file-o">&nbsp;{{node.title}}</a>
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.roarlist" ng-class="{hidden: collapsed}" style="">
+        <li class="" ng-repeat="(key, node) in node.roarlist" ui-tree-node ng-include="'quicklinkid'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node.$id || node.$value || node}}" >
+        </li>
     </ol>
-</script>
+</script> 
+</form>
