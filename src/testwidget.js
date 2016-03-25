@@ -733,29 +733,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     }]
             };
             function classy(){
-                if($stateParams.tabid){
-                    if (config.id === $stateParams.tabid){
-                        return 'hide';
-                    }
-                    else{
-                        return 'warning';
-                    }
-                }
-                else if ($stateParams.pageid){
-                     if (config.id === $stateParams.pageid){
-                        return 'hide';
-                    }
-                    else{
-                        return 'warning';
-                    }
-                }
-                else if ($stateParams.pId){
-                     if (config.id === $stateParams.pId){
-                        return 'hide';
-                    }
-                    else{
-                        return 'warning';
-                    }
+                if(config.id !== $scope.$parent.$parent.$parent.adfModel.$id){
+                    return 'warning';
                 }
                 else{
                     return 'primary';
@@ -822,12 +801,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             // else{
             //     config.editor = ckdefault;
             // }
-            if (config.id !== ($stateParams.tabid || $stateParams.pageid || $stateParams.pId)) {
+            if (config.id !== $scope.$parent.$parent.$parent.adfModel.$id) {
               $(this).css({ 'border': '1px dotted red' });
             }
             $scope.updateid = function () {
               //config.id = $ACTIVEROAR.tabid;
-              $scope.$parent.$parent.config.id = $stateParams.tabid || $stateParams.pageid || $stateParams.pId;
+              $scope.$parent.$parent.config.id = $scope.$parent.$parent.$parent.adfModel.$id;
               $scope.$parent.$parent.reload();
             };
             $scope.$on('RETURNROOT', function ($event, $data) {
