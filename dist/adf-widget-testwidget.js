@@ -785,7 +785,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             $scope.dosave = function(content){
                 var d = new Date();
                 var time = d.getTime();
-                var prev = $scope.draft.content;
+                var prev = $scope.draft.content || "<!DOCTYPE html><html><head><title>Untitled</title></head><body></body></html>";
                 if (angular.isUndefined($scope.draft.versionhistory)){
                    $scope.draft.versionhistory = {};
                     $scope.draft.versionhistory[time] = {author: $rootScope.authData.uid,
