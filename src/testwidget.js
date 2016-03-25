@@ -17,9 +17,8 @@ angular.module('adf.widget.frame', ['adf.provider'])
         },
         config: {
           height: '640px',
-          framename: 'fframe',
-          iframe: true,
-          srcdoc: '<h1>Use this space to view links</h1>'
+          framename: 'fframe'
+         
         }
       }).widget('iframe-less', {
         title: '-LexFrameViewer',
@@ -36,9 +35,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
         },
         config: {
           height: '640px',
-          framename: 'fframe',
-          iframe: true,
-          srcdoc: '<h1>Use this space to view links</h1>'
+          framename: 'fframe'
         }
       });
   }])
