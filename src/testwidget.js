@@ -46,9 +46,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
     if (config.iframe == true){
         this.srcdoc = $sce.trustAsHtml(config.srcdoc);
     }
-    else{
-        config.srcdoc = null;
-    }
+   
     $scope.destroy = function(){
         $rootScope.$broadcast('adfToggleEditMode');
     };
