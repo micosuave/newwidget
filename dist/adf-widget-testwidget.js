@@ -51,11 +51,9 @@ angular.module('adf.widget.frame', ['adf.provider'])
     $scope.destroy = function(){
         $rootScope.$broadcast('adfToggleEditMode');
     };
-    var loc = $('this').children().children('iframe').get(0).contentWindow.location;
+   // var loc = $('this').children().children('iframe').get(0).contentWindow.location;
     $scope.ckdefault = ckdefault;
-    $scope.$watch(loc,function(newVal){
-        config.url = newVal;
-    });
+    
   }]);
 
 angular.module("adf.widget.frame").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/iframe/src/edit.html","<form role=form><div class=form-group><label for=url>URL</label> <input type=url class=form-control id=url ng-model=config.url placeholder=http://www.example.com></div><div class=form-group><label for=height>Height</label> <input type=text class=form-control id=height ng-model=config.height></div><div class=form-group><label for=name>Frame name (for url targets)</label> <input type=text class=form-control id=name ng-model=config.framename></div><div class=form-group><label for=name>Use srcdoc instead of url?</label> <input type=checkbox class=form-control id=name ng-model=config.iframe ng-change=destroy()></div><textarea ng-if=\"config.iframe\"ckeditor=ckdefault ng-model=config.srcdoc  ng-model-options=\"{updateOn: 'default blur', debounce: {'default': 20000, 'blur': 0}}\" ng-change=\"destroy()\"></div></form>");
