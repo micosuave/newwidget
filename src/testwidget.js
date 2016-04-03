@@ -50,7 +50,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
     $scope.destroy = function(){
         $rootScope.$broadcast('adfToggleEditMode');
     };
-    var loc = $('this').children().children('iframe').contentWindow.location;
+    var loc = $('this').children().children('iframe').get(0).contentWindow.location;
     $scope.ckdefault = ckdefault;
     $scope.$watch(loc,function(newVal){
         config.url = newVal;
