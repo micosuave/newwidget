@@ -741,7 +741,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     return 'warning';
                 }
                 else{
-                    return 'primary';
+                    return 'hide';
                 }
             };
             $scope.dowrap = function(content){
