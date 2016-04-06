@@ -27,8 +27,12 @@
  
    
    <div ng-bind-html="draft.content | diff:config.version.content" id="draftdocument" class="{{config.styleClass}} {{config.custom || ''}}" ng-if="!config.showeditor  && config.versionhistory"  style="width:100%;min-height:500px;"></div>
-   
-    
+   <input ng-model="keywords" ng-list="keywords" type="text" />
+   <div getpdftext pdf-data="{{draft.media}}" pages="pages" keywords="keywords" class="card card-block">
+       
+   </div>
+           <div ng-repeat="(key, page) in pages" ng-bind-html="page | highlight: keywords | trustAsHTML" class="card card-fancy card-block"></div>
+
    <div id="" class="pull-right" uib-dropdown uib-keyboard-nav  style="position:absolute;top:50px;right:0;" ng-if="!config.showeditor">
         <button id="dragbutton" draggable class="dragbutton pull-right btn btn-default btn-sm fa fa-2x" ng-class="{'fa-edit text-info':!config.showeditor,'fa-save text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}" style="border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;" uib-dropdown-toggle></button>
         <ul class="uib-dropdown-menu dropdown-menu-right">
