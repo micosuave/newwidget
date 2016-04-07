@@ -16,7 +16,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
           templateUrl: '{widgetsPath}/iframe/src/edit.html'
         },
         config: {
-          height: '640px',
+          height: '90vh',
           framename: 'fframe'
          
         }
@@ -34,7 +34,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
           templateUrl: '{widgetsPath}/iframe/src/edit.html'
         },
         config: {
-          height: '640px',
+          height: '90vh',
           framename: 'fframe'
         }
       });
@@ -104,24 +104,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         if (config.id) {
                           return config;
                         } else {
-                        //   var a = $firebaseArray(new Firebase(FIREBASE_URL + 'matters/' + $rootScope.$stateParams.groupId + '/' + $rootScope.$stateParams.matterId + '/content/'));
-                        //   var b = {};
-                        //   a.$add({
-                        //     'name': 'draft'
-                            
-                        //   }).then(function (ref) {
-                        //     var id = ref.key();
-                        //     ref.update({
-                        //       id: id,
-                        //       //projectid: $rootScope.$stateParams.pId || 'projectid',
-                        //       //matterId: $rootScope.$stateParams.matterId || 'matterId',
-                        //       //groupId: $rootScope.$stateParams.groupId || 'groupId',
-                        //       //author: $rootScope.authData.uid || 'userid',
-                        //       ispublished: false,
-                        //       content_type: 'document',
-                        //       templateUrl: '{widgetsPath}/getphd/src/view.html',
-                        //       timestamp: Firebase.ServerValue.TIMESTAMP
-                        //     });
+                        
                         var params = $rootScope.$stateParams;
                         var id = params.tabid || params.pageid || params.pId;
                             config.id = id;
@@ -159,29 +142,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         if (config.id) {
                           return config;
                         } else {
-                        //   var a = $firebaseArray(new Firebase(FIREBASE_URL + 'matters/' + $rootScope.$stateParams.groupId + '/' + $rootScope.$stateParams.matterId + '/content/'));
-                        //   var b = {};
-                        //   a.$add({
-                        //     'name': 'draft'
-                            
-                        //   }).then(function (ref) {
-                        //     var id = ref.key();
-                        //     ref.update({
-                        //       id: id,
-                        //       //projectid: $rootScope.$stateParams.pId || 'projectid',
-                        //       //matterId: $rootScope.$stateParams.matterId || 'matterId',
-                        //       //groupId: $rootScope.$stateParams.groupId || 'groupId',
-                        //       //author: $rootScope.authData.uid || 'userid',
-                        //       ispublished: false,
-                        //       content_type: 'document',
-                        //       templateUrl: '{widgetsPath}/getphd/src/view.html',
-                        //       timestamp: Firebase.ServerValue.TIMESTAMP
-                        //     });
-                        //     config.id = id;
-                            
-
-                        //     return config;
-                        //   });
+                        
                          var params = $rootScope.$stateParams;
                         var id = params.tabid || params.pageid || params.pId;
                             config.id = id;
@@ -210,12 +171,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     reload: true
                 },
                 resolve: {
-                    config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL","ckdefault",
-                      function (config, $firebaseArray, $rootScope, FIREBASE_URL, ckdefault) {
+                    config: ["config", "Collections", "$rootScope", "FIREBASE_URL","ckdefault",
+                      function (config, Collections, $rootScope, FIREBASE_URL, ckdefault) {
                         if (config.id) {
                           return config;
                         } else {
-                          var a = $firebaseArray(new Firebase(FIREBASE_URL + 'matters/' + $rootScope.$stateParams.groupId + '/' + $rootScope.$stateParams.matterId + '/content/'));
+                          var a = Collections;
                           var b = {};
                           a.$add({
                             'name': 'draft'
@@ -234,6 +195,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                               timestamp: Firebase.ServerValue.TIMESTAMP
                             });
                             config.id = id;
+                            config.framename = 'fframe';
+                            config.height = '90vh';
                             //config.editor = ckdefault;
 
                             return config;
@@ -262,12 +225,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     reload: true
                 },
                 resolve: {
-                    config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL","ckdefault",
-                      function (config, $firebaseArray, $rootScope, FIREBASE_URL, ckdefault) {
+                    config: ["config", "Collections", "$rootScope", "FIREBASE_URL","ckdefault",
+                      function (config, Collections, $rootScope, FIREBASE_URL, ckdefault) {
                         if (config.id) {
                           return config;
                         } else {
-                          var a = $firebaseArray(new Firebase(FIREBASE_URL + 'matters/' + $rootScope.$stateParams.groupId + '/' + $rootScope.$stateParams.matterId + '/content/'));
+                          var a = Collections;
                           var b = {};
                           a.$add({
                             'name': 'draft'
@@ -286,6 +249,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                               timestamp: Firebase.ServerValue.TIMESTAMP
                             });
                             config.id = id;
+                            config.framename = 'fframe';
+                            config.height = '90vh';
                             //config.editor = ckdefault;
 
                             return config;
@@ -297,24 +262,26 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                       }
                     ]
                   }
-            }).widget('embed', {
-                title: '+EmbedViewer',
-                titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
-                description: 'embed arbitrary content from remote sites',
-                template: '<div ng-bind-html="configs[0]"></div>',
-                controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
-                    $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
-                }],
-                styleClass: 'panel panel-default',
-                frameless: false,
-                reload: true,
-                edit: {
-                    template: '<div class="card"><label for="content">Enter embed code</label><textarea name="content" class="form-control" ng-model="config.content"></textarea></div>',
-                    immediate: true,
-                    reload: true
-                }
-            }).widget('embed-less', {
-                title: '-EmbedViewer',
+            })
+            // .widget('embed', {
+            //     title: '+EmbedViewer',
+            //     titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
+            //     description: 'embed arbitrary content from remote sites',
+            //     template: '<div ng-bind-html="configs[0]"></div>',
+            //     controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
+            //         $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
+            //     }],
+            //     styleClass: 'panel panel-default',
+            //     frameless: false,
+            //     reload: true,
+            //     edit: {
+            //         template: '<div class="card"><label for="content">Enter embed code</label><textarea name="content" class="form-control" ng-model="config.content"></textarea></div>',
+            //         immediate: true,
+            //         reload: true
+            //     }
+            // })
+            .widget('embed-less', {
+                title: 'EmbedViewer',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'embed arbitrary content from remote sites',
                 template: '<div ng-bind-html="configs[0]"></div>',
@@ -329,7 +296,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     immediate: true,
                     reload: true
                 }
-            })
+            });
 
 
     })
@@ -732,7 +699,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         icon: 'fa-upload',
                         label: 'Upload',
                         styleClass: 'text-primary',
-                        onClick: function(draft){ var blob = new Blob([draft.content.toString()]); return Upload.upload({url: '/upload/',data: {file: Upload.rename(blob, 'draft.html')}})}
+                        onClick: function(draft){ var now = new Date().getTime(); var blob = new Blob([draft.content.toString()]); return Upload.upload({url: '/upload/',data: {file: Upload.rename(blob, $scope.draft.$id+'.html')}})}
                     }]
             };
             function classy(){
@@ -757,6 +724,118 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //   var os = ckstarter + newcontent + ckender;
             //   $scope.editorform.editorta.$modelValue = os;
             };
+             var annotations = ROARAnnotations(config.id);
+        $scope.annotations = annotations;
+        if (!annotations) {
+
+            $scope.annotations = [
+                [new NGAnnotation({
+                        startIndex: 0,
+                        endIndex: 39,
+                        type: "green",
+                        data: {
+                            comment: "Well written!",
+                            points: 2
+                        }
+                    }),
+                    new NGAnnotation({
+                        startIndex: 240,
+                        endIndex: 247,
+                        type: "red",
+                        data: {
+                            comment: "Spelling mistake",
+                            points: -1
+                        }
+                    })
+                ]
+            ];
+
+
+        }
+            
+        $scope.onAnnotate = function($annotation) {
+            console && console.log($annotation);
+            annotations.$add($annotation);
+            toastr.success($annotation);
+        };
+        $scope.onAnnotateDelete = function($annotation) {
+            annotations.$remove($annotation).then(function(ref){
+                 console.log(ref);
+            });
+            //$scope.event.annotations[$annotation.$id] = null;
+
+
+        };
+
+        $scope.onAnnotateError = function($ex) {
+            if ($ex.message === "NG_ANNOTATE_TEXT_PARTIAL_NODE_SELECTED") {
+                return toastr.error("Invalid selection.");
+            } else {
+                return toastr.error($ex);
+            }
+        };
+
+        $scope.onPopupShow = function($el) {
+            //var firstInput;
+            //firstInput = $el.find("input, textarea").eq(0).focus();
+            // var selection = window.getSelection();
+            // if (selection) {
+            //     $scope.data.selection = selection;
+            // }
+            // move.select = function(el) {
+            //     return $(selector).get(0);
+            // };
+            // var a = move.select($el);
+            // move(a).scale(1.2).duration(1500).end();
+            // $('.ng-annotate-text-popup').draggable({
+            //     scroll: true,
+            //     cursor: 'move',
+            //     handle: '.roareventcardtab',
+            //     stack: '.ng-annotate-text-popup',
+            //     constrain: 'scroll'
+            // }).resizable();
+            //return firstInput && firstInput[0].select();
+            return alertify.alert('selection made!');
+        };
+
+        $scope.hasPoints = function(points) {
+            var _isNaN;
+            _isNaN = Number.isNaN || isNaN;
+            return typeof points === "number" && points !== 0 && !_isNaN(points);
+        };
+
+        $scope.hasComment = function(comment) {
+            return typeof comment === "string" && comment.length > 0;
+        };
+
+        $scope.annotationsAsFlatList = function(annotations) {
+
+            if (annotations == null) {
+                annotations = $scope.annotations;
+            }
+            if (!annotations.length) {
+                return [];
+            } else {
+                return annotations.map(function(annotation) {
+                    var arr;
+                    arr = [];
+                    if ($scope.hasPoints(annotation.data.points) && $scope.hasComment(annotation.data.comment)) { 
+                     arr.push(annotation); 
+                    } 
+                    if (annotation.children && annotation.children.length) { 
+                     arr = arr.concat($scope.annotationsAsFlatList(annotation.children)); 
+                    } 
+                    //arr.push(annotation);
+                    return arr;
+                }).reduce(function(prev, current) {
+                    return prev.concat(current);
+                });
+            }
+        };
+        $scope.clearPopups = function() {
+            return $scope.$broadcast("ngAnnotateText.clearPopups");
+        };
+
             var stringtest = function(input){
                 return input.startsWith(ckstarter);
             };
@@ -921,4 +1000,68 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
        {name: 'p', label: 'paragraph', value: '<p></p>',attributes:['fontSize','color','backgroundColor','fontFamily','fontStyle','textDecoration','margin', 'padding','border','overflow']},
        {name: 'pre', label: 'preformatted', value: '<pre></pre>',attributes:['fontSize','color','backgroundColor','fontFamily','fontStyle','textDecoration','margin', 'padding','border','overflow']}
        
-   ]);
+   ]).controller("AnnotationController", function($scope, $timeout) {
+        // $scope.roarevents = ROARevents($stateParams.matterId);
+        $scope.annotationColours = [{
+            name: "Red",
+            value: "red"
+        }, {
+            name: "Green",
+            value: "green"
+        }, {
+            name: "Blue",
+            value: "blue"
+        }, {
+            name: "Yellow",
+            value: "yellow"
+        }, {
+            name: "Pink",
+            value: "pink"
+        }, {
+            name: "Aqua",
+            value: "aqua"
+        }];
+
+        $scope.templates = [{
+            type: "red",
+            comment: "102b",
+            points: -1
+        }, {
+            type: "aqua",
+            comment: "112 2nd¶",
+            points: -1
+        }];
+
+        $scope.selection = window.getSelection();
+
+        $scope.useTemplate = function(template) {
+            if (template.type !== null) {
+                $scope.$annotation.type = template.type;
+            }
+            if (template.comment !== null) {
+                $scope.$annotation.data.comment = template.comment;
+            }
+            if (template.points !== null) {
+                $scope.$annotation.data.points = template.points;
+            }
+            $scope.$close();
+        };
+
+        $scope.useColor = function(color) {
+            if (color.value !== null) {
+                $scope.$annotation.type = color.value;
+            }
+        };
+
+        $scope.isActiveColor = function(color) {
+            return color && color.value === $scope.$annotation.type;
+        };
+
+        $scope.close = function() {
+            return $scope.$close();
+        };
+
+        $scope.reject = function() {
+            return $scope.$reject();
+        };
+    });
