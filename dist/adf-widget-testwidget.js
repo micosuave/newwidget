@@ -667,8 +667,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     ];
     $scope.helperclasses= helperclasses;
   }])
-  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport","$ACTIVEROAR","$stateParams","$sce","$compile","ckstarter","ckender","toastr","ROARAnnotations","ROARAnnotation","NGAnnotation","Users","Profile","$http","Upload",
-        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,ROARAnnotations,ROARAnnotation,NGAnnotation,Users,Profile,$http,Upload) {
+  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport","$ACTIVEROAR","$stateParams","$sce","$compile","ckstarter","ckender","toastr","ROARAnnotations","ROARAnnotation","NGAnnotation","Users","Profile","$http","Upload","$uibModal",
+        function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,ROARAnnotations,ROARAnnotation,NGAnnotation,Users,Profile,$http,Upload,$uibModal) {
             $scope.size = 'lg';
 
             $scope.ckclip = ckclip;
@@ -700,7 +700,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         icon: 'fa-upload',
                         label: 'Upload',
                         styleClass: 'text-primary',
-                        onClick: function(draft){ var now = new Date().getTime(); var blob = new Blob([draft.content.toString()]); return Upload.upload({url: '/upload/',data: {file: Upload.rename(blob, $scope.draft.$id+'.html')}})}
+                        onClick: function(draft){ var now = new Date().getTime(); var blob = new Blob([draft.content.toString()]); return /**Upload.upload({url: '/upload/',data: {file: Upload.rename(blob, $scope.draft.$id+'.html')}})*/$scope.prepareBook(draft);}
                     }]
             };
             function classy(){
@@ -710,6 +710,33 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 else{
                     return 'hide';
                 }
+            };
+            $scope.prepareBook = function(draft){
+                
+                var editScope = $scope.$new();
+                editScope.ebook = draft;
+                editScope.ebook.content = [];
+                editScope.ebook.content.push(draft.content);
+                angular.forEach(draft.roarlist, function(roar, key){
+                    Collection(key).$loaded().then(function(collection){
+                        editScope.ebook.content.push(collection);
+                    });
+                });
+                
+                var opts = {
+            scope: editScope,
+            templateUrl: '<div class=modal-header>  <h4 class=modal-title>{{definition.title}}</h4> <div class=\"pull-right widget-icons\"> <a href title=\"Reload Widget Content\" ng-if=widget.reload ng-click=reload()> <i class=\"glyphicon glyphicon-refresh\"></i> </a> <a href title=close ng-click=closeDialog()> <i class=\"glyphicon glyphicon-remove\"></i> </a> </div></div> <div class=modal-body><div ng-include=\"\'{widgetsPath}/getphd/src/phd/epubform.html\'\" ></div></div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-primary\" ng-click=\"closeDialog()\">Close</button></div>',
+            backdrop: 'static',
+            size: 'lg'
+          };
+
+          var instance = $uibModal.open(opts);
+
+          editScope.closeDialog = function() {
+            Upload.upload({url: '/publisher/',data: editScope.ebook});
+            instance.close();
+            editScope.$destroy();
+          };
             };
             $scope.dowrap = function(content){
                $scope.content = ckstarter + content + ckender;
