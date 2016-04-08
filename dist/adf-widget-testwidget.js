@@ -711,6 +711,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     return 'hide';
                 }
             };
+            $scope.getBook = function(ebook){
+                alertify.info('submitting form');
+              $http.post('/publisher/', ebook);
+            };
             $scope.prepareBook = function(draft){
                 
                 var editScope = $scope.$new();
@@ -733,7 +737,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
           var instance = $uibModal.open(opts);
           editScope.getBook = function(ebook){
               alertify.info('submitting form');
-              Upload.upload({url: '/publisher/',data: ebook});
+              $http.post('/publisher/', ebook);
           };
           editScope.closeDialog = function() {
             
