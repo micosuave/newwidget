@@ -711,7 +711,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
             };
             $scope.getBook = function(ebook){
-                alertify.info('submitting form');
+                alertify.log('submitting form');
               $http.post('/publisher/', ebook);
             };
             $scope.prepareBook = function(draft){
@@ -722,6 +722,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 // editScope.ebook.content.push(draft);
                 angular.forEach(draft.roarlist, function(roar, key){
                     Collection(key).$loaded().then(function(collection){
+                        collection.data = collection.content;
                         editScope.ebook.content.push(collection);
                     });
                 });
@@ -735,7 +736,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
           var instance = $uibModal.open(opts);
           editScope.getBook = function(ebook){
-              alertify.info('submitting form');
+              alertify.log('submitting form');
               $http.post('/publisher/', ebook);
           };
           editScope.closeDialog = function() {
