@@ -724,7 +724,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 
                 var opts = {
             scope: editScope,
-            templateUrl: '<div class=modal-header>  <h4 class=modal-title>{{definition.title}}</h4> <div class=\"pull-right widget-icons\"> <a href title=\"Reload Widget Content\" ng-if=widget.reload ng-click=reload()> <i class=\"glyphicon glyphicon-refresh\"></i> </a> <a href title=close ng-click=closeDialog()> <i class=\"glyphicon glyphicon-remove\"></i> </a> </div></div> <div class=modal-body><div ng-include=\"\'{widgetsPath}/getphd/src/phd/epubform.html\'\" ></div></div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-primary\" ng-click=\"closeDialog()\">Close</button></div>',
+            template: '<div class=modal-header>  <h4 class=modal-title>{{definition.title}}</h4> <div class=\"pull-right widget-icons\"> <a href title=\"Reload Widget Content\" ng-if=widget.reload ng-click=reload()> <i class=\"glyphicon glyphicon-refresh\"></i> </a> <a href title=close ng-click=closeDialog()> <i class=\"glyphicon glyphicon-remove\"></i> </a> </div></div> <div class=modal-body><div ng-include=\"\'{widgetsPath}/getphd/src/phd/epubform.html\'\" ></div></div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-primary\" ng-click=\"closeDialog()\">Close</button></div>',
             backdrop: 'static',
             size: 'lg'
           };
