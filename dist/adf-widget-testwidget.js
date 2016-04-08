@@ -171,7 +171,44 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     controller: 'CKEditorCtrl',
                     reload: true
                 },
-                
+                resolve: {
+                    config: ["config", "Collections", "$rootScope", "FIREBASE_URL","ckdefault",
+                      function (config, Collections, $rootScope, FIREBASE_URL, ckdefault) {
+                        if (config.id) {
+                          return config;
+                        } else {
+                          var a = Collections;
+                          var b = {};
+                          a.$add({
+                            'name': 'draft'
+                            
+                          }).then(function (ref) {
+                            var id = ref.key();
+                            ref.update({
+                              id: id,
+                              //projectid: $rootScope.$stateParams.pId || 'projectid',
+                              //matterId: $rootScope.$stateParams.matterId || 'matterId',
+                              //groupId: $rootScope.$stateParams.groupId || 'groupId',
+                              //author: $rootScope.authData.uid || 'userid',
+                              ispublished: false,
+                              content_type: 'document',
+                              templateUrl: '{widgetsPath}/getphd/src/view.html',
+                              timestamp: Firebase.ServerValue.TIMESTAMP
+                            });
+                            config.id = id;
+                            config.framename = 'fframe';
+                            config.height = '90vh';
+                            //config.editor = ckdefault;
+
+                            return config;
+                          });
+                          return config;
+
+
+                        }
+                      }
+                    ]
+                  }
             }).widget('ckwidget', {
                 title: '+LexPad',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
@@ -188,7 +225,44 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     controller: 'CKEditorCtrl',
                     reload: true
                 },
-                
+                resolve: {
+                    config: ["config", "Collections", "$rootScope", "FIREBASE_URL","ckdefault",
+                      function (config, Collections, $rootScope, FIREBASE_URL, ckdefault) {
+                        if (config.id) {
+                          return config;
+                        } else {
+                          var a = Collections;
+                          var b = {};
+                          a.$add({
+                            'name': 'draft'
+                            
+                          }).then(function (ref) {
+                            var id = ref.key();
+                            ref.update({
+                              id: id,
+                              //projectid: $rootScope.$stateParams.pId || 'projectid',
+                              //matterId: $rootScope.$stateParams.matterId || 'matterId',
+                              //groupId: $rootScope.$stateParams.groupId || 'groupId',
+                              //author: $rootScope.authData.uid || 'userid',
+                              ispublished: false,
+                              content_type: 'document',
+                              templateUrl: '{widgetsPath}/getphd/src/view.html',
+                              timestamp: Firebase.ServerValue.TIMESTAMP
+                            });
+                            config.id = id;
+                            config.framename = 'fframe';
+                            config.height = '90vh';
+                            //config.editor = ckdefault;
+
+                            return config;
+                          });
+                          return config;
+
+
+                        }
+                      }
+                    ]
+                  }
             })
             // .widget('embed', {
             //     title: '+EmbedViewer',
@@ -641,8 +715,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 
                 var editScope = $scope.$new();
                 editScope.ebook = draft;
-                editScope.ebook.content = [];
-                editScope.ebook.content.push(draft.content);
+                editScope.ebook.content = [editScope.ebook.content];
+                // editScope.ebook.content.push(draft);
                 angular.forEach(draft.roarlist, function(roar, key){
                     Collection(key).$loaded().then(function(collection){
                         editScope.ebook.content.push(collection);
@@ -657,9 +731,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
           };
 
           var instance = $uibModal.open(opts);
-
+          editScope.getBook = function(ebook){
+              alertify.info('submitting form');
+              Upload.upload({url: '/publisher/',data: ebook});
+          };
           editScope.closeDialog = function() {
-            Upload.upload({url: '/publisher/',data: editScope.ebook});
+            
             instance.close();
             editScope.$destroy();
           };
