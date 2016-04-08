@@ -700,7 +700,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         icon: 'fa-upload',
                         label: 'Upload',
                         styleClass: 'text-primary',
-                        onClick: function(draft){ var now = new Date().getTime(); var blob = new Blob([draft.content.toString()]); return /**Upload.upload({url: '/upload/',data: {file: Upload.rename(blob, $scope.draft.$id+'.html')}})*/$scope.getBook();}
+                        onClick: function(draft){ return $scope.getBook();/*var now = new Date().getTime(); var blob = new Blob([draft.content.toString()]); return /**Upload.upload({url: '/upload/',data: {file: Upload.rename(blob, $scope.draft.$id+'.html')}})*/}
                     }]
             };
             function classy(){
