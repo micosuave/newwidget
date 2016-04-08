@@ -170,44 +170,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     controller: 'CKEditorCtrl',
                     reload: true
                 },
-                resolve: {
-                    config: ["config", "Collections", "$rootScope", "FIREBASE_URL","ckdefault",
-                      function (config, Collections, $rootScope, FIREBASE_URL, ckdefault) {
-                        if (config.id) {
-                          return config;
-                        } else {
-                          var a = Collections;
-                          var b = {};
-                          a.$add({
-                            'name': 'draft'
-                            
-                          }).then(function (ref) {
-                            var id = ref.key();
-                            ref.update({
-                              id: id,
-                              //projectid: $rootScope.$stateParams.pId || 'projectid',
-                              //matterId: $rootScope.$stateParams.matterId || 'matterId',
-                              //groupId: $rootScope.$stateParams.groupId || 'groupId',
-                              //author: $rootScope.authData.uid || 'userid',
-                              ispublished: false,
-                              content_type: 'document',
-                              templateUrl: '{widgetsPath}/getphd/src/view.html',
-                              timestamp: Firebase.ServerValue.TIMESTAMP
-                            });
-                            config.id = id;
-                            config.framename = 'fframe';
-                            config.height = '90vh';
-                            //config.editor = ckdefault;
-
-                            return config;
-                          });
-                          return config;
-
-
-                        }
-                      }
-                    ]
-                  }
+                
             }).widget('ckwidget', {
                 title: '+LexPad',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
@@ -224,44 +187,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     controller: 'CKEditorCtrl',
                     reload: true
                 },
-                resolve: {
-                    config: ["config", "Collections", "$rootScope", "FIREBASE_URL","ckdefault",
-                      function (config, Collections, $rootScope, FIREBASE_URL, ckdefault) {
-                        if (config.id) {
-                          return config;
-                        } else {
-                          var a = Collections;
-                          var b = {};
-                          a.$add({
-                            'name': 'draft'
-                            
-                          }).then(function (ref) {
-                            var id = ref.key();
-                            ref.update({
-                              id: id,
-                              //projectid: $rootScope.$stateParams.pId || 'projectid',
-                              //matterId: $rootScope.$stateParams.matterId || 'matterId',
-                              //groupId: $rootScope.$stateParams.groupId || 'groupId',
-                              //author: $rootScope.authData.uid || 'userid',
-                              ispublished: false,
-                              content_type: 'document',
-                              templateUrl: '{widgetsPath}/getphd/src/view.html',
-                              timestamp: Firebase.ServerValue.TIMESTAMP
-                            });
-                            config.id = id;
-                            config.framename = 'fframe';
-                            config.height = '90vh';
-                            //config.editor = ckdefault;
-
-                            return config;
-                          });
-                          return config;
-
-
-                        }
-                      }
-                    ]
-                  }
+                
             })
             // .widget('embed', {
             //     title: '+EmbedViewer',
