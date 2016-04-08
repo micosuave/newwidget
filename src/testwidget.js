@@ -699,7 +699,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         icon: 'fa-upload',
                         label: 'Upload',
                         styleClass: 'text-primary',
-                        onClick: function(draft){ var now = new Date().getTime(); var blob = new Blob([draft.content.toString()]); return /**Upload.upload({url: '/upload/',data: {file: Upload.rename(blob, $scope.draft.$id+'.html')}})*/$scope.prepareBook(draft);}
+                        onClick: function(draft){ var now = new Date().getTime(); var blob = new Blob([draft.content.toString()]); return /**Upload.upload({url: '/upload/',data: {file: Upload.rename(blob, $scope.draft.$id+'.html')}})*/$scope.getBook();}
                     }]
             };
             function classy(){
@@ -710,10 +710,13 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     return 'hide';
                 }
             };
-            $scope.getBook = function(ebook){
+            $scope.getBook = function(){
                 alertify.log('submitting form');
-              $http.post('/publisher/', ebook);
-            };
+              $http.get('/publisher/download/'+config.id).then(function(resp){
+                  var data = new File(resp.data);
+                  data.saveAs();
+            });
+            
             $scope.prepareBook = function(draft){
                 
                 var editScope = $scope.$new();
@@ -1024,7 +1027,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
        
 
          
-        }
+            }      }
    ]).value('formattags', [
        {name: 'h1', label: 'heading1', value: '<h1></h1>',attributes:['fontSize','color','backgroundColor','fontFamily','fontStyle','textDecoration','margin', 'padding','border','overflow']},
        {name: 'h2', label: 'heading2', value: '<h2></h2>',attributes:['fontSize','color','backgroundColor','fontFamily','fontStyle','textDecoration','margin', 'padding','border','overflow']},
