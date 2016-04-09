@@ -225,7 +225,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     reload: true
                 },
                 resolve: {
-                    config: ["config", "Collections", "$rootScope", "FIREBASE_URL","ckdefault",
+                    config: ['config', 'Collections', '$rootScope', 'FIREBASE_URL','ckdefault',
                       function (config, Collections, $rootScope, FIREBASE_URL, ckdefault) {
                         if (config.id) {
                           return config;
@@ -263,7 +263,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     ]
                   }
             })
-            // .widget('embed', {
+            /* .widget('embed', {
             //     title: '+EmbedViewer',
             //     titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
             //     description: 'embed arbitrary content from remote sites',
@@ -279,7 +279,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //         immediate: true,
             //         reload: true
             //     }
-            // })
+            // })*/
             .widget('embed-less', {
                 title: 'EmbedViewer',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
@@ -312,7 +312,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     }
     // pdfDelegate.$getByHandle('my-pdf-container').zoomIn();
   }])
-  .controller('PhdTocWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","$ACTIVEROAR","Collections","$q","$state","ckstarter","ckender",
+  .controller('PhdTocWidgetCtrl', ['$scope', 'config', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope','$ACTIVEROAR','Collections','$q','$state','ckstarter','ckender',
         function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, $ACTIVEROAR, Collections,$q,$state,ckstarter,ckender) {
             $scope.size = 'lg';
 
@@ -544,7 +544,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         };
           
         }
-  ]).controller('CKEditorCtrl', ["$scope", "config", "ckdefault", "ckmin","ckclip","ckreport","$sce","ROARCLASSES","formattags","$stateParams","Collection", function ($scope, config, ckdefault, ckmin,ckclip, ckreport,$sce,ROARCLASSES,formattags,$stateParams,Collection) {
+  ]).controller('CKEditorCtrl', ['$scope', 'config', 'ckdefault', 'ckmin','ckclip','ckreport','$sce','ROARCLASSES','$stateParams','Collection', function ($scope, config, ckdefault, ckmin,ckclip, ckreport,$sce,ROARCLASSES,$stateParams,Collection) {
     var editors = [
       { name: 'Default', obj: ckdefault }
     //   { name: 'Minimal', obj: ckmin },
@@ -559,22 +559,9 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     $scope.editors = editors;
     $scope.formattags = formattags;
     
-    var helperclasses=[
-        {name: 'h1', label: 'heading1', tag:'<h1 ng-style="this.customstyle">h1</h1>',customstyle: {color: 'black', backgroundColor: "white", fontSize: "24px", fontFamily:"Arial"}},
-        {name: 'h2', label: 'heading2', tag:'<h2 ng-style="this.customstyle">h2</h2>',customstyle: {color: 'black', backgroundColor: "white", fontSize: "24px", fontFamily:"Arial"}},
-        {name: 'h3', label: 'heading3', tag:'<h3 ng-style="this.customstyle">h3</h3>',customstyle: {color: 'black', backgroundColor: "white", fontSize: "24px", fontFamily:"Arial"}},
-        {name: 'h4', label: 'heading4', tag:'<h4 ng-style="this.customstyle">h4</h4>',customstyle: {color: 'black', backgroundColor: "white", fontSize: "24px", fontFamily:"Arial"}},
-        {name: 'h5', label: 'heading5', tag:'<h5 ng-style="this.customstyle">h5</h5>',customstyle: {color: 'black', backgroundColor: "white", fontSize: "24px", fontFamily:"Arial"}},
-        {name: 'h6', label: 'heading6', tag:'<h6 ng-style="this.customstyle">h6</h6>',customstyle: {color: 'black', backgroundColor: "white", fontSize: "24px", fontFamily:"Arial"}},
-        {name: 'p', label: 'paragraph', tag:'<p ng-style="this.customstyle">p</p>',customstyle: {color: 'black', backgroundColor: "white", fontSize: "24px", fontFamily:"Arial"}},
-        {name: 'link', label: 'link', tag:'<a ng-style="this.customstyle">link</a>',customstyle: {color: 'black', backgroundColor: "white", fontSize: "24px", fontFamily:"Arial"}},
-        {name: 'preformatted', label: 'preformatted', tag:'<pre ng-style="customstyle">preformatted</pre>',customstyle: {color: 'black', backgroundColor: "white", fontSize: "24px", fontFamily:"Arial"}},
-        {name: 'blockquote', label: 'blockquote', tag:'<blockquote ng-style="customstyle">blockquote</blockquote>',customstyle: {color: 'black', backgroundColor: "white", fontSize: "24px", fontFamily:"Arial"}}
-        
-    ];
-    $scope.helperclasses= helperclasses;
+  
   }])
-  .controller('CKEWidgetCtrl', ["$scope", "config", "ckdefault", "ckmin", "Collection", "$controller", "$rootScope","ckclip","ckreport","$ACTIVEROAR","$stateParams","$sce","$compile","ckstarter","ckender","toastr","ROARAnnotations","ROARAnnotation","NGAnnotation","Users","Profile","$http","Upload","$uibModal", function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,ROARAnnotations,ROARAnnotation,NGAnnotation,Users,Profile,$http,Upload,$uibModal) {
+  .controller('CKEWidgetCtrl', ['$scope', 'config', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope','ckclip','ckreport','$ACTIVEROAR','$stateParams','$sce','$compile','ckstarter','ckender','toastr','Users','Profile','$http','Upload','$uibModal', function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,Users,Profile,$http,Upload,$uibModal) {
             $scope.size = 'lg';
 
             $scope.ckclip = ckclip;
