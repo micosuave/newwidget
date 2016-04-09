@@ -563,7 +563,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
   }])
   .controller('CKEWidgetCtrl', ['$scope', 'config', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope','ckclip','ckreport','$ACTIVEROAR','$stateParams','$sce','$compile','ckstarter','ckender','toastr','Users','Profile','$http','Upload','$uibModal', function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,Users,Profile,$http,Upload,$uibModal) {
             $scope.size = 'lg';
-
+var draft = Collection(config.id);
+            // draft.$bindTo($scope, 'draft');
+            $scope.draft = draft;
+            draft.$loaded().then(function(drat){
+                 $scope.content = angular.copy(drat.content);
+            });  
             $scope.ckclip = ckclip;
             $scope.ckreport = ckreport;
             $scope.config = config;
@@ -701,11 +706,6 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             
         
             //$scope.pj = pj;
-            var draft = Collection(config.id);
-            // draft.$bindTo($scope, 'draft');
-            $scope.draft = draft;
-            draft.$loaded().then(function(draft){
-                 $scope.content = angular.copy(draft.content);
-            });    
+              
             }     } 
    ]);

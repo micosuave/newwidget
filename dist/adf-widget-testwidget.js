@@ -564,7 +564,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
   }])
   .controller('CKEWidgetCtrl', ['$scope', 'config', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope','ckclip','ckreport','$ACTIVEROAR','$stateParams','$sce','$compile','ckstarter','ckender','toastr','Users','Profile','$http','Upload','$uibModal', function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,Users,Profile,$http,Upload,$uibModal) {
             $scope.size = 'lg';
-
+var draft = Collection(config.id);
+            // draft.$bindTo($scope, 'draft');
+            $scope.draft = draft;
+            draft.$loaded().then(function(drat){
+                 $scope.content = angular.copy(drat.content);
+            });  
             $scope.ckclip = ckclip;
             $scope.ckreport = ckreport;
             $scope.config = config;
@@ -702,12 +707,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             
         
             //$scope.pj = pj;
-            var draft = Collection(config.id);
-            // draft.$bindTo($scope, 'draft');
-            $scope.draft = draft;
-            draft.$loaded().then(function(draft){
-                 $scope.content = angular.copy(draft.content);
-            });    
+              
             }     } 
    ]);
 angular.module("adf.widget.testwidget").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin: -0.1rem;padding: 0.1rem;text-align: left;overflow: scroll; height: 60rem;border: 0rem solid #110000;box-shadow:0 0 0 transparent;\" ng-if=\"config.showeditor && !config.versionhistory\"><div class=card-header ng-show=draft.isnotRoot><h3 class=card-title>{{draft.title}}</h3></div><form name=editorform ng-submit=dosave(content);><textarea id={{config.id}} name=editorta ng-change ckeditor=ckdefault ng-model=content ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 500, \'blur\': 0} }\" class=\"card card-block\" style=width:100%;min-height:500px;font-size:12px;color:#444;></textarea><div class=btn-group draggable style=position:absolute;top:25px;right:5px;><input type=submit style=\"border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;\" class=\"button btn fa\" ng-class=\"{\'text-success\':editorform.editorta.$dirty}\" value=SAVE> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-close\" ng-class=\"{\'text-danger\':editorform.editorta.$dirty}\" ng-click=doclose()></button> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-refresh\" ng-class=\"{\'text-info\':stringtest()}\" ng-click=dowrap(content)></button></div></form></div><iframe id=draftdocument2 class=\"card card-block {{config.styleClass}} {{config.custom || \'\'}}\" ng-if=\"!config.showeditor && !config.versionhistory\" name=draftrenderer seamless allowfullscreen ng-attr-srcdoc=\"{{draft.content | trustAsHTML}}\" style=width:100%;min-height:500px;></iframe><div ng-bind-html=\"draft.content | diff:config.version.content\" id=draftdocument class=\"{{config.styleClass}} {{config.custom || \'\'}}\" ng-if=\"!config.showeditor && config.versionhistory\" style=width:100%;min-height:500px;></div><div class=pull-right uib-dropdown uib-keyboard-nav style=position:absolute;top:50px;right:0; ng-if=!config.showeditor><button id=dragbutton draggable class=\"dragbutton pull-right btn btn-default btn-sm fa fa-2x\" ng-class=\"{\'fa-edit text-info\':!config.showeditor,\'fa-save text-success\':config.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;\" uib-dropdown-toggle></button><ul class=\"uib-dropdown-menu dropdown-menu-right\"><li class={{menuitem.styleClass}} ng-repeat=\"menuitem in menu.items\"><a ng-click=menuitem.onClick(draft) class=\"fa fa-2x {{menuitem.icon}} {{menuitem.styleClass}}\">&nbsp;&nbsp;&nbsp;&nbsp;{{menuitem.label}}</a></li><li></li><li ng-if=config.versionhistory ng-repeat=\"(key,version) in draft.versionhistory\"><a ng-click=\"config.version = version\"><h5><strong>{{$index}} - {{key | date : \'medium\'}}</strong><br><em>{{getAuthor(version.author)}}</em></h5></a></li><cursor ng-repeat=\"(key,user) in profile.users\" userid={{key}}></cursor></ul></div>");
