@@ -557,7 +557,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     $scope.ROARCLASSES = [{label: 'Memo Basic', value: 'llp-memo-draft-basic'}];
     $scope.config = config;
     $scope.editors = editors;
-    $scope.formattags = formattags;
+   
     
   
   }])
