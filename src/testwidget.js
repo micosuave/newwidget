@@ -356,7 +356,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
            toc.editable = false;
             $scope.$on('adfToggleEditMode', function(){
               toc.editable = !toc.editable;
-            })
+            });
             //$scope.pj = pj;
             toc.tree = Collection(config.id);
             toc.tree.$bindTo($scope, 'tree');
@@ -598,7 +598,7 @@ var draft = Collection(config.id);
                         icon: 'fa-upload',
                         label: 'Upload',
                         styleClass: 'text-primary',
-                        onClick: function(draft){ return $scope.getBook();/*var now = new Date().getTime(); var blob = new Blob([draft.content.toString()]); return /**Upload.upload({url: '/upload/',data: {file: Upload.rename(blob, $scope.draft.$id+'.html')}})*/}
+                        onClick: function(draft){ var now = new Date().getTime(); var blob = new Blob([draft.content.toString()]); return Upload.upload({url: '/upload/',data: {file: Upload.rename(blob, $scope.draft.$id+'.html')}});$window.open('/publisher/download/'+$scope.draft.$id,'_blank');}
                     }]
             };
             function classy(){
