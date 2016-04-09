@@ -615,7 +615,7 @@ var draft = Collection(config.id);
                   var data = new File(resp.data);
                   data.saveAs();
             });
-            
+            };
             $scope.prepareBook = function(draft){
                 
                 var editScope = $scope.$new();
@@ -707,5 +707,5 @@ var draft = Collection(config.id);
         
             //$scope.pj = pj;
               
-            }     } 
+            }     
    ]);
