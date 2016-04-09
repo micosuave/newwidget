@@ -177,7 +177,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         if (config.id) {
                           return config;
                         } else {
-                          var a = Collections;
+                          var a = Collections();
                           var b = {};
                           a.$add({
                             'name': 'draft'
@@ -231,7 +231,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         if (config.id) {
                           return config;
                         } else {
-                          var a = Collections;
+                          var a = Collections();
                           var b = {};
                           a.$add({
                             'name': 'draft'
