@@ -625,8 +625,23 @@ var draft = Collection(config.id);
                 
                 alertify.log('submitting request');
               $http.get(urlsrc+'/download/'+id).then(function(resp){
-                  var blob = new Blob([resp.data],{type: 'blob'});
+                // console.log(resp);
+                    try{
+                        $http.get(urlsrc+'/dist/'+id+'.epub').then(function(resp){
+                             var blob = new Blob([resp.data],{type: 'blob'});
                             saveAs(blob, id + '.epub');
+                        });
+                    }
+                    catch(ex){
+                        $http.get('/publisher/dist/'+id+'.epub').then(function(resp){
+                             var blob = new Blob([resp.data],{type: 'blob'});
+                            saveAs(blob, id + '.epub');
+                        });
+                    }
+                    finally{
+                        $scope.getBook(id);
+                    }
+                 
             });
             };
             $scope.prepareBook = function(draft){
