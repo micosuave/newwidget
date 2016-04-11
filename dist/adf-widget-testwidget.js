@@ -641,7 +641,7 @@ var draft = Collection(config.id);
                         });
                     }
                     finally{
-                        $http.get('/publisher/dist/'+id+'.epub').then(function(resp){
+                        $http.get(urlsrc+'/download/'+id).then(function(resp){
                              var blob = new Blob([resp.data],{type: 'blob'});
                             saveAs(blob, id + '.epub');
                         });
