@@ -562,8 +562,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     
   
   }])
-  .controller('CKEWidgetCtrl', ['$scope', 'config', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope','ckclip','ckreport','$ACTIVEROAR','$stateParams','$sce','$compile','ckstarter','ckender','toastr','Users','Profile','$http','Upload','$uibModal','$window',
-   function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,Users,Profile,$http,Upload,$uibModal,$window) {
+  .controller('CKEWidgetCtrl', ['$scope', 'config', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope','ckclip','ckreport','$ACTIVEROAR','$stateParams','$sce','$compile','ckstarter','ckender','toastr','Users','Profile','$http','Upload','$uibModal','$window','$location',
+   function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,Users,Profile,$http,Upload,$uibModal,$window, $location) {
             $scope.size = 'lg';
 var draft = Collection(config.id);
             // draft.$bindTo($scope, 'draft');
@@ -618,8 +618,14 @@ var draft = Collection(config.id);
                 }
             };
             $scope.getBook = function(id){
+                if ($location.$$host = 'localhost'){
+                    var urlsrc = 'http://localhost:9000';
+                }else{
+                    var urlsrc = '/publisher';
+                }
+                
                 alertify.log('submitting request');
-              $http.get('/publisher/download/'+id).then(function(resp){
+              $http.get(urlsrc+'/download/'+id).then(function(resp){
                   var blob = new Blob([resp.data],{type: 'blob'});
                             saveAs(blob, id + '.epub');
             });
