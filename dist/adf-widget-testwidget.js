@@ -618,7 +618,7 @@ var draft = Collection(config.id);
                 }
             };
             $scope.getBook = function(id){
-                if ($location.$$host = 'localhost'){
+                if ($location.$$host === 'localhost'){
                     var urlsrc = 'http://localhost:9000';
                 }else{
                     var urlsrc = '/publisher';
