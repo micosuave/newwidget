@@ -561,7 +561,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     
   
   }])
-  .controller('CKEWidgetCtrl', ['$scope', 'config', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope','ckclip','ckreport','$ACTIVEROAR','$stateParams','$sce','$compile','ckstarter','ckender','toastr','Users','Profile','$http','Upload','$uibModal', function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,Users,Profile,$http,Upload,$uibModal) {
+  .controller('CKEWidgetCtrl', ['$scope', 'config', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope','ckclip','ckreport','$ACTIVEROAR','$stateParams','$sce','$compile','ckstarter','ckender','toastr','Users','Profile','$http','Upload','$uibModal','$window',
+   function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,Users,Profile,$http,Upload,$uibModal,$window) {
             $scope.size = 'lg';
 var draft = Collection(config.id);
             // draft.$bindTo($scope, 'draft');
@@ -584,21 +585,27 @@ var draft = Collection(config.id);
                         label: 'Toggle Edit Mode',
                         styleClass: 'text-info',
                         onClick: function(draft){return config.showeditor = !config.showeditor; }
-                    },{
+                    },/*{
                         icon: 'fa-alert',
                         label: 'Syncronize Editor',
                         styleClass: classy(),
                         onClick: function(draft){ return $scope.updateid();}  
-                    },{
+                    },
+                    {
                         icon: 'fa-refresh',
                         label: 'Restore Defaults',
                         styleClass: 'text-success',
                         onClick: function(draft){ var content = draft.content.slice(draft.content.indexOf('<body>'),draft.content.length); return $scope.draft.content = $scope.ckstarter + content + $scope.ckender;}
-                    },{
+                    },*/{
                         icon: 'fa-upload',
                         label: 'Upload',
-                        styleClass: 'text-primary',
-                        onClick: function(draft){ var now = new Date().getTime(); var blob = new Blob([draft.content.toString()]); return Upload.upload({url: '/upload/',data: {file: Upload.rename(blob, $scope.draft.$id+'.html')}});$window.open('/publisher/download/'+$scope.draft.$id,'_blank');}
+                        styleClass: '',
+                        onClick: function(draft){ var now = new Date().getTime(); var blob = new Blob([draft.content.toString()]); return Upload.upload({url: '/upload/',data: {file: Upload.rename(blob, $scope.draft.$id+'.html')}});}
+                    },{
+                        icon: 'fa-book',
+                        label: 'Publish as Ebook',
+                        styleClass: '',
+                        onClick: function(draft){ return $scope.getBook($scope.draft.id);$window.open('/publisher/download/'+$scope.draft.$id,'_blank');}
                     }]
             };
             function classy(){
@@ -609,11 +616,11 @@ var draft = Collection(config.id);
                     return 'hide';
                 }
             };
-            $scope.getBook = function(){
-                alertify.log('submitting form');
-              $http.get('/publisher/download/'+config.id).then(function(resp){
-                  var data = new File(resp.data);
-                  data.saveAs();
+            $scope.getBook = function(id){
+                alertify.log('submitting request');
+              $http.get('/publisher/download/'+id).then(function(resp){
+                  var blob = new Blob([resp.data],{type: 'blob'});
+                            saveAs(blob, id + '.epub');
             });
             };
             $scope.prepareBook = function(draft){
