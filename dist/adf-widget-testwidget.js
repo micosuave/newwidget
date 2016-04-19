@@ -19,7 +19,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
         config: {
           height: '90vh',
           framename: 'fframe'
-         
+
         }
       }).widget('iframe-less', {
         title: '-LexFrameViewer',
@@ -47,13 +47,13 @@ angular.module('adf.widget.frame', ['adf.provider'])
     if (config.iframe === true){
         this.srcdoc = $sce.trustAsHtml(config.srcdoc);
     }
-   
+
     $scope.destroy = function(){
         $rootScope.$broadcast('adfToggleEditMode');
     };
    // var loc = $('this').children().children('iframe').get(0).contentWindow.location;
     $scope.ckdefault = ckdefault;
-    
+
   }]);
 
 angular.module("adf.widget.frame").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/iframe/src/edit.html","<form role=form><div class=form-group><label for=url>URL</label> <input type=url class=form-control id=url ng-model=config.url placeholder=http://www.example.com></div><div class=form-group><label for=height>Height</label> <input type=text class=form-control id=height ng-model=config.height></div><div class=form-group><label for=name>Frame name (for url targets)</label> <input type=text class=form-control id=name ng-model=config.framename></div><div class=form-group><label for=name>Use srcdoc instead of url?</label> <input type=checkbox class=form-control id=name ng-model=config.iframe ng-change=destroy()></div><textarea ng-if=\"config.iframe\"ckeditor=ckdefault ng-model=config.srcdoc  ng-model-options=\"{updateOn: 'default blur', debounce: {'default': 20000, 'blur': 0}}\" ng-change=\"destroy()\"></div></form>");
@@ -80,47 +80,9 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         //       controllerAs: 'pdf'
 
         //     }
-            
+
         //     })
-            .widget('tocwidget-less', {
-                title: '+Table of Contents',
-                titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
-                description: 'Prototype LLP Platform App',
-                controller: 'PhdTocWidgetCtrl',
-                controllerAs: 'toc',
-                templateUrl: '{widgetsPath}/testwidget/src/view.html',
-                frameless: true,
-                reload: true,
-                immediate: false,
-                styleClass: 'card',
-                edit: {
-                    templateUrl: '{widgetsPath}/testwidget/src/edit.html',
-                    modalSize: 'lg',
-                    controller: 'CKEditorCtrl',
-                    reload: false
-                },
-                resolve: {
-                    config: ["config", "$firebaseArray", "$rootScope", "FIREBASE_URL",
-                      function (config, $firebaseArray, $rootScope, FIREBASE_URL) {
-                        if (config.id) {
-                          return config;
-                        } else {
-                        
-                        var params = $rootScope.$stateParams;
-                        var id = params.tabid || params.pageid || params.pId;
-                            config.id = id;
-                            
-                        
-                        //     return config;
-                        //   });
-                          return config;
-
-
-                        }
-                      }
-                    ]
-                  }
-            }).widget('tocwidget', {
+            .widget('tocwidget', {
                 title: '-Table of Contents',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'Prototype LLP Platform App',
@@ -143,11 +105,11 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         if (config.id) {
                           return config;
                         } else {
-                        
+
                          var params = $rootScope.$stateParams;
                         var id = params.tabid || params.pageid || params.pId;
                             config.id = id;
-                        
+
                           return config;
 
 
@@ -181,7 +143,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                           var b = {};
                           a.$add({
                             'name': 'draft'
-                            
+
                           }).then(function (ref) {
                             var id = ref.key();
                             ref.update({
@@ -235,7 +197,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                           var b = {};
                           a.$add({
                             'name': 'draft'
-                            
+
                           }).then(function (ref) {
                             var id = ref.key();
                             ref.update({
@@ -282,7 +244,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             //     }
             // })*/
             .widget('embed-less', {
-                title: 'EmbedViewer',
+                title: 'Embed',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'embed arbitrary content from remote sites',
                 template: '<div ng-bind-html="configs[0]"></div>',
@@ -290,7 +252,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
                 }],
                 styleClass: 'card card-block',
-                frameless: true,
+                frameless: false,
                 reload: true,
                 edit: {
                     template: '<div class="card"><label for="content">Enter embed code</label><textarea name="content" class="form-control" ng-model="config.content"></textarea></div>',
@@ -388,11 +350,11 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             var DasH = function(draftid, rootid) {
                 var dashref = Collection(draftid).$ref();
                 var dash = {
-                
-                
+
+
                 titleTemplateUrl: '/llp_core/modules/lionlawlabs/partial/projectdashboard/tabs/memo/title.html',
                 structure: '4-8',
-                styleClass: 'PTO', 
+                styleClass: 'PTO',
                 renderClass: 'llp-memo-draft-basic',
                 isActive: true,
                 editable: true,
@@ -401,7 +363,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 enableConfirmDelete: true,
                 hideme: false,
                 isRoot: false,
-                
+
                     rows: [{
                         columns: [{
                             styleClass: 'col-sm-4',
@@ -410,10 +372,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         }]
                     }]
                 };
-                 dashref.update(dash); 
+                 dashref.update(dash);
                  return dashref.key();
             };
-          
+
 
             var Section = function(){
               var section = this;
@@ -444,7 +406,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     //draft.$save();
                   }
                 });
-              });   
+              });
             };
             toc.newsubsection = function(section) {
               if (angular.isUndefined(section.$nodeScope.$modelValue)) {
@@ -471,7 +433,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     }
                   });
                 });
-              
+
             };
             toc.opensubsection = function (node) {
               //window.alert(scope);
@@ -507,7 +469,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             };
             var roothead = "<!DOCTYPE html><html><head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css'/></head><body>";
             var roottail = "</body></html>";
-            
+
 
             toc.builddoc = function () {
               var deferred = $q.defer();
@@ -516,7 +478,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               var walk = function (node, depth, siblings) {
                 if (node && node.content) {
                   console.log(depth, node.title);
-                  doc.push(node.title , node.content);  
+                  doc.push(node.title , node.content);
                 }
                 if (node && node.roarlist) {
                   angular.forEach(node.roarlist, function (node, key) {
@@ -527,23 +489,23 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                   Collection(node).$loaded().then(function (node) {
                     walk(node, depth+=1);
                   });
-                  
+
                 }
 
               };
               try { walk($scope.tree, 0); }
               catch (ex) { console.log(ex); }
               finally { doc.push(roottail);
-              
-            
-           
 
-        
-        
+
+
+
+
+
           deferred.resolve(doc) }
               return deferred.promise;
         };
-          
+
         }
   ]).controller('CKEditorCtrl', ['$scope', 'config', 'ckdefault', 'ckmin','ckclip','ckreport','$sce','ROARCLASSES','$stateParams','Collection', function ($scope, config, ckdefault, ckmin,ckclip, ckreport,$sce,ROARCLASSES,$stateParams,Collection) {
     var editors = [
@@ -558,9 +520,9 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     $scope.ROARCLASSES = [{label: 'Memo Basic', value: 'llp-memo-draft-basic'}];
     $scope.config = config;
     $scope.editors = editors;
-   
-    
-  
+
+
+
   }])
   .controller('CKEWidgetCtrl', ['$scope', 'config', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope','ckclip','ckreport','$ACTIVEROAR','$stateParams','$sce','$compile','ckstarter','ckender','toastr','Users','Profile','$http','Upload','$uibModal','$window','$location',
    function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,Users,Profile,$http,Upload,$uibModal,$window, $location) {
@@ -570,7 +532,7 @@ var draft = Collection(config.id);
             $scope.draft = draft;
             draft.$loaded().then(function(drat){
                  $scope.content = angular.copy(drat.content);
-            });  
+            });
             $scope.ckclip = ckclip;
             $scope.ckreport = ckreport;
             $scope.config = config;
@@ -590,7 +552,7 @@ var draft = Collection(config.id);
                         icon: 'fa-alert',
                         label: 'Syncronize Editor',
                         styleClass: classy(),
-                        onClick: function(draft){ return $scope.updateid();}  
+                        onClick: function(draft){ return $scope.updateid();}
                     },
                     {
                         icon: 'fa-refresh',
@@ -623,9 +585,9 @@ var draft = Collection(config.id);
                 }else{
                     var urlsrc = '/publisher';
                 }
-                
+
                 alertify.log('submitting request');
-             
+
                     try{
                         $http.get(urlsrc+'/dist/'+id+'.epub').then(function(resp){
                              var blob = new Blob([resp.data],{type: 'blob'});
@@ -634,8 +596,8 @@ var draft = Collection(config.id);
                     }
                     catch(ex){
                          $http.get(urlsrc+'/download/'+id).then(function(resp){
-                
-                        
+
+
                              var blob = new Blob([resp.data],{type: 'blob'});
                             saveAs(blob, id + '.epub');
                         });
@@ -646,11 +608,11 @@ var draft = Collection(config.id);
                             saveAs(blob, id + '.epub');
                         });
                     }
-                 
-          
+
+
             };
             $scope.prepareBook = function(draft){
-                
+
                 var editScope = $scope.$new();
                 editScope.ebook = draft;
                 editScope.ebook.content = [editScope.ebook.content];
@@ -661,7 +623,7 @@ var draft = Collection(config.id);
                         editScope.ebook.content.push(collection);
                     });
                 });
-                
+
                 var opts = {
             scope: editScope,
             template: '<div class=modal-header>  <h4 class=modal-title>{{definition.title}}</h4> <div class=\"pull-right widget-icons\"> <a href title=\"Reload Widget Content\" ng-if=widget.reload ng-click=reload()> <i class=\"glyphicon glyphicon-refresh\"></i> </a> <a href title=close ng-click=closeDialog()> <i class=\"glyphicon glyphicon-remove\"></i> </a> </div></div> <div class=modal-body><div ng-include=\"\'{widgetsPath}/getphd/src/phd/epubform.html\'\" ></div></div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-primary\" ng-click=\"closeDialog()\">Close</button></div>',
@@ -675,7 +637,7 @@ var draft = Collection(config.id);
               $http.post('/publisher/', ebook);
           };
           editScope.closeDialog = function() {
-            
+
             instance.close();
             editScope.$destroy();
           };
@@ -684,7 +646,7 @@ var draft = Collection(config.id);
                $scope.content = ckstarter + content + ckender;
 
             };
-             
+
             var stringtest = function(input){
                 return input.startsWith(ckstarter);
             };
@@ -706,14 +668,14 @@ var draft = Collection(config.id);
                 $scope.draft.content = content;
                 $scope.draft.lastModified = time;
                 $scope.draft.$save();
-                
+
             };
             $scope.getAuthor = function(id){
                 return Users.all.$getRecord(id).auth.profile.name;
             };
-       
+
             $scope.ckdefault = ckdefault;
-         
+
             if (config.id !== $scope.$parent.$parent.$parent.adfModel.$id) {
               $(this).css({ 'border': '1px dotted red' });
             }
@@ -727,22 +689,23 @@ var draft = Collection(config.id);
               $scope.$parent.$parent.reload();
             });
             $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
-             
+
                alertify.log('TOC REC');
                alertify.log($data);
-              
+
                $scope.$parent.$parent.config.id = $data;
                $scope.$parent.$parent.reload();
                $scope.loaddraft($data);
-             
+
             });
-            
-        
+
+
             //$scope.pj = pj;
-              
-            }     
+
+            }
    ]);
-angular.module("adf.widget.testwidget").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin: -0.1rem;padding: 0.1rem;text-align: left;overflow: scroll; height: 60rem;border: 0rem solid #110000;box-shadow:0 0 0 transparent;\" ng-if=\"config.showeditor && !config.versionhistory\"><div class=card-header ng-show=draft.isnotRoot><h3 class=card-title>{{draft.title}}</h3></div><form name=editorform ng-submit=dosave(content);><textarea id={{config.id}} name=editorta ng-change ckeditor=ckdefault ng-model=content ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 500, \'blur\': 0} }\" class=\"card card-block\" style=width:100%;min-height:500px;font-size:12px;color:#444;></textarea><div class=btn-group draggable style=position:absolute;top:25px;right:5px;><input type=submit style=\"border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;\" class=\"button btn fa\" ng-class=\"{\'text-success\':editorform.editorta.$dirty}\" value=SAVE> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-close\" ng-class=\"{\'text-danger\':editorform.editorta.$dirty}\" ng-click=doclose()></button> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-refresh\" ng-class=\"{\'text-info\':stringtest()}\" ng-click=dowrap(content)></button></div></form></div><iframe id=draftdocument2 class=\"card card-block {{config.styleClass}} {{config.custom || \'\'}}\" ng-if=\"!config.showeditor && !config.versionhistory\" name=draftrenderer seamless allowfullscreen ng-attr-srcdoc=\"{{draft.content | trustAsHTML}}\" style=width:100%;min-height:500px;></iframe><div ng-bind-html=\"draft.content | diff:config.version.content\" id=draftdocument class=\"{{config.styleClass}} {{config.custom || \'\'}}\" ng-if=\"!config.showeditor && config.versionhistory\" style=width:100%;min-height:500px;></div><div class=pull-right uib-dropdown uib-keyboard-nav style=position:absolute;top:50px;right:0; ng-if=!config.showeditor><button id=dragbutton draggable class=\"dragbutton pull-right btn btn-default btn-sm fa fa-2x\" ng-class=\"{\'fa-edit text-info\':!config.showeditor,\'fa-save text-success\':config.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;\" uib-dropdown-toggle></button><ul class=\"uib-dropdown-menu dropdown-menu-right\"><li class={{menuitem.styleClass}} ng-repeat=\"menuitem in menu.items\"><a ng-click=menuitem.onClick(draft) class=\"fa fa-2x {{menuitem.icon}} {{menuitem.styleClass}}\">&nbsp;&nbsp;&nbsp;&nbsp;{{menuitem.label}}</a></li><li></li><li ng-if=config.versionhistory ng-repeat=\"(key,version) in draft.versionhistory\"><a ng-click=\"config.version = version\"><h5><strong>{{$index}} - {{key | date : \'medium\'}}</strong><br><em>{{getAuthor(version.author)}}</em></h5></a></li><cursor ng-repeat=\"(key,user) in profile.users\" userid={{key}}></cursor></ul></div>");
+
+angular.module("adf.widget.testwidget").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin: -0.1rem;padding: 0.1rem;text-align: left;overflow: scroll; height: 60rem;border: 0rem solid #110000;box-shadow:0 0 0 transparent;\" ng-if=\"config.showeditor && !config.versionhistory\"><div class=card-header ng-show=draft.isnotRoot><h3 class=card-title>{{draft.title}}</h3></div><form name=editorform ng-submit=dosave(content);><textarea id={{config.id}} name=editorta ng-change ckeditor=ckdefault ng-model=content ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 500, \'blur\': 0} }\" class=\"card card-block\" style=width:100%;min-height:500px;font-size:12px;color:#444;></textarea><div class=btn-group draggable style=position:absolute;top:25px;right:5px;><input type=submit style=\"border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;\" class=\"button btn fa\" ng-class=\"{\'text-success\':editorform.editorta.$dirty}\" value=SAVE> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-close\" ng-class=\"{\'text-danger\':editorform.editorta.$dirty}\" ng-click=doclose()></button> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-refresh\" ng-class=\"{\'text-info\':stringtest()}\" ng-click=dowrap(content)></button></div></form></div><iframe id=draftdocument2 class=\"card card-block {{config.styleClass}} {{config.custom || \'\'}}\" ng-if=\"!config.showeditor && !config.versionhistory\" name=draftrenderer seamless allowfullscreen ng-attr-srcdoc=\"{{draft.content | trustAsHTML}}\" style=width:100%;min-height:500px;></iframe><div ng-bind-html=\"draft.content | diff:config.version.content\" id=draftdocument class=\"{{config.styleClass}} {{config.custom || \'\'}}\" ng-if=\"!config.showeditor && config.versionhistory\" style=width:100%;min-height:500px;></div><button id=dragbutton draggable class=\"dragbutton pull-right btn btn-default btn-sm fa fa-2x\" ng-class=\"{\'fa-edit text-info\':!config.showeditor,\'fa-save text-success\':config.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;\" ng-click=\"config.showeditor = !config.showeditor;\"></button>");
 $templateCache.put("{widgetsPath}/testwidget/src/dashedit.html","<div class=\"card-fancy card-rounded card-thick\"><div class=card-header><button type=button class=close ng-click=closeDialog() aria-hidden=true>&times;</button><h4 class=modal-title>Edit Page</h4></div><div class=\"card card-block\"><form role=form><div class=form-group><label for=dtitle>Title</label> <input type=text ng-model=config.title placeholder=Title></div><div class=form-group><label>Structure</label><div class=card-columns><div class=\"radio card {{key}}\" ng-repeat=\"(key, structure) in structures\"><label><input type=radio value={{key}} ng-model=model.structure ng-change=\"changeStructure(key, structure)\"> {{key}}</label></div></div></div><div class=row><div class=\"form-group row\"><label>Collapsible?</label> <input type=checkbox ng-model=dashboard.collapsible></div><div class=\"form-group row\"><label>Maxizable?</label> <input type=checkbox ng-model=dashboard.maximizable></div><div class=\"form-group row\"><label>Protected?</label> <input type=checkbox ng-model=dashboard.enableConfirmDelete></div></div><select ng-model=dashboard.styleClass ng-options=\"class.value as class.label for class in ROARCLASSES\" class=form-control placeholder=\"Select Style...\"></select></form><adf-dashboard name={{dashboard.title}} structure={{dashboard.structure}} collapsible={{dashboard.collapsible}} maximizable={{dashboard.maximizable}} enable-confirm-delete={{dashboard.enableConfirmDelete}} class={{dashboard.styleClass}} frameless={{dashboard.frameless}} continuous-edit-mode=false adf-model=dashboard.model></adf-dashboard></div><div class=card-footer><button type=button class=\"btn btn-primary card-link\" ng-click=closeDialog()>Close</button></div></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/diff.html","<div class=col-sm-6><pre>\n       \n       {{draft.content | json:4 | diff:editorform.editorta.$modelValue}}\n       \n   </pre></div><div class=col-sm-6><div ng-bind-html=\"draft.content | diff: editorform.editorta.$modelValue\"></div></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/document.html","<div class=card><section ng-repeat=\"(key, node) in node.roarlist\" node=\"{{node.id || node}}\"><label>{{node.title}}</label><ng-annotate-text text=node.content></ng-annotate-text><div ng-include=\"\'./document.html\'\" ng-repeat=\"(key, node) in node.roarlist\"></div></section></div>");

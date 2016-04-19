@@ -3,33 +3,33 @@
     <!--<a ng-click="updateid()" class="fa fa-refresh"></a>-->
 
 <div class="card-header" ng-show="draft.isnotRoot"><h3 class="card-title">{{draft.title}}</h3></div>
-                   <!-- <textarea ui-tinymce="tinyMceOptions" mentio mentio-typed-text="typedTerm" 
+                   <!-- <textarea ui-tinymce="tinyMceOptions" mentio mentio-typed-text="typedTerm"
                             mentio-items="simplePeople | filter:label:typedTerm" ng-model='foo'
                             mentio-iframe-element="iframeElement"></textarea> -->
                             <!--<textarea  id="{{config.id}}"  ckeditor="ckdefault" ng-model="draft.content" ng-model-options="{ updateOn: 'default blur', debounce: {'default':30000,'blur': 0} }" class="card card-block "   style="width:100%;min-height:500px;font-size:12px;color:#444;"></textarea>-->
-    <form name="editorform" ng-submit="dosave(content);">                    
+    <form name="editorform" ng-submit="dosave(content);">
    <textarea id="{{config.id}}" name="editorta" ng-change=""  ckeditor="ckdefault" ng-model="content" ng-model-options="{ updateOn: 'default  blur', debounce: {'default': 500, 'blur': 0} }" class="card card-block "   style="width:100%;min-height:500px;font-size:12px;color:#444;"></textarea>
-   
+
    <div class="btn-group" draggable style="position:absolute;top:25px;right:5px;">
    <input type="submit" style="border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;" class="button btn fa " ng-class="{'text-success':editorform.editorta.$dirty}" value="SAVE"/>
    <button style="border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;" class="button btn btn-default fa fa-lg fa-close" ng-class="{'text-danger':editorform.editorta.$dirty}" ng-click="doclose()"></button>
    <button style="border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;" class="button btn btn-default fa fa-lg fa-refresh" ng-class="{'text-info':stringtest()}" ng-click="dowrap(content)"></button>
-   
+
    </div>
-   
-   
+
+
    </form>
    </div>
    <!--<div ng-bind-html="draft.content" id="draftdocument" class="{{config.styleClass}} {{config.custom || ''}}" ng-if="!config.showeditor && !config.iframe && !config.versionhistory"  style="width:100%;min-height:500px;"></div>-->
    <!--<iframe id="draftdocument2" class="card card-block {{config.styleClass}} {{config.custom || 'llp-memo-draft-basic'}}" ng-if="!config.showeditor && config.iframe && !config.versionhistory" seamless sandbox="allow-scripts allow-same-origin allow-popups-to-escape-sandbox allow-popups allow-pointer-lock allow-orientation-lock allow-modals allow-forms" referrerpolicy="unsafe-url" name="draftrenderer"  allowfullscreen ng-attr-srcdoc="{{draft.content | trustAsHTML}}" style="width:100%;min-height:500px;" ></iframe>
    -->
     <iframe id="draftdocument2" class="card card-block {{config.styleClass}} {{config.custom || ''}}" ng-if="!config.showeditor  && !config.versionhistory"  name="draftrenderer" seamless allowfullscreen ng-attr-srcdoc="{{draft.content | trustAsHTML}}" style="width:100%;min-height:500px;" ></iframe>
- 
-   
+
+
    <div ng-bind-html="draft.content | diff:config.version.content" id="draftdocument" class="{{config.styleClass}} {{config.custom || ''}}" ng-if="!config.showeditor  && config.versionhistory"  style="width:100%;min-height:500px;"></div>
    <!--<input ng-model="keywords" ng-list="keywords" type="text" />-->
    <!--<div getpdftext pdf-data="{{draft.media}}" pages="pages" keywords="keywords" class="card card-block">
-       
+
    </div>-->
    <!--<ng-annotate-text ng-repeat="(key, page) in pages" text="page" class="eventdigest card" style="background-color: #fff;padding: 1rem;border-radius: 0.2rem;" annotations="annotations" readonly="false" popup-controller="'AnnotationController'" popup-template-url="'llp_core/modules/roarmap/partial/roarmap.detail.tpl/roarmap.annotation.tpl.html'"
     tooltip-controller="'AnnotationController'" tooltip-template-url="'llp_core/modules/roarmap/partial/roarmap.detail.tpl/roarmap.annotation-tooltip.tpl.html'" on-annotate="onAnnotate" on-annotate-delete="onAnnotateDelete" on-annotate-error="onAnnotateError"
@@ -37,8 +37,8 @@
         {{page}}
     </ng-annotate-text>
            <ng-annotate-text ng-repeat="(key, page) in pages" text="page | highlight: keywords | trustAsHTML" class="card card-fancy card-block" annotations="annotations" ></ng-annotate-text>-->
-
-   <div id="" class="pull-right" uib-dropdown uib-keyboard-nav  style="position:absolute;top:50px;right:0;" ng-if="!config.showeditor">
+<button id="dragbutton" draggable class="dragbutton pull-right btn btn-default btn-sm fa fa-2x" ng-class="{'fa-edit text-info':!config.showeditor,'fa-save text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}" style="border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;" ng-click="config.showeditor = !config.showeditor;"></button>
+   <!--<div id="" class="pull-right" uib-dropdown uib-keyboard-nav  style="position:absolute;top:50px;right:0;" ng-if="!config.showeditor">
         <button id="dragbutton" draggable class="dragbutton pull-right btn btn-default btn-sm fa fa-2x" ng-class="{'fa-edit text-info':!config.showeditor,'fa-save text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}" style="border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;" uib-dropdown-toggle></button>
         <ul class="uib-dropdown-menu dropdown-menu-right">
             <li class="{{menuitem.styleClass}}" ng-repeat="menuitem in menu.items">
@@ -46,16 +46,16 @@
                 <li>
                 <li ng-if="config.versionhistory" ng-repeat="(key,version) in draft.versionhistory" >
                     <a ng-click="config.version = version"><h5><strong>{{$index}} - {{key | date : 'medium'}}</strong><br>
-                    
+
                     <em>{{getAuthor(version.author)}}</em></h5></a>
                 </li>
                 <cursor ng-repeat="(key,user) in profile.users" userid="{{key}}"></cursor>
         </ul>
-    </div>     
+    </div>     -->
      <!--<ng-annotate-text text="draft.content" class="eventdigest card" style="background-color: #fff;padding: 1rem;border-radius: 0.2rem;" annotations="annotations" readonly="false" popup-controller="'AnnotationController'" popup-template-url="'/llp_core/modules/roarmap/partial/roarmap.detail.tpl/roarmap.annotation.tpl.html'"
     tooltip-controller="'AnnotationController'" tooltip-template-url="'/llp_core/modules/roarmap/partial/roarmap.detail.tpl/roarmap.annotation-tooltip.tpl.html'" on-annotate="onAnnotate" on-annotate-delete="onAnnotateDelete" on-annotate-error="onAnnotateError"
     on-popup-show="onPopupShow" on-popup-hide="onPopupHide" popup-offset="50">
-    
+
     </ng-annotate-text>
     <ul>
         <li ng-repeat="a in annotationsAsFlatList(annotations)">
@@ -70,7 +70,7 @@
     </ul>-->
    <!--<textarea ng-model="inputhtml" class="card card-dark"></textarea>-->
    <!--<iframe srcdoc="{{inputhtml | trustAsHTML}}" width="100%" ></iframe>-->
-   
+
        <!-- <div id="draftdocument" class="{{draft.renderClass}}" ng-if="!pj.editable" style="">
           <h1 ng-show="draft.isnotRoot">{{draft.title || draft.name}}</h1>
             <ng-annotate-text text="draft.content" class=""></ng-annotate-text>
@@ -112,10 +112,10 @@
  function getUrlParam( paramName ) {
  var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' ) ;
  var match = window.location.search.match(reParam) ;
- 
+
 return ( match && match.length > 1 ) ? match[ 1 ] : null ;
  }
- 
+
 filepicker.pickAndStore(
  {
  maxSize: 10485760
