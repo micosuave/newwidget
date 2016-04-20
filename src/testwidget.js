@@ -8,7 +8,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
         templateUrl: '{widgetsPath}/iframe/src/view.html',
         controller: 'iframeController',
         controllerAs: 'iframe',
-        frameless: false,
+        frameless: true,
         reload: true,
         styleClass: 'card',
         edit: {
@@ -16,7 +16,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
           templateUrl: '{widgetsPath}/iframe/src/edit.html'
         },
         config: {
-          height: '90vh',
+          height: '60vh',
           framename: 'fframe'
 
         }
@@ -34,7 +34,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
           templateUrl: '{widgetsPath}/iframe/src/edit.html'
         },
         config: {
-          height: '90vh',
+          height: '60vh',
           framename: 'fframe'
         }
       });
