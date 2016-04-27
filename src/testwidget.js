@@ -523,8 +523,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
 
   }])
-  .controller('CKEWidgetCtrl', ['$scope', 'config', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope','ckclip','ckreport','$ACTIVEROAR','$stateParams','$sce','$compile','ckstarter','ckender','toastr','Users','Profile','$http','Upload','$uibModal','$window','$location',
-   function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,Users,Profile,$http,Upload,$uibModal,$window, $location) {
+  .controller('CKEWidgetCtrl', ['$scope', 'config', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope','ckclip','ckreport','$ACTIVEROAR','$stateParams','$sce','$compile','ckstarter','ckender','toastr','Users','Profile','$http','Upload','$uibModal','$window','$location','$interval',
+   function($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $stateParams, $sce, $compile,ckstarter,ckender, toastr,Users,Profile,$http,Upload,$uibModal,$window, $location, $interval) {
             $scope.size = 'lg';
 var draft = Collection(config.id);
             // draft.$bindTo($scope, 'draft');
@@ -577,6 +577,16 @@ var draft = Collection(config.id);
                 else{
                     return 'hide';
                 }
+            };
+
+            $scope.openpreview = function(draft){
+                $window.htmltoload = draft.content;
+              $window.open('javascript:void( (function(){'+
+              'document.open();'+
+              'document.write(window.opener.htmltoload);'+
+              'document.close();'+
+              'window.opener.htmltoload = null;'+
+              '})() )',null,'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=700');
             };
             $scope.getBook = function(id){
                 if ($location.$$host === 'localhost'){
@@ -669,6 +679,11 @@ var draft = Collection(config.id);
                 $scope.draft.$save();
 
             };
+            $interval(function(){
+                alertify.success('...autosaving document...');
+                $scope.dosave($scope.editorform.content);
+
+            }, 30*60*1000)
             $scope.getAuthor = function(id){
                 return Users.all.$getRecord(id).auth.profile.name;
             };
