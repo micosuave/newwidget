@@ -679,11 +679,11 @@ var draft = Collection(config.id);
                 $scope.draft.$save();
 
             };
-            $interval(function(){
-                alertify.success('...autosaving document...');
-                $scope.dosave($scope.editorform.content);
+            // $interval(function(){
+            //     alertify.success('...autosaving document...');
+            //     $scope.dosave($scope.editorform.content);
 
-            }, 30*60*1000)
+            // }, 30*60*1000)
             $scope.getAuthor = function(id){
                 return Users.all.$getRecord(id).auth.profile.name;
             };
