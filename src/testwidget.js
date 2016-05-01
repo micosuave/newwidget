@@ -6,6 +6,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
         title: '+LexFrame',
         description: 'Embed an external page into the dashboard',
         templateUrl: '{widgetsPath}/iframe/src/view.html',
+        collapsed: true,
         controller: 'iframeController',
         controllerAs: 'iframe',
         frameless: true,
@@ -24,6 +25,7 @@ angular.module('adf.widget.frame', ['adf.provider'])
         title: '-LexFrameViewer',
         description: 'Embed an external page into the dashboard',
         templateUrl: '{widgetsPath}/iframe/src/view.html',
+        collapsed: true,
         controller: 'iframeController',
         controllerAs: 'iframe',
         frameless: true,
@@ -85,6 +87,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 title: '-Table of Contents',
                 titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
                 description: 'Prototype LLP Platform App',
+                collapsed:true,
                 controller: 'PhdTocWidgetCtrl',
                 controllerAs: 'toc',
                 templateUrl: '{widgetsPath}/testwidget/src/view.html',
@@ -250,6 +253,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 controller: ['$sce', 'config', '$scope', '$compile', function($sce, config, $scope, $compile) {
                     $scope.configs = $compile($sce.trustAsHtml(config.content))($scope);
                 }],
+                collapsed: true,
                 styleClass: 'card card-block',
                 frameless: false,
                 reload: true,
