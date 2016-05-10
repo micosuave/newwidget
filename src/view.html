@@ -15,7 +15,7 @@
 <div class="" ng-if="tree.roarlist">
     <div ui-tree="treeOptions" style="cursor:pointer!important;">
         <ol ui-tree-nodes max-depth="6" ng-model="tree.roarlist">
-            <li ui-tree-node class="" ng-repeat="(key,node) in tree.roarlist " ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node}}"></li>
+            <li ui-tree-node class="card" ng-repeat="(key,node) in tree.roarlist " ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node}}"></li>
 
         </ol>
     </div>
@@ -31,14 +31,12 @@
             <a class="btn showonhover" ng-if="config.editable" ng-click="remove(this);collection.$save();"><span class="fa fa-close text-danger "></span></a>
             <a class="btn " ng-if="config.editable" ng-click="toc.newsubsection(this)" style=""><span class="fa fa-plus text-success"></span></a>
 
-            <a class="gototarget btn" ui-sref="toptab.righttab({tabid: node.$id})" style=""> <span ng-if="!config.editable" class="">{{node.title}}</span><i style="position:absolute;right:0;">&nbsp;</i></a>
+            <a class="gototarget btn" ui-sref="toptab.righttab({pageid: node.$id, tabid: node.$id})" style=""> <span ng-if="!config.editable" class="">{{node.title}}</span><i style="position:absolute;right:0;">&nbsp;</i></a>
 
         </div>
     </div>
     <ol ui-tree-nodes="" ng-model="node.roarlist" ng-class="{hidden: collapsed}" style="">
-        <li class="" ng-repeat="(key, node) in node.roarlist" ui-tree-node ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node.$id || node.$value || node}}">
+        <li class="card" ng-repeat="(key, node) in node.roarlist" ui-tree-node ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node.$id || node.$value || node}}">
         </li>
     </ol>
 </script>
-
-

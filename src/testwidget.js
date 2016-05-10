@@ -325,6 +325,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 toc.editable = !toc.editable;
             });
             //$scope.pj = pj;
+
             toc.tree = Collection(config.id);
             toc.tree.$bindTo($scope, 'tree');
             $scope.revealclipboard = function(locationid) {
@@ -767,6 +768,150 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
 
             //$scope.pj = pj;
+
+        }
+    ])
+    .directive('tableOfContents', ['Collection', '$rootScope', function(Collection, $rootScope) {
+        return {
+            restrict: 'E',
+            controller: 'TocWidgetCtrl',
+            controllerAs: 'toc',
+            bindToController: true,
+            templateUrl: '{widgetsPath}/testwidget/src/view.html',
+            scope: {
+
+            },
+            link: function($scope, $element, $attr, $ctrl) {
+                var rootid = $attr.root;
+                Collection(rootid).$loaded().then(function(collection) {
+                    collection.$bindTo($scope, 'tree');
+                });
+                $scope.config = {
+                    id: rootid
+                };
+            }
+        };
+    }]).controller('TocWidgetCtrl', ['$scope', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope', '$ACTIVEROAR', 'Collections', '$q', '$state', 'ckstarter', 'ckender', 'GadgetFactory',
+        function($scope, ckdefault, ckmin, Collection, $controller, $rootScope, $ACTIVEROAR, Collections, $q, $state, ckstarter, ckender, GadgetFactory) {
+            $scope.size = 'lg';
+
+
+            var ckstarter = ckstarter;
+            var ckender = ckender;
+            var toc = this;
+
+            $scope.ckdefault = ckdefault;
+            $scope.ckmin = ckmin;
+
+            toc.canedit = function() {
+                if ($rootScope.$state.includes('projectdashboard')) {
+                    return true;
+                }
+                if ($rootScope.$state.includes('roartheatre')) {
+                    return false;
+                }
+            };
+            toc.editable = false;
+            $scope.$on('adfToggleEditMode', function() {
+                toc.editable = !toc.editable;
+            });
+
+            // toc.tree = Collection(config.id);
+            // toc.tree.$bindTo($scope, 'tree');
+            $scope.revealclipboard = function(locationid) {
+                $rootScope.$broadcast('OPENCLIPBOARD', locationid);
+                alertify.log('OPEN CLIPBOARD');
+            };
+
+            var DasH = function(draftid, rootid) {
+                var dashref = Collection(draftid).$ref();
+                var dash = {
+
+
+                    titleTemplateUrl: '/llp_core/modules/lionlawlabs/partial/projectdashboard/tabs/memo/title.html',
+                    structure: '4-8',
+                    styleClass: 'PTO',
+                    //renderClass: 'llp-memo-draft-basic',
+                    isActive: true,
+                    editable: true,
+                    collapsible: true,
+                    maximizable: true,
+                    enableConfirmDelete: true,
+                    hideme: false,
+                    isRoot: false,
+
+                    rows: [{
+                        columns: [{
+                            styleClass: 'col-sm-4',
+                            widgets: [{
+                                type: 'tocwidget',
+                                title: 'Table of Contents',
+                                config: {
+                                    id: rootid
+                                }
+                            }]
+                        }, {
+                            styleClass: 'col-md-8',
+                            widgets: [{
+                                type: 'ckwidget',
+                                title: '',
+                                config: {
+                                    id: draftid,
+                                    editor: 'ckdefault'
+                                }
+                            }]
+                        }]
+                    }]
+                };
+                dashref.update(dash);
+                return dashref.key();
+            };
+
+
+            var Section = function() {
+                var section = this;
+                section.title = 'Section Title';
+                section.content = ckstarter + '<div class="card card-block" style="padding: 10px 20px;"><p>Section content</p></div>' + ckender;
+                section.isnotRoot = true;
+                return section;
+            };
+            toc.newtopsection = function() {
+                var modelref = Collection($scope.tree.id).$ref();
+
+                Collections().$add(new Section()).then(function(ref) {
+                    var id = ref.key();
+                    DasH(id, config.id);
+                    ref.update({
+                        id: id
+                    });
+                    modelref.child('roarlist').child(id).set(id);
+                    $rootScope.$broadcast('BUILDTABS');
+
+                });
+            };
+            toc.newsubsection = function(section) {
+                if (angular.isUndefined(section.$nodeScope.$modelValue)) {
+                    var model = section.$nodeScope.node;
+
+                } else {
+                    var model = section.$nodeScope.$modelValue;
+                }
+                var modelref = Collection(model.$id).$ref();
+                Collections().$add(new Section()).then(function(ref) {
+                    var id = ref.key();
+                    DasH(id, config.id);
+                    ref.update({
+                        id: id
+                    });
+                    modelref.child('roarlist').child(id).set(id);
+                    $rootScope.$broadcast('BUILDTABS');
+
+                });
+
+            };
+
+
+
 
         }
     ]);
