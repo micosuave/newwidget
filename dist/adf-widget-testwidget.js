@@ -1,5 +1,47 @@
 (function(window, undefined) {'use strict';
-angular.module('adf.widget.frame', [])
+
+angular.module('adf.widget.frame', ['adf.provider'])
+    .config(["dashboardProvider", function(dashboardProvider) {
+        dashboardProvider
+            .widget('iframe', {
+                title: '+LexFrame',
+                description: 'Embed an external page into the dashboard',
+                templateUrl: '{widgetsPath}/iframe/src/view.html',
+                //collapsed: true,
+                controller: 'iframeController',
+                controllerAs: 'iframe',
+                frameless: true,
+                reload: true,
+                styleClass: 'card',
+                edit: {
+                    controller: 'iframeController',
+                    templateUrl: '{widgetsPath}/iframe/src/edit.html'
+                },
+                config: {
+                    height: '60vh',
+                    framename: 'fframe'
+
+                }
+            }).widget('iframe-less', {
+                title: '-LexFrameViewer',
+                description: 'Embed an external page into the dashboard',
+                templateUrl: '{widgetsPath}/iframe/src/view.html',
+                //collapsed: true,
+                controller: 'iframeController',
+                controllerAs: 'iframe',
+                frameless: true,
+                reload: true,
+                styleClass: 'card',
+                edit: {
+                    controller: 'iframeController',
+                    templateUrl: '{widgetsPath}/iframe/src/edit.html'
+                },
+                config: {
+                    height: '60vh',
+                    framename: 'fframe'
+                }
+            });
+    }])
     .controller('iframeController', ["$sce", "config", "ckdefault", "$scope", "$rootScope", function($sce, config, ckdefault, $scope, $rootScope) {
         if (config.url) {
             this.url = $sce.trustAsResourceUrl(config.url);
@@ -729,6 +771,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
         }
     ]);
+
 angular.module("adf.widget.testwidget").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin:0;padding: 0;height: 80vh;border: 0rem solid #110000;box-shadow:inset 0 0 5px rgba(0,0,0,0.1);\"><form name=editorform ng-submit=dosave(content); ng-if=config.showeditor><textarea id={{config.id}} name=editorta ng-change ckeditor=ckdefault ng-model=content ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 500, \'blur\': 0} }\" class=\"card card-block\" style=width:100%;min-height:500px;font-size:12px;color:#444;></textarea><div class=btn-group draggable style=position:absolute;top:25px;right:5px;><input type=submit style=\"border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;\" class=\"button btn fa\" ng-class=\"{\'text-success\':editorform.editorta.$dirty}\" value=SAVE> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-close\" ng-class=\"{\'text-danger\':editorform.editorta.$dirty}\" ng-click=doclose()></button> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-refresh\" ng-class=\"{\'text-info\':stringtest()}\" ng-click=dowrap(content)></button></div></form><iframe id=draftdocument2 class=\"card card-block\" ng-if=\"!config.showeditor && !config.versionhistory\" name=draftrenderer seamless allowfullscreen ng-attr-srcdoc=\"{{draft.content | trustAsHTML}}\" style=width:100%;height:80vh;></iframe><div ng-bind-html=\"draft.content | diff:config.version.content\" id=draftdocument class=\"{{config.styleClass}} {{config.custom || \'\'}}\" ng-if=\"!config.showeditor && config.versionhistory\" style=width:100%;min-height:80vh;></div><button id=dragbutton draggable class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-edit text-info\':!config.showeditor,\'fa-save text-success\':config.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:25px;right:0;\" ng-click=\"config.showeditor = !config.showeditor;\"></button> <button id=drabutton draggable class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-search text-info\':!config.showeditor,\'fa-search text-success\':config.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:0;right:0;\" ng-click=openpreview(draft)></button></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/dashedit.html","<div class=\"card-fancy card-rounded card-thick\"><div class=card-header><button type=button class=close ng-click=closeDialog() aria-hidden=true>&times;</button><h4 class=modal-title>Edit Page</h4></div><div class=\"card card-block\"><form role=form><div class=form-group><label for=dtitle>Title</label> <input type=text ng-model=config.title placeholder=Title></div><div class=form-group><label>Structure</label><div class=card-columns><div class=\"radio card {{key}}\" ng-repeat=\"(key, structure) in structures\"><label><input type=radio value={{key}} ng-model=model.structure ng-change=\"changeStructure(key, structure)\"> {{key}}</label></div></div></div><div class=row><div class=\"form-group row\"><label>Collapsible?</label> <input type=checkbox ng-model=dashboard.collapsible></div><div class=\"form-group row\"><label>Maxizable?</label> <input type=checkbox ng-model=dashboard.maximizable></div><div class=\"form-group row\"><label>Protected?</label> <input type=checkbox ng-model=dashboard.enableConfirmDelete></div></div><select ng-model=dashboard.styleClass ng-options=\"class.value as class.label for class in ROARCLASSES\" class=form-control placeholder=\"Select Style...\"></select></form><adf-dashboard name={{dashboard.title}} structure={{dashboard.structure}} collapsible={{dashboard.collapsible}} maximizable={{dashboard.maximizable}} enable-confirm-delete={{dashboard.enableConfirmDelete}} class={{dashboard.styleClass}} frameless={{dashboard.frameless}} continuous-edit-mode=false adf-model=dashboard.model></adf-dashboard></div><div class=card-footer><button type=button class=\"btn btn-primary card-link\" ng-click=closeDialog()>Close</button></div></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/diff.html","<div class=col-sm-6><pre>\n       \n       {{draft.content | json:4 | diff:editorform.editorta.$modelValue}}\n       \n   </pre></div><div class=col-sm-6><div ng-bind-html=\"draft.content | diff: editorform.editorta.$modelValue\"></div></div>");

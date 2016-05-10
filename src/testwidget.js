@@ -1,4 +1,46 @@
-angular.module('adf.widget.frame', [])
+'use strict';
+angular.module('adf.widget.frame', ['adf.provider'])
+    .config(["dashboardProvider", function(dashboardProvider) {
+        dashboardProvider
+            .widget('iframe', {
+                title: '+LexFrame',
+                description: 'Embed an external page into the dashboard',
+                templateUrl: '{widgetsPath}/iframe/src/view.html',
+                //collapsed: true,
+                controller: 'iframeController',
+                controllerAs: 'iframe',
+                frameless: true,
+                reload: true,
+                styleClass: 'card',
+                edit: {
+                    controller: 'iframeController',
+                    templateUrl: '{widgetsPath}/iframe/src/edit.html'
+                },
+                config: {
+                    height: '60vh',
+                    framename: 'fframe'
+
+                }
+            }).widget('iframe-less', {
+                title: '-LexFrameViewer',
+                description: 'Embed an external page into the dashboard',
+                templateUrl: '{widgetsPath}/iframe/src/view.html',
+                //collapsed: true,
+                controller: 'iframeController',
+                controllerAs: 'iframe',
+                frameless: true,
+                reload: true,
+                styleClass: 'card',
+                edit: {
+                    controller: 'iframeController',
+                    templateUrl: '{widgetsPath}/iframe/src/edit.html'
+                },
+                config: {
+                    height: '60vh',
+                    framename: 'fframe'
+                }
+            });
+    }])
     .controller('iframeController', ["$sce", "config", "ckdefault", "$scope", "$rootScope", function($sce, config, ckdefault, $scope, $rootScope) {
         if (config.url) {
             this.url = $sce.trustAsResourceUrl(config.url);
