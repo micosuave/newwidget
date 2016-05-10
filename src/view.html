@@ -1,44 +1,44 @@
-
- 
-                <div class="card-header"  >
-                    <!--<switch ng-model="config.editable" ng-change="toc.togglemode()"  icon="fa fa-sitemap fa-2x" class="pull-left" disabled style="font-size:14px;"></switch>-->
-                    <button id="dragbutton" draggable ng-click="config.editable = !config.editable" class="dragbutton pull-left btn btn-default btn-sm fa fa-2x" ng-class="{'fa-edit text-info':!config.editable,'fa-save text-success':config.editable}" style="position:absolute;top:0;left:0;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.25), inset 0 0 20px rgba(0,0,0,0.1);border:1px solid white;"></button>
-                    <h4 class="card-title">
+<div class="card-header">
+    <!--<switch ng-model="config.editable" ng-change="toc.togglemode()"  icon="fa fa-sitemap fa-2x" class="pull-left" disabled style="font-size:14px;"></switch>-->
+    <button id="dragbutton" draggable ng-click="config.editable = !config.editable" class="dragbutton pull-left btn btn-default btn-sm fa fa-2x" ng-class="{'fa-edit text-info':!config.editable,'fa-save text-success':config.editable}" style="position:absolute;top:0;right:0;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.25), inset 0 0 20px rgba(0,0,0,0.1);border:1px solid white;"></button>
+    <h4 class="card-title">
                       <!--<a class=" " data-nodrag ng-click="toc.returnroot()" ng-if="tree.roarlist" style=""><span class="fa text-primary" ng-class="{'fa-chevron-right': tree.isCollapsed, 'fa-chevron-down': !tree.isCollapsed}"></span></a>-->
                       <span e-form="nameform" editable-text="tree.contentlistname" buttons="no" onaftersave="tree.$save();" > <span ng-click="toc.opensubsection(tree)" ng-if="tree.roarlist">{{tree.contentlistname || 'Contents'}}</span>
                     <span class="fa fa-edit showonhover" ng-click="nameform.$show()" ></span>
-                    
+
                     <small class="pull-right">
                       <a class="fa fa-plus text-warning" ng-if="config.editable" ng-click="toc.newtopsection()"></a>
                       <!--<button id="broadcastbutton" title="broadcast" class="fa fa-info btn btn-info " ng-click="toc.broadcast()"></button>-->
                       </small>
                     </h4>
-                </div>
-                <div class="" ng-if="tree.roarlist" >
-                    <div ui-tree="treeOptions"  style="cursor:pointer!important;">
-                        <ol ui-tree-nodes max-depth="6" ng-model="tree.roarlist">
-                            <li ui-tree-node class="" ng-repeat="(key,node) in tree.roarlist " ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node}}" ></li>
+</div>
+<div class="" ng-if="tree.roarlist">
+    <div ui-tree="treeOptions" style="cursor:pointer!important;">
+        <ol ui-tree-nodes max-depth="6" ng-model="tree.roarlist">
+            <li ui-tree-node class="" ng-repeat="(key,node) in tree.roarlist " ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node}}"></li>
 
-                        </ol>
-                    </div>
-                </div>
-            
-            
-            <script type="text/ng-template" id="nodes_renderer1.html">
+        </ol>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="nodes_renderer1.html">
     <div ui-tree-handle class="tree-node tree-node-content">
         <div class="tree-node-content flextoprow " style="position:relative;">
             <a class="btn btn-xs" ng-click="toggle(this)" ng-if="node.roarlist" style=""><span class="fa " ng-class="{'fa-chevron-right': collapsed, 'fa-chevron-down': !collapsed}" style="color:steelblue;transition:all 0.25s ease;"></span></a>
-            <input type="text" ng-model="node.title" ng-change="node.$save();" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" style="padding: 0.5rem;color:#444;"  ng-if="config.editable">
-           
+            <input type="text" ng-model="node.title" ng-change="node.$save();" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" style="padding: 0.5rem;color:#444;" ng-if="config.editable">
+            <a class="btn btn-xs" ng-click="revealclipboard(node.$id)"><span class="fa fa-paste showonhover"></span></a>
             <a class="btn showonhover" ng-if="config.editable" ng-click="remove(this);collection.$save();"><span class="fa fa-close text-danger "></span></a>
-            <a class="btn "  ng-if="config.editable" ng-click="toc.newsubsection(this)" style=""><span class="fa fa-plus text-success"></span></a>
-            
-            <a  class="gototarget btn"   ui-sref="{{parentstate}}.righttab({tabid: node.id})" style=""> <span ng-if="!config.editable" class="">{{node.title}}</span><i style="position:absolute;right:0;">&nbsp;</i></a>
+            <a class="btn " ng-if="config.editable" ng-click="toc.newsubsection(this)" style=""><span class="fa fa-plus text-success"></span></a>
+
+            <a class="gototarget btn" ui-sref="toptab.righttab({tabid: node.$id})" style=""> <span ng-if="!config.editable" class="">{{node.title}}</span><i style="position:absolute;right:0;">&nbsp;</i></a>
 
         </div>
     </div>
     <ol ui-tree-nodes="" ng-model="node.roarlist" ng-class="{hidden: collapsed}" style="">
-        <li class="" ng-repeat="(key, node) in node.roarlist" ui-tree-node ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node.$id || node.$value || node}}" >
+        <li class="" ng-repeat="(key, node) in node.roarlist" ui-tree-node ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node.$id || node.$value || node}}">
         </li>
     </ol>
 </script>
+
+
