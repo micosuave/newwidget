@@ -29,7 +29,8 @@
             <input type="text" ng-model="node.title" ng-change="node.$save();" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" style="padding: 0.5rem;color:#444;" ng-if="config.editable">
             <a class="btn btn-xs" ng-click="revealclipboard(node.$id)"><span class="fa fa-paste showonhover"></span></a>
             <a class="btn showonhover" ng-if="config.editable" ng-click="remove(this);collection.$save();"><span class="fa fa-close text-danger "></span></a>
-            <a class="btn " ng-if="config.editable" ng-click="toc.newsubsection(this)" style=""><span class="fa fa-plus text-success"></span></a>
+            <dropdownmenu target="{{node.$id}}" type="insert" icon="fa-plus"></dropdownmenu>
+            <!--<a class="btn " ng-if="config.editable" ng-click="toc.newsubsection(this)" style=""><span class="fa fa-plus text-success"></span></a>-->
 
             <a class="gototarget btn" ui-sref="toptab.righttab({pageid: node.$id, tabid: node.$id})" style=""> <span ng-if="!config.editable" class="">{{node.title}}</span><i style="position:absolute;right:0;">&nbsp;</i></a>
 
