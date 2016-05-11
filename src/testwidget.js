@@ -1,68 +1,4 @@
 'use strict';
-angular.module('adf.widget.frame', ['adf.provider'])
-    .config(["dashboardProvider", function(dashboardProvider) {
-        dashboardProvider
-            .widget('iframe', {
-                title: '+LexFrame',
-                description: 'Embed an external page into the dashboard',
-                templateUrl: '{widgetsPath}/iframe/src/view.html',
-                //collapsed: true,
-                controller: 'iframeController',
-                controllerAs: 'iframe',
-                frameless: true,
-                reload: true,
-                styleClass: 'card',
-                edit: {
-                    controller: 'iframeController',
-                    templateUrl: '{widgetsPath}/iframe/src/edit.html'
-                },
-                config: {
-                    height: '60vh',
-                    framename: 'fframe'
-
-                }
-            }).widget('iframe-less', {
-                title: '-LexFrameViewer',
-                description: 'Embed an external page into the dashboard',
-                templateUrl: '{widgetsPath}/iframe/src/view.html',
-                //collapsed: true,
-                controller: 'iframeController',
-                controllerAs: 'iframe',
-                frameless: true,
-                reload: true,
-                styleClass: 'card',
-                edit: {
-                    controller: 'iframeController',
-                    templateUrl: '{widgetsPath}/iframe/src/edit.html'
-                },
-                config: {
-                    height: '60vh',
-                    framename: 'fframe'
-                }
-            });
-    }])
-    .controller('iframeController', ["$sce", "config", "ckdefault", "$scope", "$rootScope", function($sce, config, ckdefault, $scope, $rootScope) {
-        if (config.url) {
-            this.url = $sce.trustAsResourceUrl(config.url);
-        }
-        if (config.iframe === true) {
-            this.srcdoc = $sce.trustAsHtml(config.srcdoc);
-        }
-
-        $scope.destroy = function() {
-            $rootScope.$broadcast('adfToggleEditMode');
-        };
-        // var loc = $('this').children().children('iframe').get(0).contentWindow.location;
-        $scope.ckdefault = ckdefault;
-
-    }]);
-
-angular.module("adf.widget.frame").run(["$templateCache", function($templateCache) {
-    $templateCache.put("{widgetsPath}/iframe/src/edit.html", "<form role=form><div class=form-group><label for=url>URL</label> <input type=url class=form-control id=url ng-model=config.url placeholder=http://www.example.com></div><div class=form-group><label for=height>Height</label> <input type=text class=form-control id=height ng-model=config.height></div><div class=form-group><label for=name>Frame name (for url targets)</label> <input type=text class=form-control id=name ng-model=config.framename></div><div class=form-group><label for=name>Use srcdoc instead of url?</label> <input type=checkbox class=form-control id=name ng-model=config.iframe ng-change=destroy()></div><textarea ng-if=\"config.iframe\"ckeditor=ckdefault ng-model=config.srcdoc  ng-model-options=\"{updateOn: 'default blur', debounce: {'default': 20000, 'blur': 0}}\" ng-change=\"destroy()\"></div></form>");
-    $templateCache.put("{widgetsPath}/iframe/src/view.html", "<div><iframe class=\"adf-iframe\" style=\"height: {{config.height}};width:100%;\" ng-attr-srcdoc={{iframe.srcdoc}} ng-src={{iframe.url}} seamless allowfullscreen name=\"fframe\"></iframe></div>");
-}]);
-
-
 
 angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.tree', 'ngDialog'])
     .config(function(dashboardProvider) {
@@ -915,3 +851,67 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
         }
     ]);
+'use strict';
+angular.module('adf.widget.frame', ['adf.provider'])
+    .config(["dashboardProvider", function(dashboardProvider) {
+        dashboardProvider
+            .widget('iframe', {
+                title: '+LexFrame',
+                description: 'Embed an external page into the dashboard',
+                templateUrl: '{widgetsPath}/iframe/src/view.html',
+                //collapsed: true,
+                controller: 'iframeController',
+                controllerAs: 'iframe',
+                frameless: true,
+                reload: true,
+                styleClass: 'card',
+                edit: {
+                    controller: 'iframeController',
+                    templateUrl: '{widgetsPath}/iframe/src/edit.html'
+                },
+                config: {
+                    height: '60vh',
+                    framename: 'fframe'
+
+                }
+            }).widget('iframe-less', {
+                title: '-LexFrameViewer',
+                description: 'Embed an external page into the dashboard',
+                templateUrl: '{widgetsPath}/iframe/src/view.html',
+                //collapsed: true,
+                controller: 'iframeController',
+                controllerAs: 'iframe',
+                frameless: true,
+                reload: true,
+                styleClass: 'card',
+                edit: {
+                    controller: 'iframeController',
+                    templateUrl: '{widgetsPath}/iframe/src/edit.html'
+                },
+                config: {
+                    height: '60vh',
+                    framename: 'fframe'
+                }
+            });
+    }])
+    .controller('iframeController', ["$sce", "config", "ckdefault", "$scope", "$rootScope", function($sce, config, ckdefault, $scope, $rootScope) {
+        if (config.url) {
+            this.url = $sce.trustAsResourceUrl(config.url);
+        }
+        if (config.iframe === true) {
+            this.srcdoc = $sce.trustAsHtml(config.srcdoc);
+        }
+
+        $scope.destroy = function() {
+            $rootScope.$broadcast('adfToggleEditMode');
+        };
+        // var loc = $('this').children().children('iframe').get(0).contentWindow.location;
+        $scope.ckdefault = ckdefault;
+
+    }]);
+
+angular.module("adf.widget.frame").run(["$templateCache", function($templateCache) {
+    $templateCache.put("{widgetsPath}/iframe/src/edit.html", "<form role=form><div class=form-group><label for=url>URL</label> <input type=url class=form-control id=url ng-model=config.url placeholder=http://www.example.com></div><div class=form-group><label for=height>Height</label> <input type=text class=form-control id=height ng-model=config.height></div><div class=form-group><label for=name>Frame name (for url targets)</label> <input type=text class=form-control id=name ng-model=config.framename></div><div class=form-group><label for=name>Use srcdoc instead of url?</label> <input type=checkbox class=form-control id=name ng-model=config.iframe ng-change=destroy()></div><textarea ng-if=\"config.iframe\"ckeditor=ckdefault ng-model=config.srcdoc  ng-model-options=\"{updateOn: 'default blur', debounce: {'default': 20000, 'blur': 0}}\" ng-change='destroy()'></div></form>");
+    $templateCache.put("{widgetsPath}/iframe/src/view.html", "<div><iframe class=\"adf-iframe\" style=\"height: {{config.height}};width:100%;\" ng-attr-srcdoc={{iframe.srcdoc}} ng-src={{iframe.url}} seamless allowfullscreen name=\"fframe\"></iframe></div>");
+}]);
+
