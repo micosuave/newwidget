@@ -20,7 +20,7 @@
 
    <div ng-bind-html="draft.content | diff:config.version.content" id="draftdocument" class="{{config.styleClass}} {{config.custom || ''}}" ng-if="!config.showeditor  && config.versionhistory"  style="width:100%;min-height:80vh;"></div>
 
-<button id="dragbutton" draggable class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-edit text-info':!config.showeditor,'fa-save text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}" style="border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:25px;right:0;" ng-click="config.showeditor = !config.showeditor;"></button>
+<button id="dragbutton" draggable class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-edit text-info':!config.showeditor,'fa-save text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}" style="border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:25px;right:0;" ng-click="config.showeditor = !config.showeditor;" ng-if="inlab"></button>
 <button id="drabutton" draggable class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-search text-info':!config.showeditor,'fa-search text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}" style="border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:0;right:0;" ng-click="openpreview(draft)"></button>
 
  </div>
