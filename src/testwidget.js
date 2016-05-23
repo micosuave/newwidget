@@ -493,7 +493,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             });
             if ($state.includes('composer')){
               $scope.inlab = true;
-            };
+            }
             $scope.ckclip = ckclip;
             $scope.ckreport = ckreport;
             $scope.config = config;
