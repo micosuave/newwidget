@@ -1,15 +1,15 @@
 <h5 class="card-title">
-<a href title="change widget location" class="adf-move" ng-if="editMode"> <i class="glyphicon glyphicon-move img-shadow hovergold"></i> </a>
+<a href title="change widget location" class="adf-move" ng-if="editMode"> <i class="fa fa-move img-shadow hovergold"></i> </a>
 
  {{config.title || definition.title}}
-<a href title="collapse widget" ng-show="options.collapsible && !widgetState.isCollapsed" ng-click="widgetState.isCollapsed = !widgetState.isCollapsed"> <i class="glyphicon glyphicon-minus img-shadow hovergold"></i> </a>
-<a href title="expand widget" ng-show="options.collapsible && widgetState.isCollapsed" ng-click="widgetState.isCollapsed = !widgetState.isCollapsed"> <i class="glyphicon glyphicon-plus  img-shadow hovergold"></i> </a>
+<a href title="collapse widget" ng-show="options.collapsible && !widgetState.isCollapsed" ng-click="widgetState.isCollapsed = !widgetState.isCollapsed"> <i class="fa fa-minus img-shadow hovergold"></i> </a>
+<a href title="expand widget" ng-show="options.collapsible && widgetState.isCollapsed" ng-click="widgetState.isCollapsed = !widgetState.isCollapsed"> <i class="fa fa-plus  img-shadow hovergold"></i> </a>
 <span class="pull-right">
 <a href title="reload widget content" ng-if="widget.reload" ng-click="reload()"> <i class="fa fa-refresh img-shadow hovergold"></i> </a>
 
-<a href title="edit widget configuration" ng-click="edit()" ng-if="editMode"> <i class="glyphicon glyphicon-cog img-shadow hovergold"></i> </a>
-<a href title="fullscreen widget" ng-click="openFullScreen()" ng-show="options.maximizable"> <i class="glyphicon glyphicon-fullscreen img-shadow hovergold"></i> </a>
+<a href title="edit widget configuration" ng-click="edit()" ng-if="editMode"> <i class="fa fa-cog img-shadow hovergold"></i> </a>
+<a href title="fullscreen widget" ng-click="openFullScreen()" ng-show="options.maximizable"> <i class="fa fa-fullscreen img-shadow hovergold"></i> </a>
 
-<a href title="remove widget" ng-click="remove()" ng-if="editMode"> <i class="glyphicon glyphicon-remove img-shadow hovergold"></i> </a>
+<a href title="remove widget" ng-click="remove()" ng-if="editMode"> <i class="fa fa-remove img-shadow hovergold"></i> </a>
 </span>
 </h5>
