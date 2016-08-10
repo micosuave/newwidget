@@ -673,10 +673,11 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                         content: prev
                     };
                 }
-                //$http.post('/upload',angular.toJson(content));
                 $scope.draft.content = content;
                 // $scope.draft.slide = content.b;
                 $scope.draft.lastModified = time;
+                $http.post('/upload',angular.toJson(content));
+
                 $scope.draft.$save();
 
             };
