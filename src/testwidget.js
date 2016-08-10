@@ -640,6 +640,15 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 $scope.content = ckstarter + content + ckender;
 
             };
+$scope.togglemode = function() {
+
+            if($scope.mode === 'slide'){
+                $scope.mode = 'paper';}
+                else if ($scope.mode === 'paper'){
+                    $scope.mode = 'slide';
+                }
+
+            };
 
             var stringtest = function(input) {
                 return input.startsWith(ckstarter);
@@ -650,7 +659,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
             $scope.dosave = function(content) {
                 var d = new Date();
                 var time = d.getTime();
-                var prev = $scope.draft.content || "<!DOCTYPE html><html><head><title>Untitled</title></head><body></body></html>";
+                var prev = $scope.draft.content.a || "<!DOCTYPE html><html><head><title>Untitled</title></head><body></body></html>";
                 if (angular.isUndefined($scope.draft.versionhistory)) {
                     $scope.draft.versionhistory = {};
                     $scope.draft.versionhistory[time] = {
@@ -664,7 +673,8 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     };
                 }
                 //$http.post('/upload',angular.toJson(content));
-                $scope.draft.content = content;
+                $scope.draft.content = content.a;
+                $scope.draft.slide = content.b;
                 $scope.draft.lastModified = time;
                 $scope.draft.$save();
 
