@@ -1,39 +1,46 @@
 <form role="form" >
     <div class="form-group">
         <label for="draftid">Style Configuration</label>
-        <select ng-model="config.styleClass" ng-options="class.value as class.label for class in ROARCLASSES" class="form-control" id="styleclass" placeholder="Select style..."><option value="" label="default"></option></select>
-       <input type="text" ng-model="config.custom" placeholder="custom style class(es)" style="padding:0.8rem" />
+        <!--<select ng-model="config.styleClass" ng-options="class.value as class.label for class in ROARCLASSES" class="form-control" id="styleclass" placeholder="Select style..."><option value="" label="default"></option></select>-->
+       <!--<input type="text" ng-model="config.custom" placeholder="custom style class(es)" style="padding:0.8rem" />-->
+
+ <select ng-model="config.modelfield">
+   <option ng-value="'draftcontent'" value="'draftcontent'" label="draft"></option>
+
+   <option ng-value="'slide'" value="'slide'" label="slide"></option>
+ </select>
+
  <div class="form-group col-sm-4">
         <label for="renderversionhistory">Version History</label>
         <input type="checkbox" ng-model="config.versionhistory">
-        
-    </div>  
+
+    </div>
         <!--<select ng-model="config.editor" ng-change="" ng-options="editor.obj as editor.name for editor in editors" class="form-control" id="draftid" placeholder="Select Editor Configuration..."></select>-->
         <!-- <input type="text" class="form-control" id="sample" ng-model="config.sample" placeholder="Enter sample"> -->
     </div>
-    
+
     <!--<div class="form-group col-sm-4">
         <label for="renderframe">Render in iframe</label>
         <input type="checkbox" ng-model="config.iframe">
-        
+
     </div>   -->
-    
-   
-    <div class="form-group col-sm-4">
+
+
+    <!--<div class="form-group col-sm-4">
        <roar-event id="{{config.id}}" class="pull-right" ></roar-event>
-        
-    </div> 
+
+    </div>
     <div class="form-group" ui-tree >
-            
+
 
         <label for="draftid">Select Document</label>
 <ol ui-tree-nodes ng-model="tree.roarlist">
     <li  ui-tree-node ng-repeat="node in tree.roarlist" ng-include="'quicklinkid'" node="{{node}}" data-collapsed="true">
     </li>
 </ol>
-        
 
-   
+
+
 <script type="text/ng-template" id="quicklinkid">
     <div class="card card-rounded" ng-class="{'text-success': (config.id === node.id)}">
     <a class="btn btn-xs" ng-click="toggle(this)" ng-if="node.roarlist" style=""><span class="fa " ng-class="{'fa-chevron-right': collapsed, 'fa-chevron-down': !collapsed}" style="color:steelblue;transition:all 0.25s ease;"></span></a>
@@ -44,8 +51,8 @@
         <li class="" ng-repeat="(key, node) in node.roarlist" ui-tree-node ng-include="'quicklinkid'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node.$id || node.$value || node}}" data-collapsed="true">
         </li>
     </ol>
-</script> 
-     </div>
+</script>
+     </div>-->
 
 
 </form>
