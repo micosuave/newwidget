@@ -460,18 +460,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       $scope.size = 'lg'
       var draft = Collection(config.id)
       // draft.$bindTo($scope, 'draft')
+      config.slidemode = false;
       $scope.draft = draft
-      if(config.slidemode !== true){
-      draft.$loaded().then(function (drat) {
-        $scope.content = angular.copy(drat.content)
-
+      draft.$loaded().then(function(drat){
+        $scope.d = angular.copy(drat);
       });
-      }else if (config.slidemode === true){
-        draft.$loaded().then(function (drat) {
-        $scope.content = angular.copy(drat.slide)
 
-      });
-      }
       if ($state.includes('composer')) {
         $scope.inlab = true
       }
@@ -550,80 +544,11 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
           'window.opener.htmltoload = null;' +
           '})() )', null, 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=700')
       }
-      $scope.getBook = function (id) {
-        if ($location.$$host === 'localhost') {
-          var urlsrc = 'http://localhost:9000'
-        } else {
-          var urlsrc = '/publisher'
-        }
 
-        alertify.log('submitting request')
-
-        try {
-          $http.get(urlsrc + '/dist/' + id + '.epub').then(function (resp) {
-            var blob = new Blob([resp.data], {
-              type: 'blob'
-            })
-            saveAs(blob, id + '.epub')
-          })
-        } catch (ex) {
-          $http.get(urlsrc + '/download/' + id).then(function (resp) {
-            var blob = new Blob([resp.data], {
-              type: 'blob'
-            })
-            saveAs(blob, id + '.epub')
-          })
-        } finally {
-          $http.get(urlsrc + '/download/' + id).then(function (resp) {
-            var blob = new Blob([resp.data], {
-              type: 'blob'
-            })
-            saveAs(blob, id + '.epub')
-          })
-        }
-      }
-      $scope.prepareBook = function (draft) {
-        var editScope = $scope.$new()
-        editScope.ebook = draft
-        editScope.ebook.content = [editScope.ebook.content]
-        // editScope.ebook.content.push(draft)
-        angular.forEach(draft.roarlist, function (roar, key) {
-          Collection(key).$loaded().then(function (collection) {
-            collection.data = collection.content
-            editScope.ebook.content.push(collection)
-          })
-        })
-
-        var opts = {
-          scope: editScope,
-          template: '<div class=modal-header>  <h4 class=modal-title>{{definition.title}}</h4> <div class="pull-right widget-icons"> <a href title="Reload Widget Content" ng-if=widget.reload ng-click=reload()> <i class="glyphicon glyphicon-refresh"></i> </a> <a href title=close ng-click=closeDialog()> <i class="glyphicon glyphicon-remove"></i> </a> </div></div> <div class=modal-body><div ng-include="\'{widgetsPath}/getphd/src/phd/epubform.html\'" ></div></div><div class="modal-footer"><button type="button" class="btn btn-primary" ng-click="closeDialog()">Close</button></div>',
-          backdrop: 'static',
-          size: 'lg'
-        }
-
-        var instance = $uibModal.open(opts)
-        editScope.getBook = function (ebook) {
-          alertify.log('submitting form')
-          $http.post('/publisher/', ebook)
-        }
-        editScope.closeDialog = function () {
-          instance.close()
-          editScope.$destroy()
-        }
-      }
       $scope.dowrap = function (content) {
         $scope.content = ckstarter + content + ckender
       }
-      //             $scope.mode = 'paper'
-      // $scope.togglemode = function() {
 
-      //             if($scope.mode === 'slide'){
-      //                 $scope.mode = 'paper';}
-      //                 else if ($scope.mode === 'paper'){
-      //                     $scope.mode = 'slide'
-      //                 }
-
-      //             }
 
       var stringtest = function (input) {
         return input.startsWith(ckstarter)
@@ -632,10 +557,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         config.showeditor = false
       }
 
-      $scope.dosave = function (content) {
+      $scope.dosave = function (b) {
         var d = new Date()
         var time = d.getTime()
-        if (config.slidemode !== true) {
+
           var prev = $scope.draft.content || '<!DOCTYPE html><html><head><title>Untitled</title></head><body></body></html>'
           if (angular.isUndefined($scope.draft.versionhistory)) {
             $scope.draft.versionhistory = {}
@@ -649,21 +574,20 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               content: prev
             }
           }
-          $scope.draft.content = content
-          // $scope.draft.slide = content.b
-          $scope.draft.lastModified = time
-          $http.post('/upload', angular.toJson(content))
-        }
-        else if (config.slidemode === true) {
-          $scope.draft.slide = content
-        }
-        $scope.draft.$save();
-      };
-      // $interval(function(){
-      //     alertify.success('...autosaving document...')
-      //     $scope.dosave($scope.editorform.content)
+          $scope.draft.content = b.content;
+         $scope.draft.slide = b.slide;
+          $scope.draft.lastModified = time;
+           $scope.draft.$save();
+          var blob = new Blob([b.content.toString()])
+              return Upload.upload({
+                url: '/upload',
+                data: {
+                  file: Upload.rename(blob, $scope.draft.$id + '.html')
+                }
+              })
 
-      // }, 30*60*1000)
+      };
+
       $scope.getAuthor = function (id) {
         return Users.all.$getRecord(id).auth.profile.name
       }

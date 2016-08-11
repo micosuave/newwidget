@@ -461,18 +461,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       $scope.size = 'lg'
       var draft = Collection(config.id)
       // draft.$bindTo($scope, 'draft')
+      config.slidemode = false;
       $scope.draft = draft
-      if(config.slidemode !== true){
-      draft.$loaded().then(function (drat) {
-        $scope.content = angular.copy(drat.content)
-
+      draft.$loaded().then(function(drat){
+        $scope.d = angular.copy(drat);
       });
-      }else if (config.slidemode === true){
-        draft.$loaded().then(function (drat) {
-        $scope.content = angular.copy(drat.slide)
 
-      });
-      }
       if ($state.includes('composer')) {
         $scope.inlab = true
       }
@@ -551,80 +545,11 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
           'window.opener.htmltoload = null;' +
           '})() )', null, 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=700')
       }
-      $scope.getBook = function (id) {
-        if ($location.$$host === 'localhost') {
-          var urlsrc = 'http://localhost:9000'
-        } else {
-          var urlsrc = '/publisher'
-        }
 
-        alertify.log('submitting request')
-
-        try {
-          $http.get(urlsrc + '/dist/' + id + '.epub').then(function (resp) {
-            var blob = new Blob([resp.data], {
-              type: 'blob'
-            })
-            saveAs(blob, id + '.epub')
-          })
-        } catch (ex) {
-          $http.get(urlsrc + '/download/' + id).then(function (resp) {
-            var blob = new Blob([resp.data], {
-              type: 'blob'
-            })
-            saveAs(blob, id + '.epub')
-          })
-        } finally {
-          $http.get(urlsrc + '/download/' + id).then(function (resp) {
-            var blob = new Blob([resp.data], {
-              type: 'blob'
-            })
-            saveAs(blob, id + '.epub')
-          })
-        }
-      }
-      $scope.prepareBook = function (draft) {
-        var editScope = $scope.$new()
-        editScope.ebook = draft
-        editScope.ebook.content = [editScope.ebook.content]
-        // editScope.ebook.content.push(draft)
-        angular.forEach(draft.roarlist, function (roar, key) {
-          Collection(key).$loaded().then(function (collection) {
-            collection.data = collection.content
-            editScope.ebook.content.push(collection)
-          })
-        })
-
-        var opts = {
-          scope: editScope,
-          template: '<div class=modal-header>  <h4 class=modal-title>{{definition.title}}</h4> <div class="pull-right widget-icons"> <a href title="Reload Widget Content" ng-if=widget.reload ng-click=reload()> <i class="glyphicon glyphicon-refresh"></i> </a> <a href title=close ng-click=closeDialog()> <i class="glyphicon glyphicon-remove"></i> </a> </div></div> <div class=modal-body><div ng-include="\'{widgetsPath}/getphd/src/phd/epubform.html\'" ></div></div><div class="modal-footer"><button type="button" class="btn btn-primary" ng-click="closeDialog()">Close</button></div>',
-          backdrop: 'static',
-          size: 'lg'
-        }
-
-        var instance = $uibModal.open(opts)
-        editScope.getBook = function (ebook) {
-          alertify.log('submitting form')
-          $http.post('/publisher/', ebook)
-        }
-        editScope.closeDialog = function () {
-          instance.close()
-          editScope.$destroy()
-        }
-      }
       $scope.dowrap = function (content) {
         $scope.content = ckstarter + content + ckender
       }
-      //             $scope.mode = 'paper'
-      // $scope.togglemode = function() {
 
-      //             if($scope.mode === 'slide'){
-      //                 $scope.mode = 'paper';}
-      //                 else if ($scope.mode === 'paper'){
-      //                     $scope.mode = 'slide'
-      //                 }
-
-      //             }
 
       var stringtest = function (input) {
         return input.startsWith(ckstarter)
@@ -633,10 +558,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         config.showeditor = false
       }
 
-      $scope.dosave = function (content) {
+      $scope.dosave = function (b) {
         var d = new Date()
         var time = d.getTime()
-        if (config.slidemode !== true) {
+
           var prev = $scope.draft.content || '<!DOCTYPE html><html><head><title>Untitled</title></head><body></body></html>'
           if (angular.isUndefined($scope.draft.versionhistory)) {
             $scope.draft.versionhistory = {}
@@ -650,21 +575,20 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               content: prev
             }
           }
-          $scope.draft.content = content
-          // $scope.draft.slide = content.b
-          $scope.draft.lastModified = time
-          $http.post('/upload', angular.toJson(content))
-        }
-        else if (config.slidemode === true) {
-          $scope.draft.slide = content
-        }
-        $scope.draft.$save();
-      };
-      // $interval(function(){
-      //     alertify.success('...autosaving document...')
-      //     $scope.dosave($scope.editorform.content)
+          $scope.draft.content = b.content;
+         $scope.draft.slide = b.slide;
+          $scope.draft.lastModified = time;
+           $scope.draft.$save();
+          var blob = new Blob([b.content.toString()])
+              return Upload.upload({
+                url: '/upload',
+                data: {
+                  file: Upload.rename(blob, $scope.draft.$id + '.html')
+                }
+              })
 
-      // }, 30*60*1000)
+      };
+
       $scope.getAuthor = function (id) {
         return Users.all.$getRecord(id).auth.profile.name
       }
@@ -893,7 +817,7 @@ angular.module('adf.widget.frame').run(['$templateCache', function ($templateCac
   $templateCache.put('{widgetsPath}/iframe/src/view.html', '<div><iframe class="adf-iframe" style="height: {{config.height}};width:100%;" ng-attr-srcdoc={{iframe.srcdoc}} ng-src={{iframe.url}} seamless allowfullscreen name="fframe"></iframe></div>')
 }])
 
-angular.module("adf.widget.testwidget").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin:0;padding: 0;height: 80vh;border: 0rem solid #110000;box-shadow:inset 0 0 5px rgba(0,0,0,0.1);\"><div id=toolbartop class=\"row toolbar fade\" ng-class=\"{\'in\':config.showeditor}\"></div><form name=editorform ng-submit=dosave(content); ng-if=config.showeditor><textarea id={{config.id}} name=editorta ng-change ckeditor=ckdefault ng-model=content ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 500, \'blur\': 0} }\" class=\"card card-block\" style=width:100%;min-height:90vh;font-size:12px;color:#444;></textarea><div class=btn-group style=position:absolute;top:25px;right:5px;><input type=submit style=\"border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;\" class=\"button btn fa\" ng-class=\"{\'text-success\':editorform.editorta.$dirty}\" value=SAVE> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-close\" ng-class=\"{\'text-danger\':editorform.editorta.$dirty}\" ng-click=doclose()></button></div></form><iframe id=draftdocument2 class=\"card card-block\" ng-if=\"!config.showeditor && !config.versionhistory && !config.slidemode\" name=draftrenderer seamless allowfullscreen ng-attr-srcdoc=\"{{draft.content | trustAsHTML}}\" style=width:100%;height:90vh;></iframe><iframe id=draftdocument class=\"card card-block\" ng-if=\"!config.showeditor && !config.versionhistory && config.slidemode\" name=fframe seamless allowfullscreen ng-attr-srcdoc=\"{{draft.slide | trustAsHTML}}\" style=width:100%;height:90vh;></iframe><div ng-bind-html=\"draft.content | diff:config.version.content\" id=drafftdocument class=\"{{config.styleClass}} {{config.custom || \'\'}}\" ng-if=\"!config.showeditor && config.versionhistory\" style=width:100%;min-height:90vh;></div><button id=dragbutton class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-edit text-info\':!config.showeditor,\'fa-save text-success\':config.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:25px;right:0;\" ng-click=\"config.showeditor = !config.showeditor;\" ng-if=\"inlab && !config.showeditor\"></button> <button id=drabutton class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-search text-info\':!config.showeditor,\'fa-search text-success\':config.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:0;right:0;\" ng-click=openpreview(draft)></button> <button style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:50px;right:0;\" class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-file-text-o\':(config.slidemode == false),\'fa-youtube-play\':(config.slidemode===true)}\" ng-click=\"config.slidemode = !config.slidemode\"></button><footer><h6>Mode: <span ng-show=config.slidemode>slide</span> <span ng-show=!config.slidemode>draft</span> <button id=dragbutton class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-edit text-info\':!config.showeditor,\'fa-save text-success\':config.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;\" ng-click=\"config.showeditor = !config.showeditor;\" ng-if=\"inlab && !config.showeditor\"></button> <button id=drabutton class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-search text-info\':!config.showeditor,\'fa-search text-success\':config.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;;\" ng-click=openpreview(draft)></button> <button style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;\" class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-file-text-o\':(config.slidemode == false),\'fa-youtube-play\':(config.slidemode===true)}\" ng-click=\"config.slidemode = !config.slidemode\"></button></h6></footer></div>");
+angular.module("adf.widget.testwidget").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin:0;padding: 0;height: 80vh;border: 0rem solid #110000;box-shadow:inset 0 0 5px rgba(0,0,0,0.1);\"><div id=toolbartop class=\"row toolbar fade\" ng-class=\"{\'in\':config.showeditor}\"></div><form name=editorform ng-submit=dosave(b); ng-if=config.showeditor><textarea id={{config.id}} name=editorta ng-change ckeditor=ckdefault ng-if=!config.slidemode ng-model=b.content ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 500, \'blur\': 0} }\" class=\"card card-block\" style=width:100%;min-height:90vh;font-size:12px;color:#444;></textarea> <textarea id={{config.id}} name=editorta ng-change ckeditor=ckdefault ng-if=config.slidemode ng-model=b.slide ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 500, \'blur\': 0} }\" class=\"card card-block\" style=width:100%;min-height:90vh;font-size:12px;color:#444;></textarea><div class=btn-group style=position:absolute;top:25px;right:5px;><input type=submit style=\"border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;\" class=\"button btn fa\" ng-class=\"{\'text-success\':editorform.editorta.$dirty}\" value=SAVE> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-close\" ng-class=\"{\'text-danger\':editorform.editorta.$dirty}\" ng-click=doclose()></button></div></form><iframe id=draftdocument2 class=\"card card-block\" ng-if=\"!config.showeditor && !config.versionhistory && !config.slidemode\" name=draftrenderer seamless allowfullscreen ng-attr-srcdoc=\"{{draft.content | trustAsHTML}}\" style=width:100%;height:90vh;></iframe><iframe id=draftdocument class=\"card card-block\" ng-if=\"!config.showeditor && !config.versionhistory && config.slidemode\" name=fframe seamless allowfullscreen ng-attr-srcdoc=\"{{draft.slide | trustAsHTML}}\" style=width:100%;height:90vh;></iframe><div ng-bind-html=\"draft.content | diff:config.version.content\" id=drafftdocument class=\"{{config.styleClass}} {{config.custom || \'\'}}\" ng-if=\"!config.showeditor && config.versionhistory\" style=width:100%;min-height:90vh;></div><button id=dragbutton class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-edit text-info\':!config.showeditor,\'fa-save text-success\':config.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:25px;right:0;\" ng-click=\"config.showeditor = !config.showeditor;\" ng-if=\"inlab && !config.showeditor\"></button> <button id=drabutton class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-search text-info\':!config.showeditor,\'fa-search text-success\':config.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:0;right:0;\" ng-click=openpreview(draft)></button> <button style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:50px;right:0;\" class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-file-text-o\':(config.slidemode == false),\'fa-youtube-play\':(config.slidemode===true)}\" ng-click=\"config.slidemode = !config.slidemode\"></button><footer class=\"navbar-fixed-bottom bar-calm\"><h6>Mode: <span ng-show=config.slidemode>slide</span> <span ng-show=!config.slidemode>draft</span> <button id=dragbutton class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-edit text-info\':!config.showeditor,\'fa-save text-success\':config.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;\" ng-click=\"config.showeditor = !config.showeditor;\" ng-if=\"inlab && !config.showeditor\"></button> <button id=drabutton class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-search text-info\':!config.showeditor,\'fa-search text-success\':config.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;;\" ng-click=openpreview(draft)></button> <button style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;\" class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-file-text-o\':(config.slidemode == false),\'fa-youtube-play\':(config.slidemode===true)}\" ng-click=\"config.slidemode = !config.slidemode\"></button></h6></footer></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/dashedit.html","<div class=\"card-fancy card-rounded card-thick\"><div class=card-header><button type=button class=close ng-click=closeDialog() aria-hidden=true>&times;</button><h4 class=modal-title>Edit Page</h4></div><div class=\"card card-block\"><form role=form><div class=form-group><label for=dtitle>Title</label> <input type=text ng-model=config.title placeholder=Title></div><div class=form-group><label>Structure</label><div class=card-columns><div class=\"radio card {{key}}\" ng-repeat=\"(key, structure) in structures\"><label><input type=radio value={{key}} ng-model=model.structure ng-change=\"changeStructure(key, structure)\"> {{key}}</label></div></div></div><div class=row><div class=\"form-group row\"><label>Collapsible?</label> <input type=checkbox ng-model=dashboard.collapsible></div><div class=\"form-group row\"><label>Maxizable?</label> <input type=checkbox ng-model=dashboard.maximizable></div><div class=\"form-group row\"><label>Protected?</label> <input type=checkbox ng-model=dashboard.enableConfirmDelete></div></div><select ng-model=dashboard.styleClass ng-options=\"class.value as class.label for class in ROARCLASSES\" class=form-control placeholder=\"Select Style...\"></select></form><adf-dashboard name={{dashboard.title}} structure={{dashboard.structure}} collapsible={{dashboard.collapsible}} maximizable={{dashboard.maximizable}} enable-confirm-delete={{dashboard.enableConfirmDelete}} class={{dashboard.styleClass}} frameless={{dashboard.frameless}} continuous-edit-mode=false adf-model=dashboard.model></adf-dashboard></div><div class=card-footer><button type=button class=\"btn btn-primary card-link\" ng-click=closeDialog()>Close</button></div></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/diff.html","<div class=col-sm-6><pre>\n       \n       {{draft.content | json:4 | diff:editorform.editorta.$modelValue}}\n       \n   </pre></div><div class=col-sm-6><div ng-bind-html=\"draft.content | diff: editorform.editorta.$modelValue\"></div></div>");
 $templateCache.put("{widgetsPath}/testwidget/src/document.html","<div class=card><section ng-repeat=\"(key, node) in node.roarlist\" node=\"{{node.id || node}}\"><label>{{node.title}}</label><ng-annotate-text text=node.content></ng-annotate-text><div ng-include=\"\'./document.html\'\" ng-repeat=\"(key, node) in node.roarlist\"></div></section></div>");
