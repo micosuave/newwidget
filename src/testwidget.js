@@ -461,12 +461,12 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       var draft = Collection(config.id)
       // draft.$bindTo($scope, 'draft')
       $scope.draft = draft
-      if(config.modelfield !== 'slide'){
+      if(config.slidemode !== true){
       draft.$loaded().then(function (drat) {
         $scope.content = angular.copy(drat.content)
 
       });
-      }else if (config.modelfield === 'slide'){
+      }else if (config.slidemode === true){
         draft.$loaded().then(function (drat) {
         $scope.content = angular.copy(drat.slide)
 
@@ -635,7 +635,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       $scope.dosave = function (content) {
         var d = new Date()
         var time = d.getTime()
-        if (config.modelfield !== 'slide') {
+        if (config.slidemode !== true) {
           var prev = $scope.draft.content || '<!DOCTYPE html><html><head><title>Untitled</title></head><body></body></html>'
           if (angular.isUndefined($scope.draft.versionhistory)) {
             $scope.draft.versionhistory = {}
@@ -654,11 +654,11 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
           $scope.draft.lastModified = time
           $http.post('/upload', angular.toJson(content))
         }
-        else if (config.modelfield === 'slide') {
+        else if (config.slidemode === true) {
           $scope.draft.slide = content
         }
-        $scope.draft.$save()
-      }
+        $scope.draft.$save();
+      };
       // $interval(function(){
       //     alertify.success('...autosaving document...')
       //     $scope.dosave($scope.editorform.content)
