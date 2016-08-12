@@ -461,10 +461,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       var draft = Collection(config.id)
       // draft.$bindTo($scope, 'draft')
       //config.slidemode = false;
-      $scope.draft = draft
-      draft.$loaded().then(function(drat){
-        $scope.b = angular.copy(drat);
-      });
+      $scope.draft = draft, $scope.b = draft;
+      // draft.$loaded().then(function(drat){
+      //   $scope.b = angular.copy(drat);
+      // });
 
       if ($state.includes('composer')) {
         $scope.inlab = true
