@@ -1,3 +1,4 @@
+
 a.gototarget::after {
   content: leader('.');
 }
