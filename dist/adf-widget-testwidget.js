@@ -113,7 +113,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       description: 'text editor',
       controller: 'CKEWidgetCtrl',
       templateUrl: '/newwidget/src/ckeditor.html',
-      frameless: true,
+      frameless: false,
       reload: true,
       immediate: true,
       styleClass: 'panel panel-default',
