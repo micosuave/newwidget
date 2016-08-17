@@ -1,8 +1,8 @@
 <div class="card" style="margin:0;padding: 0;height: 80vh;border: 0rem solid #110000;box-shadow:inset 0 0 5px rgba(0,0,0,0.1);">
-    <div id="toolbartop" class="row toolbar fade" ng-class="{'in':config.showeditor}"></div>
-    <form name="editorform" ng-submit="dosave(b);" ng-if="config.showeditor">
-        <textarea id="{{config.id}}" name="editorta" ng-change="" ckeditor="ckdefault" ng-if="!config.slidemode" ng-model="b.content" ng-model-options="{ updateOn: 'default  blur', debounce: {'default': 500, 'blur': 0} }" class="card card-block " style="width:100%;min-height:90vh;font-size:12px;color:#444;"></textarea>
-        <textarea id="{{config.id}}" name="editorta" ng-change="" ckeditor="ckdefault" ng-if="config.slidemode" ng-model="b.slide" ng-model-options="{ updateOn: 'default  blur', debounce: {'default': 500, 'blur': 0} }" class="card card-block " style="width:100%;min-height:90vh;font-size:12px;color:#444;"></textarea>
+    <div id="toolbartop" class="row toolbar fade" ng-class="{'in':showeditor}"></div>
+    <form name="editorform" ng-submit="dosave(b);" ng-if="showeditor">
+        <textarea id="{{config.id}}" name="editorta" ng-change="" ckeditor="ckdefault" ng-if="!slidemode" ng-model="draft.content" ng-model-options="{ updateOn: 'default  blur', debounce: {'default': 500, 'blur': 0} }" class="card card-block " style="width:100%;min-height:90vh;font-size:12px;color:#444;"></textarea>
+        <textarea id="{{config.id}}" name="editorta" ng-change="" ckeditor="ckdefault" ng-if="slidemode" ng-model="draft.slide" ng-model-options="{ updateOn: 'default  blur', debounce: {'default': 500, 'blur': 0} }" class="card card-block " style="width:100%;min-height:90vh;font-size:12px;color:#444;"></textarea>
 
 
         <div class="btn-group" style="position:absolute;top:25px;right:5px;">
@@ -16,23 +16,23 @@
     </form>
 
 
-    <iframe id="draftdocument2" class="card card-block" ng-if="!config.showeditor  && !config.versionhistory && !config.slidemode" name="draftrenderer" seamless allowfullscreen ng-attr-srcdoc="{{draft.content | trustAsHTML}}" style="width:100%;height:90vh;"></iframe>
-<iframe id="draftdocument" class="card card-block" ng-if="!config.showeditor  && !config.versionhistory && config.slidemode" name="fframe" seamless allowfullscreen ng-attr-srcdoc="{{draft.slide | trustAsHTML}}" style="width:100%;height:90vh;"></iframe>
+    <iframe id="draftdocument2" class="card card-block" ng-if="!showeditor  && !config.versionhistory && !slidemode" name="draftrenderer" seamless allowfullscreen ng-attr-srcdoc="{{draft.content | trustAsHTML}}" style="width:100%;height:90vh;"></iframe>
+<iframe id="draftdocument" class="card card-block" ng-if="!showeditor  && !config.versionhistory && slidemode" name="fframe" seamless allowfullscreen ng-attr-srcdoc="{{draft.slide | trustAsHTML}}" style="width:100%;height:90vh;"></iframe>
 
 
-    <div ng-bind-html="draft.content | diff:config.version.content" id="drafftdocument" class="{{config.styleClass}} {{config.custom || ''}}" ng-if="!config.showeditor  && config.versionhistory" style="width:100%;min-height:90vh;"></div>
+    <div ng-bind-html="draft.content | diff:config.version.content" id="drafftdocument" class="{{styleClass}} {{config.custom || ''}}" ng-if="!showeditor  && config.versionhistory" style="width:100%;min-height:90vh;"></div>
 
-    <button id="dragbutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-edit text-info':!config.showeditor,'fa-save text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
-        style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:25px;right:0;" ng-click="config.showeditor = !config.showeditor;" ng-if="inlab && !config.showeditor"></button>
-    <button id="drabutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-search text-info':!config.showeditor,'fa-search text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
+    <button id="dragbutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-edit text-info':!showeditor,'fa-save text-success':showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
+        style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:25px;right:0;" ng-click="showeditor = !showeditor;" ng-if="inlab && !showeditor"></button>
+    <button id="drabutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-search text-info':!showeditor,'fa-search text-success': showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
         style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:0;right:0;" ng-click="openpreview(draft)"></button>
-<button style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:50px;right:0;" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-file-text-o':(config.slidemode == false),'fa-youtube-play':(config.slidemode===true)}" ng-click="config.showeditor=false;config.slidemode  = !config.slidemode"></button>
-<footer class="navbar-fixed-bottom bar-calm"><h6>Mode: <span ng-show="config.slidemode">slide</span> <span ng-show="!config.slidemode">draft</span>
-<button id="dragbutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-edit text-info':!config.showeditor,'fa-save text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
-        style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;" ng-click="config.showeditor = !config.showeditor;" ng-if="inlab && !config.showeditor"></button>
-    <button id="drabutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-search text-info':!config.showeditor,'fa-search text-success':config.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
+<button style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:50px;right:0;" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-file-text-o':(slidemode == false),'fa-youtube-play':(slidemode===true)}" ng-click="showeditor=false;slidemode  = !slidemode"></button>
+<footer class="navbar-fixed-bottom bar-calm"><h6>Mode: <span ng-show="slidemode">slide</span> <span ng-show="!slidemode">draft</span>
+<button id="dragbutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-edit text-info':!showeditor,'fa-save text-success':showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
+        style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;" ng-click="showeditor = !showeditor;" ng-if="inlab && !showeditor"></button>
+    <button id="drabutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-search text-info':!showeditor,'fa-search text-success':showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
         style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;;" ng-click="openpreview(draft)"></button>
-<button style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-file-text-o':(config.slidemode == false),'fa-youtube-play':(config.slidemode===true)}" ng-click="config.showeditor=false;config.slidemode  = !config.slidemode"></button></h6> </footer>
+<button style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-file-text-o':(slidemode == false),'fa-youtube-play':(slidemode===true)}" ng-click="showeditor=false;slidemode  = !slidemode"></button></h6> </footer>
 </div>
 
 <!--<script type="text/javascript">
