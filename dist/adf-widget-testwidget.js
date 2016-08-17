@@ -586,7 +586,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                   file: Upload.rename(blob, $scope.draft.$id + '.html')
                 }
               })
-
+              config.showeditor = !config.showeditor;
       };
 
       $scope.getAuthor = function (id) {
