@@ -569,20 +569,6 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
               $scope.poodle.showeditor = !$scope.poodle.showeditor;
     return $http({
-                method: 'PUT',
-                url: '/upload/'+ $scope.draft.$id + '.html',
-                data: {
-                  file: Upload.rename(blob, $scope.draft.$id + '.html')
-                }
-              }).then(function(resp){
-                  var serverpath = resp.data;
-                  console.log(serverpath);
-                  alertify.success(serverpath);
-                  $scope.draft = b;
-                  $scope.draft.lastModified = time;
-                  $scope.draft.$save();
-              }).catch(function(err){
-               $http({
                 method: 'POST',
                 url: '/upload',
                 data: {
@@ -595,7 +581,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                   $scope.draft = b;
                   $scope.draft.lastModified = time;
                   $scope.draft.$save();
-              });
+
               });
     };
 
