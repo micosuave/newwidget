@@ -479,6 +479,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       $('#dragbutton').draggable({
         cursor: 'move'
       })
+      $scope.poodle = {
+        showeditor: false,
+        slidemode: false
+      };
       $scope.profile = Profile($rootScope.authData.uid)
       $scope.menu = {
         items: [{
@@ -546,7 +550,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       }
 
       $scope.dowrap = function (content) {
-        $scope.content = ckstarter + content + ckender
+        $scope.content = ckstarter + content.slice(content.indexOf('<body'), content.indexOf('<script')) + ckender;
       }
 
 
@@ -559,34 +563,25 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
       $scope.dosave = function (b) {
         var d = new Date()
-        var time = d.getTime()
+        var time = d.getTime();
 
-          var prev = $scope.draft.content || '<!DOCTYPE html><html><head><title>Untitled</title></head><body></body></html>'
-          if (angular.isUndefined($scope.draft.versionhistory)) {
-            $scope.draft.versionhistory = {}
-            $scope.draft.versionhistory[time] = {
-              author: $rootScope.authData.uid,
-              content: prev
-            }
-          } else {
-            $scope.draft.versionhistory[time] = {
-              author: $rootScope.authData.uid,
-              content: prev
-            }
-          }
-          $scope.draft.content = b.content;
-         $scope.draft.slide = b.slide;
-          $scope.draft.lastModified = time;
-           $scope.draft.$save();
           var blob = new Blob([b.content.toString()])
 
               $scope.poodle.showeditor = !$scope.poodle.showeditor;
-    return Upload.upload({
+    return $http({
+                method: 'PUT',
                 url: '/upload',
                 data: {
-                  file: Upload.rename(blob, $scope.draft.$id + '.html')
+                  file: Upload.rename(blob, config.filename ? config.filename : $scope.draft.$id + '.html')
                 }
-              })
+              }).then(function(resp){
+                  var serverpath = resp.data;
+                  console.log(serverpath);
+                  alertify.success(serverpath);
+                  $scope.draft = b;
+                  $scope.draft.lastModified = time;
+                  $scope.draft.$save();
+              });
     };
 
       $scope.getAuthor = function (id) {
