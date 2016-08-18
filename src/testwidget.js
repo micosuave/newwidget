@@ -112,7 +112,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       description: 'text editor',
       controller: 'CKEWidgetCtrl',
       templateUrl: '/newwidget/src/ckeditor.html',
-      frameless: false,
+      frameless: true,
       reload: true,
       immediate: true,
       styleClass: 'panel panel-default',
@@ -581,6 +581,21 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                   $scope.draft = b;
                   $scope.draft.lastModified = time;
                   $scope.draft.$save();
+              }).catch(function(err){
+               $http({
+                method: 'POST',
+                url: '/upload',
+                data: {
+                  file: Upload.rename(blob, config.filename ? config.filename : $scope.draft.$id + '.html')
+                }
+              }).then(function(resp){
+                  var serverpath = resp.data;
+                  console.log(serverpath);
+                  alertify.success(serverpath);
+                  $scope.draft = b;
+                  $scope.draft.lastModified = time;
+                  $scope.draft.$save();
+              });
               });
     };
 
