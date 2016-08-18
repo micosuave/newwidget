@@ -567,21 +567,25 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
           var blob = new Blob([b.content.toString()])
 
-              $scope.poodle.showeditor = !$scope.poodle.showeditor;
-    return $http({
+
+     $http({
                 method: 'POST',
                 url: '/upload',
                 data: {
                   file: Upload.rename(blob, $scope.draft.$id + '.html')
                 }
-              }).then(function(resp){
-                  var serverpath = resp.data;
+              }).then(function(err, resp){
+                if(err){console.log(err);alertify.error(err);}
+                else{
+                    var serverpath = resp.data;
                   console.log(serverpath);
                   alertify.success(serverpath);
                   $scope.draft = b;
                   $scope.draft.lastModified = time;
                   $scope.draft.$save();
 
+                  $scope.poodle.showeditor = !$scope.poodle.showeditor;
+                }
               });
     };
 
