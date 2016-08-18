@@ -554,7 +554,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         return input.startsWith(ckstarter)
       }
       $scope.doclose = function () {
-        config.showeditor = false
+        $scope.poodle.showeditor = false
       }
 
       $scope.dosave = function (b) {
@@ -579,14 +579,15 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
           $scope.draft.lastModified = time;
            $scope.draft.$save();
           var blob = new Blob([b.content.toString()])
-              return Upload.upload({
+
+              $scope.poodle.showeditor = !$scope.poodle.showeditor;
+    return Upload.upload({
                 url: '/upload',
                 data: {
                   file: Upload.rename(blob, $scope.draft.$id + '.html')
                 }
               })
-              config.showeditor = !config.showeditor;
-      };
+    };
 
       $scope.getAuthor = function (id) {
         return Users.all.$getRecord(id).auth.profile.name
