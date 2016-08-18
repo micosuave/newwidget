@@ -571,7 +571,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
               $scope.poodle.showeditor = !$scope.poodle.showeditor;
     return $http({
                 method: 'PUT',
-                url: '/upload',
+                url: '/upload/'+ $scope.draft.$id + '.html',
                 data: {
                   file: Upload.rename(blob, $scope.draft.$id + '.html')
                 }
