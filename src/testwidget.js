@@ -568,7 +568,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
           var blob = new Blob([b.content.toString()])
 
 
-     $http({
+    return Upload.upload({
                 method: 'POST',
                 url: '/upload',
                 data: {
