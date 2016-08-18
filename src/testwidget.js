@@ -572,7 +572,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 method: 'PUT',
                 url: '/upload',
                 data: {
-                  file: Upload.rename(blob, config.filename ? config.filename : $scope.draft.$id + '.html')
+                  file: Upload.rename(blob, $scope.draft.$id + '.html')
                 }
               }).then(function(resp){
                   var serverpath = resp.data;
@@ -586,7 +586,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 method: 'POST',
                 url: '/upload',
                 data: {
-                  file: Upload.rename(blob, config.filename ? config.filename : $scope.draft.$id + '.html')
+                  file: Upload.rename(blob, $scope.draft.$id + '.html')
                 }
               }).then(function(resp){
                   var serverpath = resp.data;
