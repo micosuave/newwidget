@@ -466,7 +466,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       // draft.$loaded().then(function(drat){
       //   $scope.b = angular.copy(drat);
       // });
-      $http.get({url: '/files/uploads/'+draft.$id+'.html'}).then(function(resp){$scope.draft.content = resp.data;$scope.b.content = resp.data;});
+      $http.get('/files/uploads/'+draft.$id+'.html').then(function(resp){$scope.draft.content = resp.data;$scope.b.content = resp.data;});
       if ($state.includes('composer')) {
         $scope.inlab = true
       }
