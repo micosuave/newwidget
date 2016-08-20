@@ -566,7 +566,9 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
         var time = d.getTime();
 
           var blob = new Blob([b.content.toString()])
-
+          $scope.draft = b;
+                  $scope.draft.lastModified = time;
+                  $scope.draft.$save();
 
     return Upload.upload({
                 method: 'POST',
@@ -580,9 +582,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                     var serverpath = resp.data;
                   console.log(serverpath);
                   alertify.success(serverpath);
-                  $scope.draft = b;
-                  $scope.draft.lastModified = time;
-                  $scope.draft.$save();
+
 
                   $scope.poodle.showeditor = !$scope.poodle.showeditor;
                 }
