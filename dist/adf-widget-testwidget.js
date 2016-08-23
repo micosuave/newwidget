@@ -553,8 +553,30 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       };
 
       $scope.dowrap = function (content) {
-        $scope.content = ckstarter + content.slice(content.indexOf('<body'), content.indexOf('<script')) + ckender;
-      }
+        $scope.draft.content = ckstarter + content.slice(content.indexOf('<body'), content.indexOf('<script')) + ckender;
+         var blob = new Blob([$scope.draft.content.toString()])
+          //$scope.draft = b;
+                  $scope.draft.lastModified = time;
+                  $scope.draft.$save();
+
+    return Upload.upload({
+                method: 'POST',
+                url: '/upload',
+                data: {
+                  file: Upload.rename(blob, $scope.draft.$id + '.html')
+                }
+              }).then(function(err, resp){
+                if(err){console.log(err);alertify.error(err);}
+                else{
+                    var serverpath = resp.data;
+                  console.log(serverpath);
+                  alertify.success(serverpath);
+
+
+                  $scope.poodle.showeditor = !$scope.poodle.showeditor;
+                }
+              });
+    }
 
 
       var stringtest = function (input) {
