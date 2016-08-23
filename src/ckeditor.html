@@ -1,50 +1,68 @@
-<div class="card" style="margin:0;padding: 0;height: 80vh;border: 0rem solid #110000;box-shadow:inset 0 0 5px rgba(0,0,0,0.1);">
-    <div id="toolbartop" class="row toolbar fade" ng-class="{'in':poodle.showeditor}"></div>
-    <form name="editorform" ng-submit="dosave(b);" ng-if="poodle.showeditor">
-        <textarea id="editorta" name="editorta" ng-change="" ckeditor="ckdefault" ng-if="!poodle.slidemode" ng-model="b.content" ng-model-options="{ updateOn: 'default  blur', debounce: {'default': 500, 'blur': 0} }" class="card card-block " style="width:100%;min-height:90vh;font-size:12px;color:#444;"></textarea>
-        <textarea id="editora" name="editora" ng-change="" ckeditor="ckdefault" ng-if="poodle.slidemode" ng-model="b.slide" ng-model-options="{ updateOn: 'default  blur', debounce: {'default': 500, 'blur': 0} }" class="card card-block " style="width:100%;min-height:90vh;font-size:12px;color:#444;"></textarea>
+<div class="card" style="margin:0;padding: 0;">
+  <div id="toolbartop" class="row toolbar fade" ng-class="{'in':poodle.showeditor}"></div>
+  <form name="editorform" ng-submit="dosave(b);" ng-if="poodle.showeditor">
+    <textarea id="editorta" name="editorta" ng-change="" ckeditor="ckdefault" ng-if="!poodle.slidemode" ng-model="b.content"
+      ng-model-options="{ updateOn: 'default  blur', debounce: {'default': 500, 'blur': 0} }" class="card card-block " style="width:100%;font-size:12px;color:#444;"></textarea>
+    <textarea id="editora" name="editora" ng-change="" ckeditor="ckdefault" ng-if="poodle.slidemode" ng-model="b.slide" ng-model-options="{ updateOn: 'default  blur', debounce: {'default': 500, 'blur': 0} }"
+      class="card card-block " style="width:100%;font-size:12px;color:#444;"></textarea>
 
 
-        <div class="btn-group" style="position:absolute;top:25px;right:5px;">
-            <input type="submit" style="border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;" class="button btn fa " ng-class="{'text-success':editorform.editorta.$dirty}" value="SAVE" />
-             <button style="border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;" class="button btn btn-default fa fa-lg fa-refresh" ng-class="{'text-warning':editorform.editorta.$dirty}" ng-click="dowrap(b.content)"></button>
+    <div class="btn-group" style="position:absolute;top:25px;right:5px;">
+      <input type="submit" style="border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;"
+        class="button btn fa " ng-class="{'text-success':editorform.editorta.$dirty}" value="SAVE" />
+      <button style="border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;"
+        class="button btn btn-default fa fa-lg fa-refresh" ng-class="{'text-warning':editorform.editorta.$dirty}" ng-click="dowrap(b.content)"></button>
 
-            <button style="border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;" class="button btn btn-default fa fa-lg fa-close" ng-class="{'text-danger':editorform.editorta.$dirty}" ng-click="doclose()"></button>
+      <button style="border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;"
+        class="button btn btn-default fa fa-lg fa-close" ng-class="{'text-danger':editorform.editorta.$dirty}" ng-click="doclose()"></button>
 
 
-        </div>
+    </div>
 
 
-    </form>
+  </form>
 
-<!--
+  <!--
     <iframe id="draftdocument2" class="card card-block" ng-if="!poodle.showeditor  && !config.versionhistory && !poodle.slidemode" name="draftrenderer" seamless allowfullscreen ng-attr-srcdoc="{{draft.content | trustAsHTML}}" style="width:100%;height:90vh;"></iframe>
 <iframe id="draftdocument" class="card card-block" ng-if="!poodle.showeditor  && !config.versionhistory && poodle.slidemode" name="fframe" seamless allowfullscreen ng-attr-srcdoc="{{draft.slide | trustAsHTML}}" style="width:100%;height:90vh;"></iframe>-->
 
 
-    <iframe id="draftdocument2" class="card card-block" ng-if="!poodle.showeditor  && !config.versionhistory && !poodle.slidemode" name="draftrenderer" seamless allowfullscreen ng-src="{{'https://lexlab.io/files/uploads/'+ draft.$id + '.html'}}" style="width:100%;height:90vh;"></iframe>
-<iframe id="draftdocument" class="card card-block" ng-if="!poodle.showeditor  && !config.versionhistory && poodle.slidemode" name="fframe" seamless allowfullscreen ng-attr-srcdoc="{{draft.slide | trustAsHTML}}" style="width:100%;height:90vh;"></iframe>
+  <iframe id="draftdocument2" class="card card-block" ng-if="!poodle.showeditor  && !config.versionhistory && !poodle.slidemode"
+    name="draftrenderer" seamless allowfullscreen ng-src="{{'https://lexlab.io/files/uploads/'+ draft.$id + '.html'}}" style="width:100%;height:90vh;"></iframe>
+  <iframe id="draftdocument" class="card card-block" ng-if="!poodle.showeditor  && !config.versionhistory && poodle.slidemode"
+    name="fframe" seamless allowfullscreen ng-attr-srcdoc="{{draft.slide | trustAsHTML}}" style="width:100%;height:90vh;"></iframe>
 
 
 
-    <button id="dragbutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-edit text-info':!poodle.showeditor,'fa-save text-success':poodle.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
-        style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:25px;right:0;" ng-click="poodle.showeditor = !poodle.showeditor;" ng-if="inlab && !poodle.showeditor"></button>
-    <button id="drabutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-search text-info':!poodle.showeditor,'fa-search text-success':poodle.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
-        style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:0;right:0;" ng-click="openpreview(draft)"></button>
-<button style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:50px;right:0;" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-file-text-o':(poodle.slidemode == false),'fa-youtube-play':(poodle.slidemode===true)}" ng-click="poodle.showeditor=false;poodle.slidemode  = !poodle.slidemode"></button>
+  <button id="dragbutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-edit text-info':!poodle.showeditor,'fa-save text-success':poodle.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
+    style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:25px;right:0;"
+    ng-click="poodle.showeditor = !poodle.showeditor;" ng-if="inlab && !poodle.showeditor"></button>
+  <button id="drabutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-search text-info':!poodle.showeditor,'fa-search text-success':poodle.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
+    style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:0;right:0;"
+    ng-click="openpreview(draft)"></button>
+  <button style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:50px;right:0;"
+    class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-file-text-o':(poodle.slidemode == false),'fa-youtube-play':(poodle.slidemode===true)}"
+    ng-click="poodle.showeditor=false;poodle.slidemode  = !poodle.slidemode"></button>
 
 
 
-<footer class=" navbar-static-bottom navbar-inverse "><h6>Mode: <span ng-show="poodle.slidemode" class="badge">slide</span> <span ng-show="!poodle.slidemode" class="badge">draft</span>
-<strong editable-text="config.filename" >{{config.filename}}</strong>
-<button id="dragbutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-edit text-info':!poodle.showeditor,'fa-save text-success':poodle.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
-        style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;" ng-click="poodle.showeditor = !poodle.showeditor;" ng-if="inlab && !poodle.showeditor"></button>
-    <button id="drabutton" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-search text-info':!poodle.showeditor,'fa-search text-success':poodle.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
-        style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;;" ng-click="openpreview(draft)"></button>
-<button style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;" class="dragbutton pull-right btn btn-default btn-sm fa" ng-class="{'fa-file-text-o':(poodle.slidemode == false),'fa-youtube-play':(poodle.slidemode===true)}" ng-click="poodle.showeditor=false;poodle.slidemode  = !poodle.slidemode"></button></h6> </footer>
-</div>
+  <footer class="navbar navbar-static-bottom navbar-inverse ">
+    <div class="container">
+      <p class="navbar-text"> Mode: <span ng-show="poodle.slidemode">slide</span> <span ng-show="!poodle.slidemode" class="badge">draft</span>
+        <strong editable-text="config.filename">{{config.filename}}</strong></p>
+      <button id="dragbutton" class="navbar-btn pull-right btn btn-default btn-sm fa" ng-class="{'fa-edit text-info':!poodle.showeditor,'fa-save text-success':poodle.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
+        style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;"
+        ng-click="poodle.showeditor = !poodle.showeditor;" ng-if="inlab && !poodle.showeditor"></button>
+      <button id="drabutton" class="navbar-btn pull-right btn btn-default btn-sm fa" ng-class="{'fa-search text-info':!poodle.showeditor,'fa-search text-success':poodle.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
+        style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;;"
+        ng-click="openpreview(draft)"></button>
+      <button style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;"
+        class="navbar-btn pull-right btn btn-default btn-sm fa" ng-class="{'fa-file-text-o':(poodle.slidemode == false),'fa-youtube-play':(poodle.slidemode===true)}"
+        ng-click="poodle.showeditor=false;poodle.slidemode  = !poodle.slidemode"></button>
 
-<!--<script type="text/javascript">
+    </div>
+  </footer>
+  <!--<script type="text/javascript">
  // Helper function to get parameters from the query string.
  function getUrlParam( paramName ) {
  var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' ) ;
