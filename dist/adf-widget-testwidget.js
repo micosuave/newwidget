@@ -542,7 +542,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
       $scope.openpreview = function (draft) {
         var lin = 'https://lexlab.io/files/uploads/' + draft.$id + '.html';
-        $window.open(lin,draft.$id,'toolbar=no,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=700',false);
+        $window.open(lin,null,'toolbar=yes,location=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,fullscreen=no');
               //  $window.htmltoload = draft.content
         //$window.open('javascript:void( (function(){' +
          // 'document.open();' +
