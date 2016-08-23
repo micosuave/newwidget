@@ -540,14 +540,16 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       }
 
       $scope.openpreview = function (draft) {
-        $window.htmltoload = draft.content
-        $window.open('javascript:void( (function(){' +
-          'document.open();' +
-          'document.write(window.opener.htmltoload);' +
-          'document.close();' +
-          'window.opener.htmltoload = null;' +
-          '})() )', null, 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=700')
-      }
+        var lin = 'https://lexlab.io/files/uploads/' + draft.$id + '.html';
+        $window.open(lin,draft.$id,'toolbar=no,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=700',false);
+              //  $window.htmltoload = draft.content
+        //$window.open('javascript:void( (function(){' +
+         // 'document.open();' +
+         // 'document.write(window.opener.htmltoload);' +
+        //  'document.close();' +
+        //  'window.opener.htmltoload = null;' +
+         // '})() )', null, 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=700')
+      };
 
       $scope.dowrap = function (content) {
         $scope.content = ckstarter + content.slice(content.indexOf('<body'), content.indexOf('<script')) + ckender;
