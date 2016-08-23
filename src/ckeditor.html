@@ -1,4 +1,4 @@
-<div class="card" style="margin:0;padding: 0;">
+<div class="card" style="margin:0;padding: 0;height:80vh;">
   <div id="toolbartop" class="row toolbar fade" ng-class="{'in':poodle.showeditor}"></div>
   <form name="editorform" ng-submit="dosave(b);" ng-if="poodle.showeditor">
     <textarea id="editorta" name="editorta" ng-change="" ckeditor="ckdefault" ng-if="!poodle.slidemode" ng-model="b.content"
@@ -28,9 +28,9 @@
 
 
   <iframe id="draftdocument2" class="card card-block" ng-if="!poodle.showeditor  && !config.versionhistory && !poodle.slidemode"
-    name="draftrenderer" seamless allowfullscreen ng-src="{{'https://lexlab.io/files/uploads/'+ draft.$id + '.html'}}" style="width:100%;height:90vh;"></iframe>
+    name="draftrenderer" seamless allowfullscreen ng-src="{{'https://lexlab.io/files/uploads/'+ draft.$id + '.html'}}" style="width:100%;height:80vh;"></iframe>
   <iframe id="draftdocument" class="card card-block" ng-if="!poodle.showeditor  && !config.versionhistory && poodle.slidemode"
-    name="fframe" seamless allowfullscreen ng-attr-srcdoc="{{draft.slide | trustAsHTML}}" style="width:100%;height:90vh;"></iframe>
+    name="fframe" seamless allowfullscreen ng-attr-srcdoc="{{draft.slide | trustAsHTML}}" style="width:100%;height:80vh;"></iframe>
 
 
 
