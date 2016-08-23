@@ -48,16 +48,16 @@
 
   <footer class="navbar navbar-static-bottom navbar-inverse ">
     <div class="container">
-      <p class="navbar-text"> Mode: <span ng-show="poodle.slidemode">slide</span> <span ng-show="!poodle.slidemode" class="badge">draft</span>
+      <p class="navbar-text"> Mode: <span ng-show="poodle.slidemode">slide</span> <span ng-show="!poodle.slidemode">draft</span>
         <strong editable-text="config.filename">{{config.filename}}</strong></p>
-      <button id="dragbutton" class="navbar-btn pull-right btn btn-default btn-sm fa" ng-class="{'fa-edit text-info':!poodle.showeditor,'fa-save text-success':poodle.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
+      <button id="dragbutton" class="navbar-btn navbar-right btn btn-default btn-sm fa" ng-class="{'fa-edit text-info':!poodle.showeditor,'fa-save text-success':poodle.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
         style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;"
         ng-click="poodle.showeditor = !poodle.showeditor;" ng-if="inlab && !poodle.showeditor"></button>
-      <button id="drabutton" class="navbar-btn pull-right btn btn-default btn-sm fa" ng-class="{'fa-search text-info':!poodle.showeditor,'fa-search text-success':poodle.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
+      <button id="drabutton" class="navbar-btn navbar-right btn btn-default btn-sm fa" ng-class="{'fa-search text-info':!poodle.showeditor,'fa-search text-success':poodle.showeditor, 'btn-danger':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}"
         style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;;"
         ng-click="openpreview(draft)"></button>
       <button style="width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;"
-        class="navbar-btn pull-right btn btn-default btn-sm fa" ng-class="{'fa-file-text-o':(poodle.slidemode == false),'fa-youtube-play':(poodle.slidemode===true)}"
+        class="navbar-btn navbar-right btn btn-default btn-sm fa" ng-class="{'fa-file-text-o':(poodle.slidemode == false),'fa-youtube-play':(poodle.slidemode===true)}"
         ng-click="poodle.showeditor=false;poodle.slidemode  = !poodle.slidemode"></button>
 
     </div>
