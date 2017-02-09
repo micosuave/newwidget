@@ -1,5 +1,4 @@
 (function(window, undefined) {'use strict';
-<<<<<<< HEAD
 
 
 angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.tree', 'ngDialog'])
