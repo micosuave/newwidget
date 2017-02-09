@@ -3,3 +3,5 @@
 /build/
 /components/
 .tmp/
+./node_modules/
+/www/

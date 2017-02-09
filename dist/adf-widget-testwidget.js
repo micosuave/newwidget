@@ -491,6 +491,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
           label: 'Toggle Edit Mode',
           styleClass: 'text-info',
           onClick: function (draft) {
+            window.CKID = config.id;
             return config.showeditor = !config.showeditor
           }
         },
@@ -541,7 +542,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       }
 
       $scope.openpreview = function (draft) {
-        var lin = 'https://lexspace.net/files/uploads/' + draft.$id + '.html';
+        var lin = '/files/uploads/' + draft.$id + '.html';
         $window.open(lin,null,'toolbar=yes,location=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,fullscreen=no');
               //  $window.htmltoload = draft.content
         //$window.open('javascript:void( (function(){' +
