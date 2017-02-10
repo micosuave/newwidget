@@ -41,16 +41,16 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
           reload: false
         },
         resolve: {
-          config: ['config', '$firebaseArray', '$rootScope', 'FIREBASE_URL',
-            function (config, $firebaseArray, $rootScope, FIREBASE_URL) {
+          config: ['config', '$firebaseArray', '$rootScope', 'FIREBASE_URL','$stateParams',
+            function (config, $firebaseArray, $rootScope, FIREBASE_URL,$stateParams) {
               if (config.id) {
-                return config
+                return config;
               } else {
-                var params = $rootScope.$stateParams
-                var id = params.tabid || params.pageid || params.pId
-                config.id = id
+                var params = $stateParams;
+                var id = params.tabid || params.pageid || params.pId;
+                config.id = id;
 
-                return config
+                return config;
               }
             }
           ]
@@ -94,15 +94,15 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                   content_type: 'document',
                   templateUrl: '{widgetsPath}/getphd/src/view.html',
                   timestamp: Firebase.ServerValue.TIMESTAMP
-                })
-                config.id = id
-                config.framename = 'fframe'
-                config.height = '90vh'
+                });
+                config.id = id;
+                config.framename = 'fframe';
+                config.height = '90vh';
                 // config.editor = ckdefault
 
-                return config
-              })
-              return config
+                return config;
+              });
+              return config;
             }
           }
         ]
@@ -460,6 +460,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     function ($scope, config, ckdefault, ckmin, Collection, $controller, $rootScope, ckclip, ckreport, $ACTIVEROAR, $state, $stateParams, $sce, $compile, ckstarter, ckender, toastr, Users, Profile, $http, Upload, $uibModal, $window, $location, $interval) {
       $scope.size = 'lg'
       var draft = Collection(config.id)
+      window.CKID = config.id;
       // draft.$bindTo($scope, 'draft')
       //config.slidemode = false;
       $scope.draft = draft, $scope.b = draft;
@@ -521,14 +522,6 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
               })
             }
-          }, {
-            icon: 'fa-book',
-            label: 'Publish as Ebook',
-            styleClass: '',
-            onClick: function (draft) {
-              return $scope.getBook($scope.draft.id)
-              $window.open('/publisher/download/' + $scope.draft.$id, '_blank')
-            }
           }
         ]
       }
@@ -581,17 +574,17 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
 
       var stringtest = function (input) {
-        return input.startsWith(ckstarter)
+        return input.startsWith(ckstarter);
       }
       $scope.doclose = function () {
-        $scope.poodle.showeditor = false
+        $scope.poodle.showeditor = false;
       }
 
       $scope.dosave = function (b) {
         var d = new Date()
         var time = d.getTime();
 
-          var blob = new Blob([b.content.toString()])
+          var blob = new Blob([b.content.toString()]);
           $scope.draft = b;
                   $scope.draft.lastModified = time;
                   $scope.draft.$save();
@@ -616,32 +609,32 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     };
 
       $scope.getAuthor = function (id) {
-        return Users.all.$getRecord(id).auth.profile.name
+        return Users.all.$getRecord(id).auth.profile.name;
       }
 
-      $scope.ckdefault = ckdefault
+      $scope.ckdefault = ckdefault;
 
       if (config.id !== $scope.$parent.$parent.$parent.adfModel.$id) {
         $(this).css({
           'border': '1px dotted red'
-        })
+        });
       }
       $scope.updateid = function () {
         // config.id = $ACTIVEROAR.tabid
-        $scope.$parent.$parent.config.id = $scope.$parent.$parent.$parent.adfModel.$id
-        $scope.$parent.$parent.reload()
+        $scope.$parent.$parent.config.id = $scope.$parent.$parent.$parent.adfModel.$id;
+        $scope.$parent.$parent.reload();
       }
       $scope.$on('RETURNROOT', function ($event, $data) {
-        $scope.$parent.$parent.config.id = $data
-        $scope.$parent.$parent.reload()
+        $scope.$parent.$parent.config.id = $data;
+        $scope.$parent.$parent.reload();
       })
       $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
-        alertify.log('TOC REC')
-        alertify.log($data)
+        alertify.log('TOC REC');
+        alertify.log($data);
 
-        $scope.$parent.$parent.config.id = $data
-        $scope.$parent.$parent.reload()
-        $scope.loaddraft($data)
+        $scope.$parent.$parent.config.id = $data;
+        $scope.$parent.$parent.reload();
+        $scope.loaddraft($data);
       })
 
       // $scope.pj = pj
@@ -661,7 +654,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       link: function ($scope, $element, $attr, $ctrl) {
         var rootid = $attr.root
         Collection(rootid).$loaded().then(function (collection) {
-          collection.$bindTo($scope, 'tree')
+          collection.$bindTo($scope, 'tree');
         })
         $scope.config = {
           id: rootid
@@ -670,33 +663,33 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     }
   }]).controller('TocWidgetCtrl', ['$scope', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope', '$ACTIVEROAR', 'Collections', '$q', '$state', 'ckstarter', 'ckender', 'GadgetFactory',
   function ($scope, ckdefault, ckmin, Collection, $controller, $rootScope, $ACTIVEROAR, Collections, $q, $state, ckstarter, ckender, GadgetFactory) {
-    $scope.size = 'lg'
+    $scope.size = 'lg';
 
-    var ckstarter = ckstarter
-    var ckender = ckender
-    var toc = this
+    var ckstarter = ckstarter;
+    var ckender = ckender;
+    var toc = this;
 
-    $scope.ckdefault = ckdefault
-    $scope.ckmin = ckmin
+    $scope.ckdefault = ckdefault;
+    $scope.ckmin = ckmin;
 
     toc.canedit = function () {
       if ($rootScope.$state.includes('projectdashboard')) {
-        return true
+        return true;
       }
       if ($rootScope.$state.includes('roartheatre')) {
-        return false
+        return false;
       }
     }
-    toc.editable = false
+    toc.editable = false;
     $scope.$on('adfToggleEditMode', function () {
-      toc.editable = !toc.editable
+      toc.editable = !toc.editable;
     })
 
     // toc.tree = Collection(config.id)
     // toc.tree.$bindTo($scope, 'tree')
     $scope.revealclipboard = function (locationid) {
-      $rootScope.$broadcast('OPENCLIPBOARD', locationid)
-      alertify.log('OPEN CLIPBOARD')
+      $rootScope.$broadcast('OPENCLIPBOARD', locationid);
+      alertify.log('OPEN CLIPBOARD');
     }
 
     var DasH = function (draftid, rootid) {
@@ -843,4 +836,15 @@ angular.module('adf.widget.frame').run(['$templateCache', function ($templateCac
   $templateCache.put('{widgetsPath}/iframe/src/view.html', '<div><iframe class="adf-iframe" style="height: {{config.height}};width:100%;" ng-attr-srcdoc={{iframe.srcdoc}} ng-src={{iframe.url}} seamless allowfullscreen name="fframe"></iframe></div>')
 }])
 
-angular.module("adf.widget.testwidget").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin:0;padding: 0;height:80vh;\"><div id=toolbartop class=\"row toolbar fade\" ng-class=\"{\'in\':poodle.showeditor}\"></div><form name=editorform ng-submit=dosave(b); ng-if=poodle.showeditor><textarea id=editorta name=editorta ng-change ckeditor=ckdefault ng-if=!poodle.slidemode ng-model=b.content ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 500, \'blur\': 0} }\" class=\"card card-block\" style=width:100%;font-size:12px;color:#444;></textarea> <textarea id=editora name=editora ng-change ckeditor=ckdefault ng-if=poodle.slidemode ng-model=b.slide ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 500, \'blur\': 0} }\" class=\"card card-block\" style=width:100%;font-size:12px;color:#444;></textarea><div class=btn-group style=position:absolute;top:25px;right:5px;><input type=submit style=\"border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;\" class=\"button btn fa\" ng-class=\"{\'text-success\':editorform.editorta.$dirty}\" value=SAVE> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-refresh\" ng-class=\"{\'text-warning\':editorform.editorta.$dirty}\" ng-click=dowrap(b.content)></button> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-close\" ng-class=\"{\'text-danger\':editorform.editorta.$dirty}\" ng-click=doclose()></button></div></form><iframe id=draftdocument2 class=\"card card-block\" ng-if=\"!poodle.showeditor && !config.versionhistory && !poodle.slidemode\" name=draftrenderer seamless allowfullscreen ng-src=\"{{\'/files/uploads/\'+draft.$id+\'.html\'}}\" style=width:100%;height:80vh;></iframe><iframe id=draftdocument class=\"card card-block\" ng-if=\"!poodle.showeditor && !config.versionhistory && poodle.slidemode\" name=fframe seamless allowfullscreen ng-attr-srcdoc=\"{{draft.slide | trustAsHTML}}\" style=width:100%;height:80vh;></iframe><button id=dragbutton class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-edit text-info\':!poodle.showeditor,\'fa-save text-success\':poodle.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:25px;right:0;\" ng-click=\"poodle.showeditor = !poodle.showeditor;\" ng-if=\"inlab && !poodle.showeditor\"></button> <button id=drabutton class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-search text-info\':!poodle.showeditor,\'fa-search text-success\':poodle.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:0;right:0;\" ng-click=openpreview(draft)></button> <button style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:50px;right:0;\" class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-file-text-o\':(poodle.slidemode == false),\'fa-youtube-play\':(poodle.slidemode===true)}\" ng-click=\"poodle.showeditor=false;poodle.slidemode = !poodle.slidemode\"></button><footer class=\"navbar navbar-static-bottom navbar-inverse\"><div class=container><p class=navbar-text>Mode: <span ng-show=poodle.slidemode>slide</span> <span ng-show=!poodle.slidemode>draft</span> <strong editable-text=config.filename>{{config.filename}}</strong></p><button id=dragbutton class=\"navbar-btn navbar-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-edit text-info\':!poodle.showeditor,\'fa-save text-success\':poodle.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;\" ng-click=\"poodle.showeditor = !poodle.showeditor;\" ng-if=\"inlab && !poodle.showeditor\"></button> <button id=drabutton class=\"navbar-btn navbar-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-search text-info\':!poodle.showeditor,\'fa-search text-success\':poodle.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;;\" ng-click=openpreview(draft)></button> <button style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;\" class=\"navbar-btn navbar-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-file-text-o\':(poodle.slidemode == false),\'fa-youtube-play\':(poodle.slidemode===true)}\" ng-click=\"poodle.showeditor=false;poodle.slidemode = !poodle.slidemode\"></button></div></footer></div>");}]);})(window);
+angular.module("adf.widget.testwidget").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/testwidget/src/ckeditor.html","<div class=card style=\"margin:0;padding: 0;height:80vh;\"><div id=toolbartop class=\"row toolbar fade\" ng-class=\"{\'in\':poodle.showeditor}\"></div><form name=editorform ng-submit=dosave(b); ng-if=poodle.showeditor><textarea id=editorta name=editorta ng-change ckeditor=ckdefault ng-if=!poodle.slidemode ng-model=b.content ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 500, \'blur\': 0} }\" class=\"card card-block\" style=width:100%;font-size:12px;color:#444;></textarea> <textarea id=editora name=editora ng-change ckeditor=ckdefault ng-if=poodle.slidemode ng-model=b.slide ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 500, \'blur\': 0} }\" class=\"card card-block\" style=width:100%;font-size:12px;color:#444;></textarea><div class=btn-group style=position:absolute;top:25px;right:5px;><input type=submit style=\"border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px solid white;\" class=\"button btn fa\" ng-class=\"{\'text-success\':editorform.editorta.$dirty}\" value=SAVE> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-refresh\" ng-class=\"{\'text-warning\':editorform.editorta.$dirty}\" ng-click=dowrap(b.content)></button> <button style=\"border-radius:0;padding: 5px 5px; box-shadow: 1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1); border: 1px solid white;\" class=\"button btn btn-default fa fa-lg fa-close\" ng-class=\"{\'text-danger\':editorform.editorta.$dirty}\" ng-click=doclose()></button></div></form><iframe id=draftdocument2 class=\"card card-block\" ng-if=\"!poodle.showeditor && !config.versionhistory && !poodle.slidemode\" name=draftrenderer seamless allowfullscreen ng-src=\"{{\'/files/uploads/\'+ draft.$id + \'.html\'}}\" style=width:100%;height:80vh;></iframe><iframe id=draftdocument class=\"card card-block\" ng-if=\"!poodle.showeditor && !config.versionhistory && poodle.slidemode\" name=fframe seamless allowfullscreen ng-attr-srcdoc=\"{{draft.slide | trustAsHTML}}\" style=width:100%;height:80vh;></iframe><button id=dragbutton class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-edit text-info\':!poodle.showeditor,\'fa-save text-success\':poodle.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:25px;right:0;\" ng-click=\"poodle.showeditor = !poodle.showeditor;\" ng-if=\"inlab && !poodle.showeditor\"></button> <button id=drabutton class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-search text-info\':!poodle.showeditor,\'fa-search text-success\':poodle.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:0;right:0;\" ng-click=openpreview(draft)></button> <button style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;position:absolute;top:50px;right:0;\" class=\"dragbutton pull-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-file-text-o\':(poodle.slidemode == false),\'fa-youtube-play\':(poodle.slidemode===true)}\" ng-click=\"poodle.showeditor=false;poodle.slidemode = !poodle.slidemode\"></button><footer class=\"navbar navbar-static-bottom navbar-inverse\"><div class=container><p class=navbar-text>Mode: <span ng-show=poodle.slidemode>slide</span> <span ng-show=!poodle.slidemode>draft</span> <strong editable-text=config.filename>{{config.filename}}</strong></p><button id=dragbutton class=\"navbar-btn navbar-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-edit text-info\':!poodle.showeditor,\'fa-save text-success\':poodle.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;\" ng-click=\"poodle.showeditor = !poodle.showeditor;\" ng-if=\"inlab && !poodle.showeditor\"></button> <button id=drabutton class=\"navbar-btn navbar-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-search text-info\':!poodle.showeditor,\'fa-search text-success\':poodle.showeditor, \'btn-danger\':!(editorform.editorta.$modelValue == editorform.editorta.$viewValue)}\" style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;;\" ng-click=openpreview(draft)></button> <button style=\"width:2vw;height:2vw;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.1);border:1px groove white;\" class=\"navbar-btn navbar-right btn btn-default btn-sm fa\" ng-class=\"{\'fa-file-text-o\':(poodle.slidemode == false),\'fa-youtube-play\':(poodle.slidemode===true)}\" ng-click=\"poodle.showeditor=false;poodle.slidemode = !poodle.slidemode\"></button></div></footer></div>");
+$templateCache.put("{widgetsPath}/testwidget/src/dashedit.html","<div class=\"card-fancy card-rounded card-thick\"><div class=card-header><button type=button class=close ng-click=closeDialog() aria-hidden=true>&times;</button><h4 class=modal-title>Edit Page</h4></div><div class=\"card card-block\"><form role=form><div class=form-group><label for=dtitle>Title</label> <input type=text ng-model=config.title placeholder=Title></div><div class=form-group><label>Structure</label><div class=card-columns><div class=\"radio card {{key}}\" ng-repeat=\"(key, structure) in structures\"><label><input type=radio value={{key}} ng-model=model.structure ng-change=\"changeStructure(key, structure)\"> {{key}}</label></div></div></div><div class=row><div class=\"form-group row\"><label>Collapsible?</label> <input type=checkbox ng-model=dashboard.collapsible></div><div class=\"form-group row\"><label>Maxizable?</label> <input type=checkbox ng-model=dashboard.maximizable></div><div class=\"form-group row\"><label>Protected?</label> <input type=checkbox ng-model=dashboard.enableConfirmDelete></div></div><select ng-model=dashboard.styleClass ng-options=\"class.value as class.label for class in ROARCLASSES\" class=form-control placeholder=\"Select Style...\"></select></form><adf-dashboard name={{dashboard.title}} structure={{dashboard.structure}} collapsible={{dashboard.collapsible}} maximizable={{dashboard.maximizable}} enable-confirm-delete={{dashboard.enableConfirmDelete}} class={{dashboard.styleClass}} frameless={{dashboard.frameless}} continuous-edit-mode=false adf-model=dashboard.model></adf-dashboard></div><div class=card-footer><button type=button class=\"btn btn-primary card-link\" ng-click=closeDialog()>Close</button></div></div>");
+$templateCache.put("{widgetsPath}/testwidget/src/diff.html","<div class=col-sm-6><pre>\n       \n       {{draft.content | json:4 | diff:editorform.editorta.$modelValue}}\n       \n   </pre></div><div class=col-sm-6><div ng-bind-html=\"draft.content | diff: editorform.editorta.$modelValue\"></div></div>");
+$templateCache.put("{widgetsPath}/testwidget/src/document.html","<div class=card><section ng-repeat=\"(key, node) in node.roarlist\" node=\"{{node.id || node}}\"><label>{{node.title}}</label><ng-annotate-text text=node.content></ng-annotate-text><div ng-include=\"\'./document.html\'\" ng-repeat=\"(key, node) in node.roarlist\"></div></section></div>");
+$templateCache.put("{widgetsPath}/testwidget/src/edit.html","<form role=form><div class=form-group ui-tree><label for=draftid>Select Document</label><ol ui-tree-nodes ng-model=tree.roarlist><li ui-tree-node ng-repeat=\"node in tree.roarlist\" ng-include=\"\'quicklinkid\'\" node={{node}} data-collapsed=true></li></ol><script type=text/ng-template id=quicklinkid><div class=\"card card-rounded\" ng-class=\"{\'text-success\': (config.id === node.id)}\"> <a class=\"btn btn-xs\" ng-click=\"toggle(this)\" ng-if=\"node.roarlist\" style=\"\"><span class=\"fa \" ng-class=\"{\'fa-chevron-right\': collapsed, \'fa-chevron-down\': !collapsed}\" style=\"color:steelblue;transition:all 0.25s ease;\"></span></a> <a ng-click=\"config.id = node.id;$close();\" ng-class=\"{\'text-success\': (config.id === node.id)}\" class=\"\"><span class=\"fa fa-stack fa-pull-left fa-border\"><span class=\"fa fa-stack-2x fa-file-o\"><span class=\"fa fa-stack-1x\" style=\"font-size: 10px;vertical-align:bottom;\">{{node.rid}}</span></span></span>&nbsp;&nbsp;{{node.title}}<br><small class=\"text-muted\">{{node.date | date}}</small></a> </div> <ol ui-tree-nodes=\"\" ng-model=\"node.roarlist\" ng-class=\"{hidden: collapsed}\" style=\"\"> <li class=\"\" ng-repeat=\"(key, node) in node.roarlist\" ui-tree-node ng-include=\"\'quicklinkid\'\" style=\"padding-right:0rem;padding-bottom:0.1rem;\" node=\"{{node.id || node.$id || node.$value || node}}\" data-collapsed=\"true\"> </li> </ol></script></div></form>");
+$templateCache.put("{widgetsPath}/testwidget/src/editckeditor.html","<form role=form><div class=form-group><label for=draftid>Style Configuration</label><select ng-model=config.modelfield><option ng-value=\"\'draftcontent\'\" value=\"\'draftcontent\'\" label=draft></option><option ng-value=\"\'slide\'\" value=\"\'slide\'\" label=slide></option></select><div class=\"form-group col-sm-4\"><label for=renderversionhistory>Version History</label> <input type=checkbox ng-model=config.versionhistory></div></div></form>");
+$templateCache.put("{widgetsPath}/testwidget/src/editembed.html","<div class=card><button ng-click=push(newtab) class=\"btn btn-info fa fa-plus\"></button> <label for=tabname>Enter Title</label> <input type=text ng-model=newtab.title><select ng-model=newtab.styleClass ng-options=\"class.value as class.label for class in ROARCLASSES\"></select><label for=content>Enter embed code</label> <textarea name=content class=form-control ng-model=newtab.content></textarea></div><div style=\"overflow: scroll;\"><h4>Edit existing sections:</h4><div class=card ng-repeat=\"tab in config.content track by $index\"><label for=tabname>Edit Title</label> <input type=text name=tabname ng-model=tab.title> <label for=content>Edit Embed Code</label> <textarea name=content class=form-control ng-model=tab.content></textarea></div></div>");
+$templateCache.put("{widgetsPath}/testwidget/src/embed.html","<div class=expand><tabset class=\"ngDialogTab tab-stacked\" vertical=true><tab ng-repeat=\"tab in tabs\"><ul class=list-group-action><li class=list-group-item>{{tab.title}} <button class=\"circle btn btn-info fa fa-chevron-right fa-2x pull-right\" ng-click=loadDashboard(tab.content)></button> <span class=show-menu><span class=\"glyphicon glyphicon-chevron-right\"></span></span><ul class=list-group-submenu><li class=\"list-group-submenu-item success\"><span class=\"glyphicon glyphicon-remove\"></span></li><li class=\"list-group-submenu-item danger\"><span class=\"glyphicon glyphicon-ok\"></span></li></ul></li></ul></tab><tab ng-repeat=\"tab in config.content\" class=\"btn {{tab.styleClass}}\"><tab-heading>{{tab.title}}</tab-heading><div ng-bind-html=tab.content></div></tab></tabset></div>");
+$templateCache.put("{widgetsPath}/testwidget/src/pdfview.html","<div ng-pdf=pdf.url ng-pdf-zoom=1 ng-pdf-template=\"\'/llp_core/bower_components/angular-pdf-directive/build/partials/pdf.html\'\"></div><pdf-viewer delegate-handle=pdf url=pdf.url scale=1 show-toolbar=true headers=\"{ \'Access-Control-Allow-Origin\': \'*\' }\"></pdf-viewer>");
+$templateCache.put("{widgetsPath}/testwidget/src/sidebar.html","<div class={{config.styleClass}} ng-controller=\"EmbedCtrl as em\"><tabset class=\"{{config.styleClass || \'alert alert-danger\'}}\"></tabset></div>");
+$templateCache.put("{widgetsPath}/testwidget/src/title.html","<h5 class=card-title><a title=\"change widget location\" class=adf-move ng-if=editMode><i class=\"fa fa-move img-shadow hovergold\"></i></a> {{config.title || definition.title}} <a title=\"collapse widget\" ng-show=\"options.collapsible && !widgetState.isCollapsed\" ng-click=\"widgetState.isCollapsed = !widgetState.isCollapsed\"><i class=\"fa fa-minus img-shadow hovergold\"></i></a> <a title=\"expand widget\" ng-show=\"options.collapsible && widgetState.isCollapsed\" ng-click=\"widgetState.isCollapsed = !widgetState.isCollapsed\"><i class=\"fa fa-plus img-shadow hovergold\"></i></a> <span class=pull-right><a title=\"reload widget content\" ng-if=widget.reload ng-click=reload()><i class=\"fa fa-refresh img-shadow hovergold\"></i></a> <a title=\"edit widget configuration\" ng-click=edit() ng-if=editMode><i class=\"fa fa-cog img-shadow hovergold\"></i></a> <a title=\"fullscreen widget\" ng-click=openFullScreen() ng-show=options.maximizable><i class=\"fa fa-fullscreen img-shadow hovergold\"></i></a> <a title=\"remove widget\" ng-click=remove() ng-if=editMode><i class=\"fa fa-remove img-shadow hovergold\"></i></a></span></h5>");
+$templateCache.put("{widgetsPath}/testwidget/src/view.html","<div class=card-header><button id=dragbutton draggable ng-click=\"config.editable = !config.editable\" class=\"dragbutton pull-left btn btn-default btn-sm fa fa-2x\" ng-class=\"{\'fa-edit text-info\':!config.editable,\'fa-save text-success\':config.editable}\" style=\"position:absolute;top:0;right:0;border-radius:0;padding: 5px 5px;box-shadow:1px 1px 5px rgba(0,0,0,0.25), inset 0 0 20px rgba(0,0,0,0.1);border:1px solid white;\"></button><h4 class=card-title><span e-form=nameform editable-text=tree.contentlistname buttons=no onaftersave=tree.$save();><span ng-click=toc.opensubsection(tree) ng-if=tree.roarlist>{{tree.contentlistname || \'Contents\'}}</span> <span class=\"fa fa-edit showonhover\" ng-click=nameform.$show()></span> <small class=pull-right><a class=\"fa fa-plus text-warning\" ng-if=config.editable ng-click=toc.newtopsection()></a></small></span></h4></div><div ng-if=tree.roarlist><div ui-tree=treeOptions style=cursor:pointer!important;><ol ui-tree-nodes max-depth=6 ng-model=tree.roarlist><li ui-tree-node class=card ng-repeat=\"(key,node) in tree.roarlist\" ng-include=\"\'nodes_renderer1.html\'\" style=padding-right:0rem;padding-bottom:0.1rem; node=\"{{node.id || node}}\" data-collapsed=true></li></ol></div></div><script type=text/ng-template id=nodes_renderer1.html><div ui-tree-handle class=\"tree-node tree-node-content\"> <div class=\"tree-node-content flextoprow \" style=\"position:relative;\"> <a class=\"btn btn-xs\" ng-click=\"toggle(this)\" ng-if=\"node.roarlist\" style=\"\"><span class=\"fa \" ng-class=\"{\'fa-chevron-right\': collapsed, \'fa-chevron-down\': !collapsed}\" style=\"color:steelblue;transition:all 0.25s ease;\"></span></a> <input type=\"text\" ng-model=\"node.title\" ng-change=\"node.$save();\" ng-model-options=\"{ updateOn: \'default blur\', debounce: {\'default\': 1000, \'blur\': 0} }\" style=\"padding: 0.5rem;color:#444;\" ng-if=\"config.editable\"> <a class=\"btn btn-xs\" ng-click=\"revealclipboard(node.$id)\"><span class=\"fa fa-paste showonhover\"></span></a> <a class=\"btn showonhover\" ng-if=\"config.editable\" ng-click=\"remove(this);collection.$save();\"><span class=\"fa fa-close text-danger \"></span></a> <!--<a class=\"btn \" ng-if=\"config.editable\" ng-click=\"toc.newsubsection(this)\" style=\"\"><span class=\"fa fa-plus text-success\"></span></a>--> <a class=\"gototarget btn\" ui-sref=\"toptab.righttab({pageid: node.$id, tabid: node.$id})\" style=\"\"> <span ng-if=\"!config.editable\" class=\"\" style=\"word-wrap:break-word;\">{{node.title}}</span><i style=\"position:absolute;right:0;\">&nbsp;</i></a> <dropdownmenu target=\"{{node.$id}}\" type=\"insert\" icon=\"fa-plus\"></dropdownmenu> </div> </div> <ol ui-tree-nodes=\"\" ng-model=\"node.roarlist\" ng-class=\"{hidden: collapsed}\" ng-if=\"!collapsed\" style=\"\"> <li class=\"\" ng-repeat=\"(key, node) in node.roarlist\" ui-tree-node ng-include=\"\'nodes_renderer1.html\'\" style=\"padding-right:0rem;padding-bottom:0.1rem;\" node=\"{{node.id || node.$id || node.$value || node}}\" data-collapsed=\"true\" > </li> </ol></script>");}]);})(window);

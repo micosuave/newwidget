@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.tree', 'ngDialog'])
   .config(function (dashboardProvider) {
@@ -40,16 +40,16 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
           reload: false
         },
         resolve: {
-          config: ['config', '$firebaseArray', '$rootScope', 'FIREBASE_URL',
-            function (config, $firebaseArray, $rootScope, FIREBASE_URL) {
+          config: ['config', '$firebaseArray', '$rootScope', 'FIREBASE_URL','$stateParams',
+            function (config, $firebaseArray, $rootScope, FIREBASE_URL,$stateParams) {
               if (config.id) {
-                return config
+                return config;
               } else {
-                var params = $rootScope.$stateParams
-                var id = params.tabid || params.pageid || params.pId
-                config.id = id
+                var params = $stateParams;
+                var id = params.tabid || params.pageid || params.pId;
+                config.id = id;
 
-                return config
+                return config;
               }
             }
           ]
@@ -59,7 +59,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
       description: 'text editor',
       controller: 'CKEWidgetCtrl',
-      templateUrl: '/newwidget/src/ckeditor.html',
+      templateUrl: '{widgetsPath}/testwidget/src/ckeditor.html',
       frameless: true,
       reload: true,
       immediate: true,
@@ -93,15 +93,15 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                   content_type: 'document',
                   templateUrl: '{widgetsPath}/getphd/src/view.html',
                   timestamp: Firebase.ServerValue.TIMESTAMP
-                })
-                config.id = id
-                config.framename = 'fframe'
-                config.height = '90vh'
+                });
+                config.id = id;
+                config.framename = 'fframe';
+                config.height = '90vh';
                 // config.editor = ckdefault
 
-                return config
-              })
-              return config
+                return config;
+              });
+              return config;
             }
           }
         ]
@@ -111,7 +111,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       titleTemplateUrl: '{widgetsPath}/testwidget/src/title.html',
       description: 'text editor',
       controller: 'CKEWidgetCtrl',
-      templateUrl: '/newwidget/src/ckeditor.html',
+      templateUrl: '{widgetsPath}/testwidget/src/ckeditor.html',
       frameless: true,
       reload: true,
       immediate: true,
@@ -521,14 +521,6 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
                 }
               })
             }
-          }, {
-            icon: 'fa-book',
-            label: 'Publish as Ebook',
-            styleClass: '',
-            onClick: function (draft) {
-              return $scope.getBook($scope.draft.id)
-              $window.open('/publisher/download/' + $scope.draft.$id, '_blank')
-            }
           }
         ]
       }
@@ -581,17 +573,17 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
 
       var stringtest = function (input) {
-        return input.startsWith(ckstarter)
+        return input.startsWith(ckstarter);
       }
       $scope.doclose = function () {
-        $scope.poodle.showeditor = false
+        $scope.poodle.showeditor = false;
       }
 
       $scope.dosave = function (b) {
         var d = new Date()
         var time = d.getTime();
 
-          var blob = new Blob([b.content.toString()])
+          var blob = new Blob([b.content.toString()]);
           $scope.draft = b;
                   $scope.draft.lastModified = time;
                   $scope.draft.$save();
@@ -616,32 +608,32 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     };
 
       $scope.getAuthor = function (id) {
-        return Users.all.$getRecord(id).auth.profile.name
+        return Users.all.$getRecord(id).auth.profile.name;
       }
 
-      $scope.ckdefault = ckdefault
+      $scope.ckdefault = ckdefault;
 
       if (config.id !== $scope.$parent.$parent.$parent.adfModel.$id) {
         $(this).css({
           'border': '1px dotted red'
-        })
+        });
       }
       $scope.updateid = function () {
         // config.id = $ACTIVEROAR.tabid
-        $scope.$parent.$parent.config.id = $scope.$parent.$parent.$parent.adfModel.$id
-        $scope.$parent.$parent.reload()
+        $scope.$parent.$parent.config.id = $scope.$parent.$parent.$parent.adfModel.$id;
+        $scope.$parent.$parent.reload();
       }
       $scope.$on('RETURNROOT', function ($event, $data) {
-        $scope.$parent.$parent.config.id = $data
-        $scope.$parent.$parent.reload()
+        $scope.$parent.$parent.config.id = $data;
+        $scope.$parent.$parent.reload();
       })
       $scope.$on('TABLEOFCONTENTS', function ($event, $data) {
-        alertify.log('TOC REC')
-        alertify.log($data)
+        alertify.log('TOC REC');
+        alertify.log($data);
 
-        $scope.$parent.$parent.config.id = $data
-        $scope.$parent.$parent.reload()
-        $scope.loaddraft($data)
+        $scope.$parent.$parent.config.id = $data;
+        $scope.$parent.$parent.reload();
+        $scope.loaddraft($data);
       })
 
       // $scope.pj = pj
@@ -661,7 +653,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
       link: function ($scope, $element, $attr, $ctrl) {
         var rootid = $attr.root
         Collection(rootid).$loaded().then(function (collection) {
-          collection.$bindTo($scope, 'tree')
+          collection.$bindTo($scope, 'tree');
         })
         $scope.config = {
           id: rootid
@@ -670,33 +662,33 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     }
   }]).controller('TocWidgetCtrl', ['$scope', 'ckdefault', 'ckmin', 'Collection', '$controller', '$rootScope', '$ACTIVEROAR', 'Collections', '$q', '$state', 'ckstarter', 'ckender', 'GadgetFactory',
   function ($scope, ckdefault, ckmin, Collection, $controller, $rootScope, $ACTIVEROAR, Collections, $q, $state, ckstarter, ckender, GadgetFactory) {
-    $scope.size = 'lg'
+    $scope.size = 'lg';
 
-    var ckstarter = ckstarter
-    var ckender = ckender
-    var toc = this
+    var ckstarter = ckstarter;
+    var ckender = ckender;
+    var toc = this;
 
-    $scope.ckdefault = ckdefault
-    $scope.ckmin = ckmin
+    $scope.ckdefault = ckdefault;
+    $scope.ckmin = ckmin;
 
     toc.canedit = function () {
       if ($rootScope.$state.includes('projectdashboard')) {
-        return true
+        return true;
       }
       if ($rootScope.$state.includes('roartheatre')) {
-        return false
+        return false;
       }
     }
-    toc.editable = false
+    toc.editable = false;
     $scope.$on('adfToggleEditMode', function () {
-      toc.editable = !toc.editable
+      toc.editable = !toc.editable;
     })
 
     // toc.tree = Collection(config.id)
     // toc.tree.$bindTo($scope, 'tree')
     $scope.revealclipboard = function (locationid) {
-      $rootScope.$broadcast('OPENCLIPBOARD', locationid)
-      alertify.log('OPEN CLIPBOARD')
+      $rootScope.$broadcast('OPENCLIPBOARD', locationid);
+      alertify.log('OPEN CLIPBOARD');
     }
 
     var DasH = function (draftid, rootid) {
