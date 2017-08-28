@@ -31,13 +31,13 @@
             <a class="btn showonhover" ng-if="config.editable" ng-click="remove(this);collection.$save();"><span class="fa fa-close text-danger "></span></a>
             <!--<a class="btn " ng-if="config.editable" ng-click="toc.newsubsection(this)" style=""><span class="fa fa-plus text-success"></span></a>-->
 
-            <a class="gototarget btn" ui-sref="toptab.righttab({pageid: node.$id, tabid: node.$id})" style=""> <span ng-if="!config.editable" class="" style="word-wrap:break-word;">{{node.title}}</span><i style="position:absolute;right:0;">&nbsp;</i></a>
+            <a class="gototarget btn" ui-sref="toptab.righttab({pageid: node.$id, tabid: node.$id})" style=""><button class="rlabel btn btn-{{node.styleClass}}" style="max-width:50px;margin:5px;">{{node.rid}}</button> <span ng-if="!config.editable" class="" style="word-wrap:break-word;">{{node.title}}</span><i style="position:absolute;right:0;">&nbsp;</i> <p style="color:black;">{{node.date | date}}</p></a>
             <dropdownmenu target="{{node.$id}}" type="insert" icon="fa-plus"></dropdownmenu>
 
         </div>
     </div>
     <ol ui-tree-nodes="" ng-model="node.roarlist" ng-class="{hidden: collapsed}" ng-if="!collapsed" style="">
-        <li class="" ng-repeat="(key, node) in node.roarlist" ui-tree-node ng-include="'nodes_renderer1.html'" style="padding-right:0rem;padding-bottom:0.1rem;" node="{{node.id || node.$id || node.$value || node}}" data-collapsed="true" >
+        <li class="" ng-repeat="(key, node) in node.roarlist" ui-tree-node ng-include="'nodes_renderer1.html'"  node="{{node.id || node.$id || node.$value || node}}" data-collapsed="true" >
         </li>
     </ol>
 </script>
