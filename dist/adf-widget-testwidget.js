@@ -645,6 +645,7 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
     return {
       restrict: 'E',
       controller: 'TocWidgetCtrl',
+      //controller: 'PhdTocWidgetCtrl',
       controllerAs: 'toc',
       bindToController: true,
       templateUrl: '{widgetsPath}/testwidget/src/view.html',
@@ -652,9 +653,10 @@ angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.
 
       },
       link: function ($scope, $element, $attr, $ctrl) {
-        var rootid = $attr.root
+        var rootid = $attr.root || $scope.roarevent.$id;
         Collection(rootid).$loaded().then(function (collection) {
           collection.$bindTo($scope, 'tree');
+          $scope.tree = collection;
         })
         $scope.config = {
           id: rootid
