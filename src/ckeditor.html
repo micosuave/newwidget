@@ -46,7 +46,7 @@
 <iframe id="draftdocument" class="card card-block" ng-if="!poodle.showeditor  && !config.versionhistory && poodle.slidemode" name="fframe" seamless allowfullscreen ng-attr-srcdoc="{{draft.slide | trustAsHTML}}" style="width:100%;height:90vh;"></iframe>-->
   <iframe allowfullscreen="allowfullscreen"
           class="card card-block"
-          id="draftdocument2"
+          id="{{b.$id || b.id}}"
           name="draftrenderer"
           ng-attr-srcdoc="{{draft.content | trustAsHTML}}"
           ng-if="!poodle.showeditor && !config.versionhistory && !poodle.slidemode"
