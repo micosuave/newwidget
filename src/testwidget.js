@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('adf.widget.testwidget', ['adf.provider', 'pdf', 'firebase', 'ui.tree', 'ngDialog'])
+angular.module('adf.widget.testwidget', ['adf.provider',  'firebase', 'ui.tree', 'ngDialog'])
   .config(function (dashboardProvider) {
     dashboardProvider
     //   .widget('pdfviewer', {
