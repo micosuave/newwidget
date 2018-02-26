@@ -20,18 +20,18 @@
   </div>
 </div>
 <script type="text/ng-template" id="nodes_renderer1.html">
-  <div ui-tree-handle class="tree-node tree-node-content">
+  <div  class="tree-node tree-node-content">
     <div class="tree-node-content flex-row " style="position:relative;">
       <!-- <a class="btn btn-xs" ng-click="revealclipboard(node.$id)"><span class="fa fa-paste showonhover"></span></a> -->
-      <a class="btn btn-xs" ng-click="toggle(this)" ng-if="node.roarlist" style="flex-grow:1;flex-shrink:0;"><span class="fa " ng-class="{'fa-chevron-right': collapsed, 'fa-chevron-down': !collapsed}" style="transition:all 0.25s ease;"></span></a>
-      <label class="label label-pill badge label-{{node.styleClass}} fa-stack fa-lg" style="max-width:50px;margin:auto;">
-        <i class="fa fa-stack-2x {{node.icon || 'fa-circle'}}"></i>
+      <a class="btn btn-xs" ng-click="toggle(this)"  style="flex-grow:1;flex-shrink:0;"><span class="fa " ng-class="{'fa-chevron-right': (node.roarlist && collapsed), 'fa-chevron-down': (node.roarlist && !collapsed) , 'disabled': !node.roarlist}" style="transition:all 0.25s ease;"></span></a>
+      <label class="ui-tree-handle label label-pill badge label-{{node.styleClass}} fa-stack fa-lg" style="flex-grow:1;flex-shrink:0;margin:auto;">
+        <i class="fa fa-stack-1x {{node.icon}}"></i>
         <i class="fa fa-stack-1x text-{{node.styleClass}}">{{node.rid || '-'}}</i>
       </label>
       <input type="text" ng-model="node.title" ng-change="node.$save();" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur':c.note.title }" style="padding: 0.5rem;color:#444;width:auto;min-width:300px;" ng-if="config.editable">
       <a class="btn" ng-if="config.editable" ng-click="remove(this);collection.$save();"><span class="fa fa-close text-danger "></span></a>
       <!--<a class="btn " ng-if="config.editable" ng-click="toc.newsubsection(this)" style=""><span class="fa fa-plus text-success"></span></a>-->
-      <a class="gototarget btn flextoprow" ng-if="!oconfig.editable" ui-sref="toptab.righttab({pageid: node.$id, tabid: node.$id})" style=""><span ng-if="!config.editable" class="" style="word-wrap:break-word;">{{node.title}}</span></a>
+      <a class="gototarget btn flextoprow" ng-if="!config.editable" ui-sref="toptab.righttab({pageid: node.$id, tabid: node.$id})" style="flex-grow:1;flex-shrink: 1;"><span ng-if="!config.editable" class="" style="word-wrap:break-word;">{{node.title}}</span></a>
       <dropdownmenu target="{{node.$id}}" type="insert" icon="fa-plus text-success fa-2x" ng-if="config.editable" style="margin:5px;"></dropdownmenu>
       <dropdownmenu target="{{node.$id}}" type="action" icon="fa-ellipsis-v text-warning fa-2x" style="margin:5px;"></dropdownmenu>
     </div>
